@@ -1,10 +1,11 @@
 function World() {
-		// SETUP
+	// SETUP
 	// need 3 things to dispaly anything. A scene a camera and a render
 	this.scene = new THREE.Scene();
-	// diffrent types of cameras, parameters filed of view, aspect ration, near and far clipping plane
-	this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+	// camera in screen is on the player
+	this.player = new Player(this);
 
+	//setup renderer
 	this.renderer = new THREE.WebGLRenderer();
 	this.renderer.setSize(window.innerWidth, window.innerHeight);
 	document.body.appendChild(this.renderer.domElement);
@@ -14,6 +15,7 @@ function World() {
 	console.log(groundTexture);
 	groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
 	groundTexture.repeat.set(200, 200);
+	groundTexture.anisotropy= 4;
 	// var groundBump = THREE.ImageUtils.loadTexture("");
 	var geometryGroundPlane = new THREE.PlaneGeometry(1000, 1000, 1, 1);
 	var materialGroundPlane = new THREE.MeshBasicMaterial({ 
@@ -26,13 +28,7 @@ function World() {
 	// adds plane
 	this.scene.add(this.ground);
 
-
-	// set camera position
-	// moves out camera postion becaus otherwise it would be placed at 0, 0, 0 with the cube
-	this.camera.position.z = 0;
-	this.camera.position.y = 2;
-
-	//resize
+	//Resize Window event listener
 	window.addEventListener('resize', this.onWindowResize.bind(this), false);
 }
 
@@ -41,7 +37,7 @@ World.prototype = {
 	// to render the page, you need a render loop
 	// anything you move or change has to run through the render function loop
 	render: function() {
-		this.renderer.render(this.scene, this.camera);
+		this.renderer.render(this.scene, this.player.camera);
 		// use requestAnimationFrame for loop instead of setInterval because it pauses when user navigates away
 		requestAnimationFrame(this.render.bind(this));
 
@@ -50,8 +46,8 @@ World.prototype = {
 		// controls.update();
 	},
 	onWindowResize: function() {
-	    this.camera.aspect = window.innerWidth / window.innerHeight;
-	    this.camera.updateProjectionMatrix();
+	    this.player.camera.aspect = window.innerWidth / window.innerHeight;
+	    this.player.camera.updateProjectionMatrix();
 	    this.renderer.setSize(window.innerWidth, window.innerHeight);
 	}
 };

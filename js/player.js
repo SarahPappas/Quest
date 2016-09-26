@@ -1,4 +1,4 @@
-// SETUP keycodes
+// SET keycode constants
 var UP_ARROW_KEY_CODE = 38;
 var DOWN_ARROW_KEY_CODE = 40;
 var RIGHT_ARROW_KEY_CODE = 39;

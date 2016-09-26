@@ -21,11 +21,39 @@ function World(player) {
 		map: groundTexture, 
 		side: THREE.DoubleSide 
 	});
-	this.ground = new THREE.Mesh( geometryGroundPlane, materialGroundPlane);
+	var ground = new THREE.Mesh(geometryGroundPlane, materialGroundPlane);
 	// ground.rotation.set(90 * (3.14/180), 0, 'XY');
-	this.ground.rotateX(90 * (Math.PI / 180));
+	ground.rotateX(90 * (Math.PI / 180));
 	// adds plane geometry created as ground
-	this.scene.add(this.ground);
+	this.scene.add(ground);
+
+	// create fog DECIDE WHETHER TO KEEP THIS, USE FOR TREE testing.
+		var cubeSize = Math.ceil((Math.random() * 3));
+	    var cubeGeometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
+	    var cubeMaterial = new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff});
+	    var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+	    cube.castShadow = true;
+	    // position the cube randomly in the scene
+	    cube.position.x = 0;
+	    cube.position.y = 0;
+	    cube.position.z = -10;
+	    // add the cube to the scene
+	    this.scene.add(cube);
+	    this.numberOfObjects = this.scene.children.length;
+
+		this.scene.fog = new THREE.Fog( 0xffffff, .0001, 40 );
+
+	    // add subtle ambient lighting
+	    var ambientLight = new THREE.AmbientLight(0x0c0c0c);
+	    this.scene.add(ambientLight);
+	    // add spotlight for the shadows
+	    var spotLight = new THREE.SpotLight(0xffffff);
+	    spotLight.position.set(this.player.camera.position);
+	    spotLight.castShadow = true;
+	    this.scene.add(spotLight);
+	 //^^^^ Keep?
+
+
 
 	//Resize Window event listener
 	window.addEventListener('resize', this._onWindowResize.bind(this), false);

@@ -37,9 +37,23 @@ function World(player) {
 		var treeMaterial = new THREE.MeshBasicMaterial({color: coneColors[Math.floor(Math.random()*5)]});
 		var treeMesh = new THREE.Mesh(treeGeometry, treeMaterial);
 		treeMesh.castShadow = true;
-		treeMesh.position.x = Math.floor(Math.random()*500);
+		var randomQunadrant = Math.round(Math.random());
+		var postionMultiple = 1;
+		if (randomQunadrant == 0) {
+			positionMultiple = 1;
+		} else {
+			positionMultiple = -1;	
+		}
+		var randomQunadrant2 = Math.round(Math.random());
+		var postionMultiple2 = 1;
+		if (randomQunadrant2 == 0) {
+			positionMultiple2 = 1;
+		} else {
+			positionMultiple2 = -1;	
+		}
+		treeMesh.position.x = Math.floor(Math.random()*500) * positionMultiple;
 		treeMesh.position.y = 0;
-		treeMesh.position.z = Math.floor(Math.random()*500);
+		treeMesh.position.z = Math.floor(Math.random()*500) * positionMultiple2;
 		// this.forestGeometry.merge(treeGeometry);
 		this.scene.add(treeMesh);
 	}
@@ -48,7 +62,28 @@ function World(player) {
 
 	// pillar
 	for(var i = 0; i < 10; i++) {
-		
+		var pillarGeometry = new THREE.CylinderGeometry(5, 5, 20, 32);
+		var pillarMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+		var pillarMesh = new THREE.Mesh( pillarGeometry, pillarMaterial);
+		//returns 0 or 1
+		var randomQunadrant = Math.round(Math.random());
+		var postionMultiple = 1;
+		if (randomQunadrant == 0) {
+			positionMultiple = 1;
+		} else {
+			positionMultiple = -1;	
+		}
+		var randomQunadrant2 = Math.round(Math.random());
+		var postionMultiple2 = 1;
+		if (randomQunadrant2 == 0) {
+			positionMultiple2 = 1;
+		} else {
+			positionMultiple2 = -1;	
+		}
+		pillarMesh.position.x = Math.floor(Math.random()*500) * positionMultiple;
+		pillarMesh.position.y = 0;
+		pillarMesh.position.z = Math.floor(Math.random()*500) * positionMultiple;
+		this.scene.add( pillarMesh);
 	}
 
 

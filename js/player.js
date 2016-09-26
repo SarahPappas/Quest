@@ -61,7 +61,6 @@ Player.prototype = {
 				// FIX FIRE EVENT LISTENER INSTEAD
 				this.isPillarActive = true;
 			} 	
-			console.log(this.isPillarActive);
 		}
 	},
 	/**

@@ -27,20 +27,21 @@ function World(player) {
 	// adds plane geometry created as ground
 	this.scene.add(ground);
 
-	// create fog DECIDE WHETHER TO KEEP THIS, USE FOR TREE testing.
-		var cubeSize = Math.ceil((Math.random() * 3));
-	    var cubeGeometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
-	    var cubeMaterial = new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff});
-	    var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-	    cube.castShadow = true;
-	    // position the cube randomly in the scene
-	    cube.position.x = 0;
-	    cube.position.y = 0;
-	    cube.position.z = -10;
-	    // add the cube to the scene
-	    this.scene.add(cube);
-	    this.numberOfObjects = this.scene.children.length;
+	// add a cone
+	var coneColors = ["#09BA56", "#0AC75C", "#08A04A", "#0DF873", "#067A38"];
+	console.log(Math.floor(Math.random()*5));
+	var geometry = new THREE.ConeBufferGeometry(5, 20, 32);
+	var material = new THREE.MeshBasicMaterial({color: coneColors[Math.floor(Math.random()*5)]});
+	var cone = new THREE.Mesh(geometry, material);
+	cone.castShadow = true;
+	this.scene.add(cone);
+	cone.position.x = 0;
+	cone.position.y = 0;
+	cone.position.x = -10;
 
+
+
+	// create fog DECIDE WHETHER TO KEEP THIS, USE FOR TREE testing.
 		this.scene.fog = new THREE.Fog( 0xffffff, .0001, 40 );
 
 	    // add subtle ambient lighting

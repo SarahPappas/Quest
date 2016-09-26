@@ -11,21 +11,7 @@ function World(player) {
 	document.body.appendChild(this.renderer.domElement);
 
 	//ADD GROUND PLANE
-	var groundTexture = THREE.ImageUtils.loadTexture("images/MossyBank.jpg");
-	groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
-	groundTexture.repeat.set(200, 200);
-	groundTexture.anisotropy= 4;
-	// var groundBump = THREE.ImageUtils.loadTexture("");
-	var geometryGroundPlane = new THREE.PlaneGeometry(1000, 1000, 1, 1);
-	var materialGroundPlane = new THREE.MeshBasicMaterial({ 
-		map: groundTexture, 
-		side: THREE.DoubleSide 
-	});
-	var ground = new THREE.Mesh(geometryGroundPlane, materialGroundPlane);
-	// ground.rotation.set(90 * (3.14/180), 0, 'XY');
-	ground.rotateX(90 * (Math.PI / 180));
-	// adds plane geometry created as ground
-	this.scene.add(ground);
+	this.scene.add(this._setupGround());
 
 	// add a cone geometry
 	var coneColors = ["#09BA56", "#0AC75C", "#08A04A", "#0DF873", "#067A38"];
@@ -51,9 +37,9 @@ function World(player) {
 		} else {
 			positionMultiple2 = -1;	
 		}
-		treeMesh.position.x = Math.floor(Math.random()*500) * positionMultiple;
+		treeMesh.position.x = Math.floor(Math.random()*500) * this._getRandomNegativeOrPositive();
 		treeMesh.position.y = 0;
-		treeMesh.position.z = Math.floor(Math.random()*500) * positionMultiple2;
+		treeMesh.position.z = Math.floor(Math.random()*500) * this._getRandomNegativeOrPositive();
 		// this.forestGeometry.merge(treeGeometry);
 		this.scene.add(treeMesh);
 	}
@@ -66,13 +52,7 @@ function World(player) {
 		var pillarMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
 		var pillarMesh = new THREE.Mesh( pillarGeometry, pillarMaterial);
 		//returns 0 or 1
-		var randomQunadrant = Math.round(Math.random());
-		var postionMultiple = 1;
-		if (randomQunadrant == 0) {
-			positionMultiple = 1;
-		} else {
-			positionMultiple = -1;	
-		}
+		
 		var randomQunadrant2 = Math.round(Math.random());
 		var postionMultiple2 = 1;
 		if (randomQunadrant2 == 0) {
@@ -80,9 +60,9 @@ function World(player) {
 		} else {
 			positionMultiple2 = -1;	
 		}
-		pillarMesh.position.x = Math.floor(Math.random()*500) * positionMultiple;
+		pillarMesh.position.x = Math.floor(Math.random()*500) * this._getRandomNegativeOrPositive();
 		pillarMesh.position.y = 0;
-		pillarMesh.position.z = Math.floor(Math.random()*500) * positionMultiple;
+		pillarMesh.position.z = Math.floor(Math.random()*500) * this._getRandomNegativeOrPositive();
 		this.scene.add( pillarMesh);
 	}
 
@@ -120,7 +100,34 @@ World.prototype = {
 	    this.player.camera.aspect = window.innerWidth / window.innerHeight;
 	    this.player.camera.updateProjectionMatrix();
 	    this.renderer.setSize(window.innerWidth, window.innerHeight);
+	},
+	_getRandomNegativeOrPositive: function() {
+		var randomNumber = Math.round(Math.random());
+		var randomNegativeOrPositiveMultiple = 1;
+		if (randomNumber == 0) {
+			randomNegativeOrPositiveMultiple = 1;
+		} else {
+			randomNegativeOrPositiveMultiple = -1;	
+		}
+		return randomNegativeOrPositiveMultiple;
+	},
+	_setupGround: function() {
+		var groundTexture = THREE.ImageUtils.loadTexture("images/MossyBank.jpg");
+		groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
+		groundTexture.repeat.set(200, 200);
+		groundTexture.anisotropy= 4;
+		// var groundBump = THREE.ImageUtils.loadTexture("");
+		var geometryGroundPlane = new THREE.PlaneGeometry(1000, 1000, 1, 1);
+		var materialGroundPlane = new THREE.MeshBasicMaterial({ 
+			map: groundTexture, 
+			side: THREE.DoubleSide 
+		});
+		var ground = new THREE.Mesh(geometryGroundPlane, materialGroundPlane);
+		// ground.rotation.set(90 * (3.14/180), 0, 'XY');
+		ground.rotateX(90 * (Math.PI / 180));
+		return ground;
 	}
+
 };
 
 

@@ -17,7 +17,7 @@ function Player() {
 	// set the distance you will move in a frame
 	// This will move the camera 1 out of the 1,000 ground plane we created
 	// speed should be .1
-	this.speed = 1; 
+	this.speed = .5; 
 	// The noramalizes, then copies the vector of the direction the camera is looking
 	this.directionVector = this.camera.getWorldDirection().clone().normalize();
 	// The degree of rotation for each arrow press
@@ -31,14 +31,17 @@ function Player() {
 
 	document.addEventListener("keydown", this._keydown.bind(this));
 	document.addEventListener("keyup", this._keyup.bind(this));
+
+	this.isPillarActive = false;
+
 }
 
 Player.prototype = {
 	/**
 	 * @param {string} arrowKey - up, down, left, or right.
 	 */
-	render: function() {
-		// console.log(this.isRightArrowActive, this.isLeftArrowActive);
+	render: function(arrayOfPillarPositions) {
+		// Arrow controls
 		if (this.isUpArrowActive && !this.isDownArrowActive) {
 			this._walk(this.speed);
 		}
@@ -50,6 +53,15 @@ Player.prototype = {
 		}
 		if (this.isLeftArrowActive && !this.isRightArrowActive) {
 			this._rotate(this.rotation);
+		}
+
+		//	Hit detection
+		for (var i = 0; i < arrayOfPillarPositions.length; i++) {
+			if (this._isPointInsideSphere(arrayOfPillarPositions[i]) == true) {
+				// FIX FIRE EVENT LISTENER INSTEAD
+				this.isPillarActive = true;
+			} 	
+			console.log(this.isPillarActive);
 		}
 	},
 	/**
@@ -93,5 +105,15 @@ Player.prototype = {
 		if (e.keyCode == LEFT_ARROW_KEY_CODE) {
 			this.isLeftArrowActive = false;
 		}
+	},
+	/**
+	 * @param {Array} - arrah of (x, y, z) for a cone.
+	 */
+	_isPointInsideSphere: function(sphere) {
+		// we are using multiplications because is faster than calling Math.pow
+  		var distance = Math.sqrt((this.camera.position.x - sphere.x) * (this.camera.position.x - sphere.x) +
+                          		(this.camera.position.y - sphere.y) * (this.camera.position.y - sphere.y) +
+                       			(this.camera.position.z - sphere.z) * (this.camera.position.z - sphere.z));
+  		return distance <  20;
 	}
 };

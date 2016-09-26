@@ -14,13 +14,13 @@ function World(player) {
 	this.scene.add(this._setupGround());
 
 	// add a cone geometry
-	var coneColors = ["#09BA56", "#0AC75C", "#08A04A", "#0DF873", "#067A38"];
+	var treeColors = ["#09BA56", "#0AC75C", "#08A04A", "#0DF873", "#067A38"];
 	// this.forestGeometry = new THREE.BufferGeometry();
 
 	// create the forest
-	for(var i = 0; i < 1000; i++) {
+	for(var i = 0; i < 5000; i++) {
 		var treeGeometry = new THREE.ConeBufferGeometry(Math.floor(Math.random()*4), Math.floor(Math.random()*20), 32);
-		var treeMaterial = new THREE.MeshBasicMaterial({color: coneColors[Math.floor(Math.random()*5)]});
+		var treeMaterial = new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random()*5)]});
 		var treeMesh = new THREE.Mesh(treeGeometry, treeMaterial);
 		treeMesh.castShadow = true;
 		var randomQunadrant = Math.round(Math.random());
@@ -45,9 +45,10 @@ function World(player) {
 	}
 	// this.scene.add(this.forestGeometry);
 
-
+	//array of all pillar positions
+	this.pillarPositions = [];
 	// pillar
-	for(var i = 0; i < 10; i++) {
+	for(var i = 0; i < 5; i++) {
 		var pillarGeometry = new THREE.CylinderGeometry(5, 5, 20, 32);
 		var pillarMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
 		var pillarMesh = new THREE.Mesh( pillarGeometry, pillarMaterial);
@@ -63,9 +64,10 @@ function World(player) {
 		pillarMesh.position.x = Math.floor(Math.random()*500) * this._getRandomNegativeOrPositive();
 		pillarMesh.position.y = 0;
 		pillarMesh.position.z = Math.floor(Math.random()*500) * this._getRandomNegativeOrPositive();
+		this.pillarPositions.push(pillarMesh.position);
 		this.scene.add( pillarMesh);
 	}
-
+	console.log(this.pillarPositions[0]);
 
 	// create fog DECIDE WHETHER TO KEEP THIS, USE FOR TREE testing.
 		this.scene.fog = new THREE.Fog( 0xffffff, .0001, 40 );
@@ -91,7 +93,7 @@ World.prototype = {
 	// to render the page, you need a render loop
 	// anything you move or change has to run through the render function loop
 	render: function() {
-		this.player.render();
+		this.player.render(this.pillarPositions);
 		this.renderer.render(this.scene, this.player.camera);
 		// use requestAnimationFrame for loop instead of setInterval because it pauses when user navigates away
 		requestAnimationFrame(this.render.bind(this));

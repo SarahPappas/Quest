@@ -27,18 +27,29 @@ function World(player) {
 	// adds plane geometry created as ground
 	this.scene.add(ground);
 
-	// add a cone
+	// add a cone geometry
 	var coneColors = ["#09BA56", "#0AC75C", "#08A04A", "#0DF873", "#067A38"];
-	console.log(Math.floor(Math.random()*5));
-	var geometry = new THREE.ConeBufferGeometry(5, 20, 32);
-	var material = new THREE.MeshBasicMaterial({color: coneColors[Math.floor(Math.random()*5)]});
-	var cone = new THREE.Mesh(geometry, material);
-	cone.castShadow = true;
-	this.scene.add(cone);
-	cone.position.x = 0;
-	cone.position.y = 0;
-	cone.position.x = -10;
+	// this.forestGeometry = new THREE.BufferGeometry();
 
+	// create the forest
+	for(var i = 0; i < 1000; i++) {
+		var treeGeometry = new THREE.ConeBufferGeometry(Math.floor(Math.random()*4), Math.floor(Math.random()*20), 32);
+		var treeMaterial = new THREE.MeshBasicMaterial({color: coneColors[Math.floor(Math.random()*5)]});
+		var treeMesh = new THREE.Mesh(treeGeometry, treeMaterial);
+		treeMesh.castShadow = true;
+		treeMesh.position.x = Math.floor(Math.random()*500);
+		treeMesh.position.y = 0;
+		treeMesh.position.z = Math.floor(Math.random()*500);
+		// this.forestGeometry.merge(treeGeometry);
+		this.scene.add(treeMesh);
+	}
+	// this.scene.add(this.forestGeometry);
+
+
+	// pillar
+	for(var i = 0; i < 10; i++) {
+		
+	}
 
 
 	// create fog DECIDE WHETHER TO KEEP THIS, USE FOR TREE testing.

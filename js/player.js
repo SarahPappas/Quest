@@ -1,3 +1,9 @@
+// SETUP keycodes
+var UP_ARROW_KEY_CODE = 38;
+var DOWN_ARROW_KEY_CODE = 40;
+var RIGHT_ARROW_KEY_CODE = 39;
+var LEFT_ARROW_KEY_CODE = 37;
+
 function Player() {
 	// SETUP cameras
 	// diffrent types of cameras, parameters filed of view, aspect ration, near and far clipping plane
@@ -24,7 +30,6 @@ function Player() {
 
 	document.addEventListener("keydown", this._keydown.bind(this));
 	document.addEventListener("keyup", this._keyup.bind(this));
-
 }
 
 Player.prototype = {
@@ -32,7 +37,7 @@ Player.prototype = {
 	 * @param {string} arrowKey - up, down, left, or right.
 	 */
 	render: function() {
-		// console.log(this.isRightArrowActive);
+		// console.log(this.isRightArrowActive, this.isLeftArrowActive);
 		if (this.isUpArrowActive && !this.isDownArrowActive) {
 			this._walk(this.speed);
 		}
@@ -58,32 +63,33 @@ Player.prototype = {
 	 */
 	_rotate: function(degrees) {
 		this.camera.rotation.y += (degrees * (Math.PI / 180));
+		this.directionVector = this.camera.getWorldDirection().clone().normalize();
 	},
 	_keydown: function(e) {
-		if (e.keyIdentifier == "Up") {
+		if (e.keyCode == UP_ARROW_KEY_CODE) {
 			this.isUpArrowActive = true;
 		}
-		if (e.keyIdentifier == "Down") {
+		if (e.keyCode == DOWN_ARROW_KEY_CODE) {
 			this.isDownArrowActive = true;
 		}
-		if (e.keyIdentifier == "Right") {
+		if (e.keyCode == RIGHT_ARROW_KEY_CODE) {
 			this.isRightArrowActive = true;
 		}
-		if (e.keyIdentifier == "Left") {
+		if (e.keyCode == LEFT_ARROW_KEY_CODE) {
 			this.isLeftArrowActive = true;
 		}
 	},
 	_keyup: function(e) {
-		if (e.keyIdentifier == "Up") {
+		if (e.keyCode == UP_ARROW_KEY_CODE) {
 			this.isUpArrowActive = false;
 		}
-		if (e.keyIdentifier == "Down") {
+		if (e.keyCode == DOWN_ARROW_KEY_CODE) {
 			this.isDownArrowActive = false;
 		}
-		if (e.keyIdentifier == "Right") {
+		if (e.keyCode == RIGHT_ARROW_KEY_CODE) {
 			this.isRightArrowActive = false;
 		}
-		if (e.keyIdentifier == "Left") {
+		if (e.keyCode == LEFT_ARROW_KEY_CODE) {
 			this.isLeftArrowActive = false;
 		}
 	}

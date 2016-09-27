@@ -1,6 +1,6 @@
 function Game(world) {
 	// QUESTION would you make these constants??
-	var riddleContainerEl = $(".riddleContainer");
+	this.riddleContainerEl = $(".riddleContainer");
 	var submitButton = $("#answer-button");
 	this.questionEl = $(".riddleContainer .question");
 	this.correctAnswersNeeded = 3;
@@ -10,7 +10,7 @@ function Game(world) {
 	this.userInput = "";
 	
 	world.player.addEventListener("pillarDetected", function() {
-		riddleContainerEl.css("display", "initial");
+		this.riddleContainerEl.css("display", "initial");
 		this._displayRiddle();
 	}.bind(this))
 
@@ -20,11 +20,10 @@ function Game(world) {
 		// save user input
 		this.userInput = $("input[name='answer']").val();
 		//Say if you were correct and which direction to head - use question div
-		this._isRiddleCorrect();
-		this._checkNumberOfCorrectAnswers();
+		this._interactWithUser();
 		//hide the form 
 		$("form").css("display", "none");
-		//on key down hide the riddles modal?
+		//FIX clear input
 	}.bind(this))
 }
 
@@ -38,18 +37,27 @@ Game.prototype = {
 	_isRiddleCorrect: function() {
 		var riddleAnswer = riddles[this.riddleIndex].Answer;
 		if (this.userInput.toLowerCase().indexOf(riddleAnswer) == -1) {
-			this.questionEl.text("Sorry to say, but you will get no help from me");
+			return false;
 		} else {
-			this.questionEl.text("I'm so pleased you are correct");
+			return true;
+		}
+	},
+	_interactWithUser: function() {
+		if (this._isRiddleCorrect() && this.riddlesAnsweredCorrectly >= 2) {
+			this.questionEl.text("I'm so pleased you are correct" + " location of box");
+		} else if (this._isRiddleCorrect()) {
+			this.questionEl.text("I'm so pleased you are correct" + " location of next pillar");
 			this.riddlesAnsweredCorrectly++;
+		} else {
+			this.questionEl.text("Sorry to say, but you will get no help from me");
 		}
 		// remove riddle that is already shown
 		riddles.splice(this.riddleIndex, 1);
-	},
-	_checkNumberOfCorrectAnswers: function() {
-	 
-	},
-	_interactWithUser: function() {
-
+		//on key down hide the riddles modal?
+		document.addEventListener("keydown", function(e) {
+			if (e.keyCode == UP_ARROW_KEY_CODE || e.keyCode ==DOWN_ARROW_KEY_CODE || e.keyCode == RIGHT_ARROW_KEY_CODE || e.keyCode == LEFT_ARROW_KEY_CODE) {
+				this.riddleContainerEl.css("display", "none");
+			}
+		}.bind(this));
 	}
 };

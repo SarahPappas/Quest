@@ -3,6 +3,8 @@ body {
 }
 
 #container {
+	width: 100%;
+	height: 100%;
 	position: relative;
 }
 
@@ -15,12 +17,13 @@ canvas {
 	height: 100%; 
 }
 
-#overlay {
-	width: 300px;
-	height: 50px;
-	left: 50%;
+/*#overlay {
+	width: 33%;
+	height: 200px;
+	left: 33%;
+	top: 100px;
 	background-color: rgba(30, 100, 250, .5);
-}
+}*/
 
 /*#overlay2 {
 	width: 50px;

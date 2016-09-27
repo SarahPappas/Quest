@@ -19,27 +19,13 @@ function World(player) {
 
 	// create the forest
 	for(var i = 0; i < 5000; i++) {
-		var treeGeometry = new THREE.ConeBufferGeometry(Math.floor(Math.random()*4), Math.floor(Math.random()*20), 32);
-		var treeMaterial = new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random()*5)]});
+		var treeGeometry = new THREE.ConeBufferGeometry(Math.random() * 10 + 5, Math.random() * 60 + 10, 8, 1, true);
+		var treeMaterial = new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]});
 		var treeMesh = new THREE.Mesh(treeGeometry, treeMaterial);
 		treeMesh.castShadow = true;
-		var randomQunadrant = Math.round(Math.random());
-		var postionMultiple = 1;
-		if (randomQunadrant == 0) {
-			positionMultiple = 1;
-		} else {
-			positionMultiple = -1;	
-		}
-		var randomQunadrant2 = Math.round(Math.random());
-		var postionMultiple2 = 1;
-		if (randomQunadrant2 == 0) {
-			positionMultiple2 = 1;
-		} else {
-			positionMultiple2 = -1;	
-		}
-		treeMesh.position.x = Math.floor(Math.random()*500) * this._getRandomNegativeOrPositive();
+		treeMesh.position.x = Math.random() * 1000 - 500;
 		treeMesh.position.y = 0;
-		treeMesh.position.z = Math.floor(Math.random()*500) * this._getRandomNegativeOrPositive();
+		treeMesh.position.z = Math.random() * 1000 - 500;
 		// this.forestGeometry.merge(treeGeometry);
 		this.scene.add(treeMesh);
 	}
@@ -52,18 +38,9 @@ function World(player) {
 		var pillarGeometry = new THREE.CylinderGeometry(5, 5, 20, 32);
 		var pillarMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
 		var pillarMesh = new THREE.Mesh( pillarGeometry, pillarMaterial);
-		//returns 0 or 1
-		
-		var randomQunadrant2 = Math.round(Math.random());
-		var postionMultiple2 = 1;
-		if (randomQunadrant2 == 0) {
-			positionMultiple2 = 1;
-		} else {
-			positionMultiple2 = -1;	
-		}
-		pillarMesh.position.x = Math.floor(Math.random()*500) * this._getRandomNegativeOrPositive();
+		pillarMesh.position.x = Math.random() * 1000 - 500;
 		pillarMesh.position.y = 0;
-		pillarMesh.position.z = Math.floor(Math.random()*500) * this._getRandomNegativeOrPositive();
+		pillarMesh.position.z = Math.random() * 1000 - 500;
 		this.pillarPositions.push(pillarMesh.position);
 		this.scene.add( pillarMesh);
 	}
@@ -102,16 +79,6 @@ World.prototype = {
 	    this.player.camera.aspect = window.innerWidth / window.innerHeight;
 	    this.player.camera.updateProjectionMatrix();
 	    this.renderer.setSize(window.innerWidth, window.innerHeight);
-	},
-	_getRandomNegativeOrPositive: function() {
-		var randomNumber = Math.round(Math.random());
-		var randomNegativeOrPositiveMultiple = 1;
-		if (randomNumber == 0) {
-			randomNegativeOrPositiveMultiple = 1;
-		} else {
-			randomNegativeOrPositiveMultiple = -1;	
-		}
-		return randomNegativeOrPositiveMultiple;
 	},
 	_setupGround: function() {
 		var groundTexture = THREE.ImageUtils.loadTexture("images/MossyBank.jpg");

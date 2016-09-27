@@ -3,6 +3,18 @@ body {
 	font-family: 'Nothing You Could Do', cursive; 
 }
 
+#inset {
+	width: 100px;
+	height: 100px;
+	background-color: #fff;
+	border: 1px solid black;
+	margin: 20px;
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	z-index: 100;
+}
+
 #container {
 	width: 100%;
 	height: 100%;

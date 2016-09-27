@@ -7,7 +7,7 @@ var LEFT_ARROW_KEY_CODE = 37;
 function Player() {
 	EventEmitter.call(this);['']
 	// SETUP cameras
-	// diffrent types of cameras, parameters filed of view, aspect ration, near and far clipping plane
+	// diffrent types of cameras, parameters field of view, aspect ration, near and far clipping plane
 	this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 	// set camera position
 	// moves out camera postion becaus otherwise it would be placed at 0, 0, 0 with the cube

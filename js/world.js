@@ -1,4 +1,6 @@
 var GREY = 0xaaaaaa;
+var MINIMAP_HEIGHT = 100;
+var MINIMAP_WIDTH = 100;
 
 function World(player) {
 	// SETUP
@@ -32,7 +34,7 @@ function World(player) {
 		this.forestGeometry.merge(treeMesh.geometry, treeMesh.matrix);
 	}
 	var forestMesh = new THREE.Mesh(this.forestGeometry, new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]}));
-	// this.scene.add(forestMesh);
+	this.scene.add(forestMesh);
 
 	//array of all pillar positions
 	this.pillarPositions = [];
@@ -47,22 +49,48 @@ function World(player) {
 		this.pillarPositions.push(pillarMesh.position);
 		this.scene.add( pillarMesh);
 	}
-	console.log(this.pillarPositions[0]);
 
 	// create fog DECIDE WHETHER TO KEEP THIS, USE FOR TREE testing.
-		// this.scene.fog = new THREE.Fog(GREY, .0001, 150);
+	this.scene.fog = new THREE.Fog(GREY, .0001, 150);
 
-	    // add subtle ambient lighting
-	    var ambientLight = new THREE.AmbientLight(0x0c0c0c);
-	    this.scene.add(ambientLight);
-	    // add spotlight for the shadows
-	    var spotLight = new THREE.SpotLight(0xffffff);
-	    spotLight.position.set(this.player.camera.position);
-	    spotLight.castShadow = true;
-	    this.scene.add(spotLight);
+    // add subtle ambient lighting
+    var ambientLight = new THREE.AmbientLight(0x0c0c0c);
+    this.scene.add(ambientLight);
+    // add spotlight for the shadows
+    var spotLight = new THREE.SpotLight(0xffffff);
+    spotLight.position.set(this.player.camera.position);
+    spotLight.castShadow = true;
+    this.scene.add(spotLight);
 	 //^^^^ Keep?
 
+	// add mini-map
+	var miniMap = $("#inset");
+	this.miniMapRenderer = new THREE.WebGLRenderer();
+	this.miniMapRenderer.setClearColor(0x000);
+	this.miniMapRenderer.setSize()
+	miniMap.append(this.miniMapRenderer.domElement);
+	this.miniMapScene = new THREE.Scene();
+	this.miniMapCamera = new THREE.PerspectiveCamera(50, MINIMAP_WIDTH/MINIMAP_HEIGHT, 1, 1000);
+	// this.miniMapCamera.up = this.player.camera.up;
+	this.miniMapCamera.position.x = this.player.camera.position.x;
+	this.miniMapCamera.position.y = this.player.camera.position.z;
+	this.miniMapCamera.position.z = 
+	 // draw a point?
+	// var segmentCount = 32;
+ //    var radius = 5;
+ //    var circleGeometry = new THREE.Geometry();
+ //    var circleMaterial = new THREE.LineBasicMaterial({ color: 0xFFFFFF });
 
+	// for (var i = 0; i <= segmentCount; i++) {
+	//     var theta = (i / segmentCount) * Math.PI * 2;
+	//     circleGeometry.vertices.push(
+	//         new THREE.Vector3(
+	//             Math.cos(theta) * radius,
+	//             Math.sin(theta) * radius,
+	//             0));            
+	// }
+
+	this.miniMapScene.add(new THREE.Line(circleGeometry, circleMaterial));
 
 	//Resize Window event listener
 	window.addEventListener('resize', this._onWindowResize.bind(this), false);
@@ -75,6 +103,7 @@ World.prototype = {
 	render: function() {
 		this.player.render(this.pillarPositions);
 		this.renderer.render(this.scene, this.player.camera);
+		this.miniMapRenderer.render(this.miniMapScene, this.miniMapCamera);
 		// use requestAnimationFrame for loop instead of setInterval because it pauses when user navigates away
 		requestAnimationFrame(this.render.bind(this));
 	},

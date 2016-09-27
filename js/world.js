@@ -30,7 +30,6 @@ function World(player) {
 		treeMesh.position.z = Math.random() * 1000 - 500;
 		treeMesh.updateMatrix();
 		this.forestGeometry.merge(treeMesh.geometry, treeMesh.matrix);
-		// this.scene.add(treeMesh);
 	}
 	var forestMesh = new THREE.Mesh(this.forestGeometry, new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]}));
 	// this.scene.add(forestMesh);

@@ -53,7 +53,7 @@ Game.prototype = {
 		}
 		// remove riddle that is already shown
 		riddles.splice(this.riddleIndex, 1);
-		//on key down hide the riddles modal?
+		//on any arrow key down hide the riddles modal
 		document.addEventListener("keydown", function(e) {
 			if (e.keyCode == UP_ARROW_KEY_CODE || e.keyCode ==DOWN_ARROW_KEY_CODE || e.keyCode == RIGHT_ARROW_KEY_CODE || e.keyCode == LEFT_ARROW_KEY_CODE) {
 				this.riddleContainerEl.css("display", "none");

@@ -5,6 +5,7 @@ var RIGHT_ARROW_KEY_CODE = 39;
 var LEFT_ARROW_KEY_CODE = 37;
 
 function Player() {
+	EventEmitter.call(this);
 	// SETUP cameras
 	// diffrent types of cameras, parameters filed of view, aspect ration, near and far clipping plane
 	this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
@@ -16,7 +17,6 @@ function Player() {
 	// SETUP movements
 	// set the distance you will move in a frame
 	// This will move the camera 1 out of the 1,000 ground plane we created
-	// speed should be .1
 	this.speed = .5; 
 	// The noramalizes, then copies the vector of the direction the camera is looking
 	this.directionVector = this.camera.getWorldDirection().clone().normalize();
@@ -31,9 +31,6 @@ function Player() {
 
 	document.addEventListener("keydown", this._keydown.bind(this));
 	document.addEventListener("keyup", this._keyup.bind(this));
-
-	this.isPillarActive = false;
-
 }
 
 Player.prototype = {
@@ -57,10 +54,10 @@ Player.prototype = {
 
 		//	Hit detection
 		for (var i = 0; i < arrayOfPillarPositions.length; i++) {
-			if (this._isPointInsideSphere(arrayOfPillarPositions[i]) == true) {
+			if (this._isPointInsideCircle(arrayOfPillarPositions[i]) == true) {
 				console.log("At a pillar!")
-				// FIX FIRE EVENT LISTENER INSTEAD
-				this.isPillarActive = true;
+				this.emit("pillarDetected", arrayOfPillarPositions[i]);
+				arrayOfPillarPositions.splice(i, 1);
 			} 	
 		}
 	},
@@ -109,10 +106,13 @@ Player.prototype = {
 	/**
 	 * @param {Array} - arrah of (x, y, z) for a cone.
 	 */
-	_isPointInsideSphere: function(circle) {
+	_isPointInsideCircle: function(circle) {
 		// we are using multiplications because is faster than calling Math.pow
   		var distance = Math.sqrt((this.camera.position.x - circle.x) * (this.camera.position.x - circle.x) +
                        			(this.camera.position.z - circle.z) * (this.camera.position.z - circle.z));
   		return distance <  20;
 	}
 };
+
+//add EventEmitter properties to Player
+_.assign(Player.prototype, EventEmitter.prototype);

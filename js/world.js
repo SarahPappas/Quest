@@ -33,7 +33,7 @@ function World(player) {
 		// this.scene.add(treeMesh);
 	}
 	var forestMesh = new THREE.Mesh(this.forestGeometry, new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]}));
-	this.scene.add(forestMesh);
+	// this.scene.add(forestMesh);
 
 	//array of all pillar positions
 	this.pillarPositions = [];
@@ -51,7 +51,7 @@ function World(player) {
 	console.log(this.pillarPositions[0]);
 
 	// create fog DECIDE WHETHER TO KEEP THIS, USE FOR TREE testing.
-		this.scene.fog = new THREE.Fog(GREY, .0001, 150);
+		// this.scene.fog = new THREE.Fog(GREY, .0001, 150);
 
 	    // add subtle ambient lighting
 	    var ambientLight = new THREE.AmbientLight(0x0c0c0c);

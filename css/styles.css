@@ -8,7 +8,7 @@ body {
 	position: relative;
 }
 
-#container canvas, #overlay {
+#container canvas, .riddle {
   position: absolute;
 }
 
@@ -17,18 +17,10 @@ canvas {
 	height: 100%; 
 }
 
-/*#overlay {
-	width: 33%;
+.riddle {
+	width: 50%;
 	height: 200px;
-	left: 33%;
+	left: 25%;
 	top: 100px;
 	background-color: rgba(30, 100, 250, .5);
-}*/
-
-/*#overlay2 {
-	width: 50px;
-	height: 50px;
-	top: 50%;
-	left: 50%;
-	background-color: blue;
-}*/
+}

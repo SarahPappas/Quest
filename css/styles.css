@@ -1,5 +1,6 @@
 body { 
-	margin: 0; 
+	margin: 0;
+	font-family: 'Nothing You Could Do', cursive; 
 }
 
 #container {
@@ -8,7 +9,7 @@ body {
 	position: relative;
 }
 
-#container canvas, .riddle {
+#container canvas, .riddleContainer {
   position: absolute;
 }
 
@@ -17,10 +18,18 @@ canvas {
 	height: 100%; 
 }
 
-.riddle {
+.riddleContainer {
+	display: none;
+	padding: 5%;
 	width: 50%;
 	height: 200px;
 	left: 25%;
 	top: 100px;
 	background-color: rgba(30, 100, 250, .5);
+}
+
+.question {
+	font-size: 24px;
+	margin: 0 auto;
+	text-align: center;
 }

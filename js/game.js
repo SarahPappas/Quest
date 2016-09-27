@@ -1,13 +1,17 @@
 function Game(world) {
-	var displayContainer = $("#container");
+	var riddleContainerEl= $(".riddleContainer");
 	var riddlesAnsweredCorrectly = 0;
 	
 	world.player.addEventListener("pillarDetected", function() {
-		displayContainer.append("<div class='riddle'>" + riddles[Math.floor(Math.random() * riddles.length)].Question + "</div>")
+		riddleContainerEl.css("display", "initial");
+		this._displayRiddle();
 
-	})
+	}.bind(this))
 }
 
 Game.prototype = {
-
+	_displayRiddle: function() {
+		var questionEl = $(".riddleContainer .question");
+		questionEl.text(riddles[Math.floor(Math.random() * riddles.length)].Question);		
+	}
 };

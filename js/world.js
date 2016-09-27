@@ -1,6 +1,8 @@
 var GREY = 0xaaaaaa;
-var MINIMAP_HEIGHT = 100;
-var MINIMAP_WIDTH = 100;
+var MINIMAP_HEIGHT = 150;
+var MINIMAP_WIDTH = 150;
+var PLANE_WIDTH = 1000;
+var PLANE_HEIGHT = 1000;
 
 function World(player) {
 	// SETUP
@@ -65,32 +67,18 @@ function World(player) {
 
 	// add mini-map
 	var miniMap = $("#inset");
-	this.miniMapRenderer = new THREE.WebGLRenderer();
-	this.miniMapRenderer.setClearColor(0x000);
-	this.miniMapRenderer.setSize()
-	miniMap.append(this.miniMapRenderer.domElement);
 	this.miniMapScene = new THREE.Scene();
-	this.miniMapCamera = new THREE.PerspectiveCamera(50, MINIMAP_WIDTH/MINIMAP_HEIGHT, 1, 1000);
-	// this.miniMapCamera.up = this.player.camera.up;
-	this.miniMapCamera.position.x = this.player.camera.position.x;
-	this.miniMapCamera.position.y = this.player.camera.position.z;
-	this.miniMapCamera.position.z = 
-	 // draw a point?
-	// var segmentCount = 32;
- //    var radius = 5;
- //    var circleGeometry = new THREE.Geometry();
- //    var circleMaterial = new THREE.LineBasicMaterial({ color: 0xFFFFFF });
+	this.miniMapCamera = new THREE.PerspectiveCamera(75, MINIMAP_WIDTH / MINIMAP_HEIGHT, .1, 1000);
+	this.miniMapRenderer = new THREE.WebGLRenderer();
+	this.miniMapRenderer.setSize(MINIMAP_WIDTH, MINIMAP_HEIGHT);
+	miniMap.append(this.miniMapRenderer.domElement);
+	// this.miniMapRenderer.setClearColor(0xfff);
+	this.miniMapCamera.position.z = 10
 
-	// for (var i = 0; i <= segmentCount; i++) {
-	//     var theta = (i / segmentCount) * Math.PI * 2;
-	//     circleGeometry.vertices.push(
-	//         new THREE.Vector3(
-	//             Math.cos(theta) * radius,
-	//             Math.sin(theta) * radius,
-	//             0));            
-	// }
-
-	this.miniMapScene.add(new THREE.Line(circleGeometry, circleMaterial));
+	var sphereGeometry = new THREE.SphereGeometry(.5, 32, 32);
+	var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
+	this.sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+	this.miniMapScene.add(this.sphere);
 
 	//Resize Window event listener
 	window.addEventListener('resize', this._onWindowResize.bind(this), false);
@@ -101,6 +89,9 @@ World.prototype = {
 	// to render the page, you need a render loop
 	// anything you move or change has to run through the render function loop
 	render: function() {
+		this.sphere.position.x = (this.player.camera.position.x * .015);
+		this.sphere.position.y = -1*(this.player.camera.position.z * .015);
+		this.sphere.position.z = 0;
 		this.player.render(this.pillarPositions);
 		this.renderer.render(this.scene, this.player.camera);
 		this.miniMapRenderer.render(this.miniMapScene, this.miniMapCamera);
@@ -118,7 +109,7 @@ World.prototype = {
 		groundTexture.repeat.set(200, 200);
 		groundTexture.anisotropy= 4;
 		// var groundBump = THREE.ImageUtils.loadTexture("");
-		var geometryGroundPlane = new THREE.PlaneGeometry(1000, 1000, 1, 1);
+		var geometryGroundPlane = new THREE.PlaneGeometry(PLANE_WIDTH, PLANE_HEIGHT, 1, 1);
 		var materialGroundPlane = new THREE.MeshBasicMaterial({ 
 			map: groundTexture, 
 			side: THREE.DoubleSide 

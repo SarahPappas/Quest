@@ -4,8 +4,8 @@ body {
 }
 
 #inset {
-	width: 100px;
-	height: 100px;
+	width: 150px;
+	height: 150px;
 	background-color: #fff;
 	border: 1px solid black;
 	margin: 20px;
@@ -13,6 +13,40 @@ body {
 	left: 0px;
 	bottom: 0px;
 	z-index: 100;
+	font-size: 10px;
+	color: #fff;
+}
+
+.north {
+	display: block;
+	position: absolute;
+	z-index: 200;
+	left: 75px;
+	top: 5px;
+}
+
+.south {
+	display: block;
+	position: absolute;
+	z-index: 200;
+	left: 75px;
+	bottom: 5px;
+}
+
+.east {
+	display: block;
+	position: absolute;
+	z-index: 200;
+	left: 5px;
+	bottom: 75px;
+}
+
+.west {
+	display: block;
+	position: absolute;
+	z-index: 200;
+	right: 5px;
+	bottom: 75px;
 }
 
 #container {

@@ -1,6 +1,7 @@
 body { 
 	margin: 0;
-	font-family: 'Nothing You Could Do', cursive; 
+	font-family: 'Dosis', sans-serif;
+	font-weight: 400;
 }
 
 #inset {
@@ -13,8 +14,9 @@ body {
 	left: 0px;
 	bottom: 0px;
 	z-index: 100;
-	font-size: 10px;
+	font-size: 12px;
 	color: #fff;
+	font-weight: 600;
 }
 
 .north {
@@ -66,9 +68,9 @@ canvas {
 
 .riddleContainer {
 	display: none;
-	padding: 5%;
+	padding: 3%;
 	width: 50%;
-	height: 200px;
+	height: 250px;
 	left: 25%;
 	top: 100px;
 	background-color: rgba(30, 100, 250, .5);
@@ -78,6 +80,8 @@ canvas {
 	font-size: 24px;
 	margin: 0 auto;
 	text-align: center;
+	line-height: 40px;
+	margin-bottom: 10px;
 }
 
 .form-input {
@@ -86,7 +90,7 @@ canvas {
 	margin: 0 auto;
 	width: 50%;
 	font-size: 24px;
-	padding: 5%;
+	padding: 2%;
 }
 
 #answer-button {

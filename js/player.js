@@ -58,6 +58,7 @@ Player.prototype = {
 		//	Hit detection
 		for (var i = 0; i < arrayOfPillarPositions.length; i++) {
 			if (this._isPointInsideSphere(arrayOfPillarPositions[i]) == true) {
+				console.log("At a pillar!")
 				// FIX FIRE EVENT LISTENER INSTEAD
 				this.isPillarActive = true;
 			} 	
@@ -108,11 +109,10 @@ Player.prototype = {
 	/**
 	 * @param {Array} - arrah of (x, y, z) for a cone.
 	 */
-	_isPointInsideSphere: function(sphere) {
+	_isPointInsideSphere: function(circle) {
 		// we are using multiplications because is faster than calling Math.pow
-  		var distance = Math.sqrt((this.camera.position.x - sphere.x) * (this.camera.position.x - sphere.x) +
-                          		(this.camera.position.y - sphere.y) * (this.camera.position.y - sphere.y) +
-                       			(this.camera.position.z - sphere.z) * (this.camera.position.z - sphere.z));
+  		var distance = Math.sqrt((this.camera.position.x - circle.x) * (this.camera.position.x - circle.x) +
+                       			(this.camera.position.z - circle.z) * (this.camera.position.z - circle.z));
   		return distance <  20;
 	}
 };

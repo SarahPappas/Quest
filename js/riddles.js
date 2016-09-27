@@ -1,4 +1,4 @@
-{"riddles":[
+var riddles = [
     {"Question":"It is greater than God and more evil than the devil. The poor have it, the rich need it and if you eat it you’ll die. What is it?", "Answer":"nothing"},
     {"Question":"I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place. What am I?", "Answer":"e"},
     {"Question":"At night they come without being fetched. By day they are lost without being stolen. What are they?", "Answer":"stars"},
@@ -17,4 +17,4 @@
     {"Question":"Reaching stiffly for the sky, I bare my fingers when it’s cold, In warmth I wear an emerald glove, And in between I dress in gold", "Answer":"tree"},
     {"Question":"My first is twice in apple but not once in tart. My second is in liver but not in heart. My third is in giant and also in ghost. Whole I’m best when I am roast. What am I?", "Answer":"pig"},
     {"Question":"What gets wetter as it dries?", "Answer":"towel"}
-]}
+];

@@ -1,3 +1,5 @@
+var GREY = 0xaaaaaa;
+
 function World(player) {
 	// SETUP
 	// need 3 things to dispaly anything. A scene a camera and a render
@@ -8,6 +10,7 @@ function World(player) {
 	//setup renderer
 	this.renderer = new THREE.WebGLRenderer();
 	this.renderer.setSize(window.innerWidth, window.innerHeight);
+	this.renderer.setClearColor(GREY);
 	document.body.appendChild(this.renderer.domElement);
 
 	//ADD GROUND PLANE
@@ -15,21 +18,22 @@ function World(player) {
 
 	// add a cone geometry
 	var treeColors = ["#09BA56", "#0AC75C", "#08A04A", "#0DF873", "#067A38"];
-	// this.forestGeometry = new THREE.BufferGeometry();
+	this.forestGeometry = new THREE.Geometry();
 
 	// create the forest
 	for(var i = 0; i < 5000; i++) {
-		var treeGeometry = new THREE.ConeBufferGeometry(Math.random() * 10 + 5, Math.random() * 60 + 10, 8, 1, true);
-		var treeMaterial = new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]});
-		var treeMesh = new THREE.Mesh(treeGeometry, treeMaterial);
+		var treeGeometry = new THREE.ConeGeometry(Math.random() * 10 + 5, Math.random() * 60 + 10, 8, 1, true);
+		var treeMesh = new THREE.Mesh(treeGeometry);
 		treeMesh.castShadow = true;
 		treeMesh.position.x = Math.random() * 1000 - 500;
 		treeMesh.position.y = 0;
 		treeMesh.position.z = Math.random() * 1000 - 500;
-		// this.forestGeometry.merge(treeGeometry);
-		this.scene.add(treeMesh);
+		treeMesh.updateMatrix();
+		this.forestGeometry.merge(treeMesh.geometry, treeMesh.matrix);
+		// this.scene.add(treeMesh);
 	}
-	// this.scene.add(this.forestGeometry);
+	var forestMesh = new THREE.Mesh(this.forestGeometry, new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]}));
+	this.scene.add(forestMesh);
 
 	//array of all pillar positions
 	this.pillarPositions = [];
@@ -47,7 +51,7 @@ function World(player) {
 	console.log(this.pillarPositions[0]);
 
 	// create fog DECIDE WHETHER TO KEEP THIS, USE FOR TREE testing.
-		this.scene.fog = new THREE.Fog( 0xffffff, .0001, 40 );
+		this.scene.fog = new THREE.Fog(GREY, .0001, 150);
 
 	    // add subtle ambient lighting
 	    var ambientLight = new THREE.AmbientLight(0x0c0c0c);

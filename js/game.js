@@ -28,6 +28,7 @@ function Game(world) {
 		//hide the form 
 		$(".answer").css("display", "none");
 	}.bind(this))
+
 }
 
 Game.prototype = {
@@ -46,6 +47,11 @@ Game.prototype = {
 		}
 	},
 	_interactWithUser: function() {
+		// TODO: pass sphere instead of hardcode
+		if(this.world.hud.hintSphere){
+			this.world.hud.removeObjectFormScene();
+		}
+		
 		if (this._isRiddleCorrect() && this.riddlesAnsweredCorrectly >= 2) {
 			this.questionEl.text("I'm so pleased you are correct" + " location of box");
 		} else if (this._isRiddleCorrect()) {
@@ -57,13 +63,12 @@ Game.prototype = {
 		}
 		// remove riddle that is already shown
 		riddles.splice(this.riddleIndex, 1);
-		//on any arrow key down hide the riddles modal
+		// on any arrow key down hide the riddles modal
 		document.addEventListener("keydown", this._exitDisplayRiddle);
 	},
 	_exitDisplayRiddle: function(e) {
 		if (e.keyCode == UP_ARROW_KEY_CODE || e.keyCode == DOWN_ARROW_KEY_CODE || e.keyCode == RIGHT_ARROW_KEY_CODE || e.keyCode == LEFT_ARROW_KEY_CODE) {
 			this.riddleContainerEl.css("display", "none");
-			// FIX remove envent listener
 			document.removeEventListener("keydown", this._exitDisplayRiddle);
 		}
 	},

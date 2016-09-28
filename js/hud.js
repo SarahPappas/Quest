@@ -18,7 +18,9 @@ function Hud(player) {
 	var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
 	this.sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 	this.miniMapScene.add(this.sphere);
-	// drawTargetArea for a pillar
+	// need to save sphere so we can access the name later to remove it from the minimap
+	this.hintSphere = null;
+
 }
 
 Hud.prototype = {
@@ -38,12 +40,18 @@ Hud.prototype = {
 		var ratio = .015;
 		var sphereGeometry = new THREE.SphereGeometry(1.5, 32, 32);
 		var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xf2f28a});
-		var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-		sphere.position.x = ((pillarPosition.x - radius) + (Math.random() * diameter)) * ratio;
-		sphere.position.y = (-1 * ((pillarPosition.z - radius) + (Math.random() * diameter))) * ratio;
-		this.miniMapScene.add(sphere);
+		this.hintSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+		this.hintSphere.position.x = ((pillarPosition.x - radius) + (Math.random() * diameter)) * ratio;
+		this.hintSphere.position.y = (-1 * ((pillarPosition.z - radius) + (Math.random() * diameter))) * ratio;
+		this.hintSphere.name = "TargetArea";
+		this.miniMapScene.add(this.hintSphere);
 	},
-	_isAnswerCorrect: function() {
+	removeObjectFormScene: function() {
+		var selectedObject = this.miniMapScene.getObjectByName(this.hintSphere.name);
+		console.log(this.hintSphere);
+		this.miniMapScene.remove(selectedObject);
+		selectedObject.material.dispose();
+        selectedObject.geometry.dispose();
+	},
 
-	},
 };

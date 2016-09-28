@@ -39,7 +39,7 @@ body {
 	display: block;
 	position: absolute;
 	z-index: 200;
-	left: 5px;
+	right: 5px;
 	bottom: 75px;
 }
 
@@ -47,7 +47,7 @@ body {
 	display: block;
 	position: absolute;
 	z-index: 200;
-	right: 5px;
+	left: 5px;
 	bottom: 75px;
 }
 

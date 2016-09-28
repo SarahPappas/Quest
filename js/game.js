@@ -25,7 +25,7 @@ function Game(world) {
 		//Say if you were correct and which direction to head - use question div
 		this._interactWithUser();
 		//hide the form 
-		$("form").css("display", "none");
+		$(".answer").css("display", "none");
 	}.bind(this))
 }
 

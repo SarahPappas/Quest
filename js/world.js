@@ -1,15 +1,15 @@
 var GREY = 0xaaaaaa;
-var MINIMAP_HEIGHT = 150;
-var MINIMAP_WIDTH = 150;
 var PLANE_WIDTH = 1000;
 var PLANE_HEIGHT = 1000;
 
-function World(player) {
+function World(player, hud) {
 	// SETUP
 	// need 3 things to dispaly anything. A scene a camera and a render
 	this.scene = new THREE.Scene();
 	// camera in screen is on the player
 	this.player = new Player();
+	// call the Hud constructor
+	this.hud = new Hud(this.player);
 
 	//setup renderer
 	this.renderer = new THREE.WebGLRenderer();
@@ -65,21 +65,6 @@ function World(player) {
     this.scene.add(spotLight);
 	 //^^^^ Keep?
 
-	// add mini-map
-	var miniMap = $("#inset");
-	this.miniMapScene = new THREE.Scene();
-	this.miniMapCamera = new THREE.PerspectiveCamera(75, MINIMAP_WIDTH / MINIMAP_HEIGHT, .1, 1000);
-	this.miniMapRenderer = new THREE.WebGLRenderer();
-	this.miniMapRenderer.setSize(MINIMAP_WIDTH, MINIMAP_HEIGHT);
-	miniMap.append(this.miniMapRenderer.domElement);
-	// this.miniMapRenderer.setClearColor(0xfff);
-	this.miniMapCamera.position.z = 10
-
-	var sphereGeometry = new THREE.SphereGeometry(.5, 32, 32);
-	var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
-	this.sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-	this.miniMapScene.add(this.sphere);
-
 	//Resize Window event listener
 	window.addEventListener('resize', this._onWindowResize.bind(this), false);
 }
@@ -89,12 +74,9 @@ World.prototype = {
 	// to render the page, you need a render loop
 	// anything you move or change has to run through the render function loop
 	render: function() {
-		this.sphere.position.x = (this.player.camera.position.x * .015);
-		this.sphere.position.y = -1*(this.player.camera.position.z * .015);
-		this.sphere.position.z = 0;
+		this.hud.render();
 		this.player.render(this.pillarPositions);
 		this.renderer.render(this.scene, this.player.camera);
-		this.miniMapRenderer.render(this.miniMapScene, this.miniMapCamera);
 		// use requestAnimationFrame for loop instead of setInterval because it pauses when user navigates away
 		requestAnimationFrame(this.render.bind(this));
 	},

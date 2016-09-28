@@ -8,6 +8,8 @@ function Game(world) {
 
 	this.riddleIndex = null;
 	this.userInput = "";
+
+	this._exitDisplayRiddle = this._exitDisplayRiddle.bind(this);
 	
 	world.player.addEventListener("pillarDetected", function() {
 		this.riddleContainerEl.css("display", "initial");
@@ -16,8 +18,6 @@ function Game(world) {
 
 	submitButton.click(function(event) {
 		var userInputEl = $("input[name='answer']");
-		//FIX not working
-		event.preventDefault();
 		// save user input
 		this.userInput = userInputEl.val();
 		//clearInput
@@ -56,7 +56,7 @@ Game.prototype = {
 		// remove riddle that is already shown
 		riddles.splice(this.riddleIndex, 1);
 		//on any arrow key down hide the riddles modal
-		document.addEventListener("keydown", this._exitDisplayRiddle.bind(this));
+		document.addEventListener("keydown", this._exitDisplayRiddle);
 	},
 	_exitDisplayRiddle: function(e) {
 			if (e.keyCode == UP_ARROW_KEY_CODE || e.keyCode ==DOWN_ARROW_KEY_CODE || e.keyCode == RIGHT_ARROW_KEY_CODE || e.keyCode == LEFT_ARROW_KEY_CODE) {

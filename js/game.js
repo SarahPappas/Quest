@@ -1,5 +1,6 @@
 function Game(world) {
 	// QUESTION would you make these constants??
+	this.world = world;
 	this.riddleContainerEl = $(".riddleContainer");
 	var submitButton = $("#answer-button");
 	this.questionEl = $(".riddleContainer .question");
@@ -11,7 +12,7 @@ function Game(world) {
 
 	this._exitDisplayRiddle = this._exitDisplayRiddle.bind(this);
 	
-	world.player.addEventListener("pillarDetected", function() {
+	this.world.player.addEventListener("pillarDetected", function() {
 		this.riddleContainerEl.css("display", "initial");
 		this._displayRiddle();
 	}.bind(this))
@@ -34,7 +35,7 @@ Game.prototype = {
 		this.riddleIndex = Math.floor(Math.random() * riddles.length);
 		this.questionEl.text(riddles[this.riddleIndex].Question);
 		//display answer form
-		$("form").css("display", "initial");
+		$(".answer").css("display", "initial");
 	},
 	_isRiddleCorrect: function() {
 		var riddleAnswer = riddles[this.riddleIndex].Answer;
@@ -50,6 +51,7 @@ Game.prototype = {
 		} else if (this._isRiddleCorrect()) {
 			this.questionEl.text("I'm so pleased you are correct" + " location of next pillar");
 			this.riddlesAnsweredCorrectly++;
+			this.world.hud.addTargetArea(this.world.getPositionOfNextPillar());
 		} else {
 			this.questionEl.text("Sorry to say, but you will get no help from me");
 		}
@@ -59,10 +61,10 @@ Game.prototype = {
 		document.addEventListener("keydown", this._exitDisplayRiddle);
 	},
 	_exitDisplayRiddle: function(e) {
-			if (e.keyCode == UP_ARROW_KEY_CODE || e.keyCode ==DOWN_ARROW_KEY_CODE || e.keyCode == RIGHT_ARROW_KEY_CODE || e.keyCode == LEFT_ARROW_KEY_CODE) {
-				this.riddleContainerEl.css("display", "none");
-				// FIX remove envent listener
-				document.removeEventListener("keydown", this._exitDisplayRiddle);
-			}
-	}
+		if (e.keyCode == UP_ARROW_KEY_CODE || e.keyCode == DOWN_ARROW_KEY_CODE || e.keyCode == RIGHT_ARROW_KEY_CODE || e.keyCode == LEFT_ARROW_KEY_CODE) {
+			this.riddleContainerEl.css("display", "none");
+			// FIX remove envent listener
+			document.removeEventListener("keydown", this._exitDisplayRiddle);
+		}
+	},
 };

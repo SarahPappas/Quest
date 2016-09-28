@@ -18,6 +18,7 @@ function Hud(player) {
 	var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
 	this.sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 	this.miniMapScene.add(this.sphere);
+	// drawTargetArea for a pillar
 }
 
 Hud.prototype = {
@@ -28,6 +29,21 @@ Hud.prototype = {
 		this.sphere.position.z = 0;
 		// render minimap
 		this.miniMapRenderer.render(this.miniMapScene, this.miniMapCamera);
-	}
+	},
+	addTargetArea: function(location) {
+		var radius = 30;
+		var diameter = radius * 2;
+		var pillarPosition = location;
+		//MINIMAP_HEIGHT / PLANE_WIDTH * 10;
+		var ratio = .015;
+		var sphereGeometry = new THREE.SphereGeometry(1.5, 32, 32);
+		var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xf2f28a});
+		var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+		sphere.position.x = ((pillarPosition.x - radius) + (Math.random() * diameter)) * ratio;
+		sphere.position.y = (-1 * ((pillarPosition.z - radius) + (Math.random() * diameter))) * ratio;
+		this.miniMapScene.add(sphere);
+	},
+	_isAnswerCorrect: function() {
 
+	},
 };

@@ -49,7 +49,7 @@ function World(player, hud) {
 		pillarMesh.position.y = 0;
 		pillarMesh.position.z = Math.random() * 1000 - 500;
 		this.pillarPositions.push(pillarMesh.position);
-		this.scene.add( pillarMesh);
+		this.scene.add(pillarMesh);
 	}
 
 	// create fog DECIDE WHETHER TO KEEP THIS, USE FOR TREE testing.
@@ -100,6 +100,9 @@ World.prototype = {
 		// ground.rotation.set(90 * (3.14/180), 0, 'XY');
 		ground.rotateX(90 * (Math.PI / 180));
 		return ground;
+	},
+	getPositionOfNextPillar: function() {
+		return this.pillarPositions[Math.floor(Math.random() * this.pillarPositions.length)];
 	}
 
 };

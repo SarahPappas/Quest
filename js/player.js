@@ -5,7 +5,7 @@ var RIGHT_ARROW_KEY_CODE = 39;
 var LEFT_ARROW_KEY_CODE = 37;
 
 function Player() {
-	EventEmitter.call(this);['']
+	EventEmitter.call(this);
 	// SETUP cameras
 	// diffrent types of cameras, parameters field of view, aspect ration, near and far clipping plane
 	this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
@@ -53,9 +53,9 @@ Player.prototype = {
 		}
 
 		//	Hit detection
+		// TODO: Make hit detection generic, player shouldn't know about pillars
 		for (var i = 0; i < arrayOfPillarPositions.length; i++) {
 			if (this._isPointInsideCircle(arrayOfPillarPositions[i]) == true) {
-				console.log("At a pillar!")
 				this.emit("pillarDetected", arrayOfPillarPositions[i]);
 				arrayOfPillarPositions.splice(i, 1);
 			} 	
@@ -111,7 +111,7 @@ Player.prototype = {
   		var distance = Math.sqrt((this.camera.position.x - circle.x) * (this.camera.position.x - circle.x) +
                        			(this.camera.position.z - circle.z) * (this.camera.position.z - circle.z));
   		return distance <  20;
-	}
+	},
 };
 
 //add EventEmitter properties to Player

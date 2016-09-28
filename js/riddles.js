@@ -2,7 +2,7 @@ var riddles = [
     {"Question":"It is greater than God and more evil than the devil. The poor have it, the rich need it and if you eat it you'll die. What is it?", "Answer":"nothing"},
     {"Question":"I am the beginning of the end, and the end of time and space. I am essential to creation, and I surround every place. What am I?", "Answer":"e"},
     {"Question":"At night they come without being fetched. By day they are lost without being stolen. What are they?", "Answer":"stars"},
-    {"Question":"The one who makes it, sells it. The one who buys it, never uses it. The one that uses it never knows that he’s using it. What is it?", "Answer":"coffin"},
+    {"Question":"The one who makes it, sells it. The one who buys it, never uses it. The one that uses it never knows that he's using it. What is it?", "Answer":"coffin"},
     {"Question":"The more you have of it, the less you see. What is it?", "Answer":"darkness"},
     {"Question":"What has a head, a tail, is brown, and has no legs?", "Answer":"penny"},
     {"Question":"I am always hungry, I must always be fed, The finger I touch, will soon turn red.", "Answer":"fire"},

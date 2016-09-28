@@ -53,13 +53,16 @@ Game.prototype = {
 		}
 		
 		if (this._isRiddleCorrect() && this.riddlesAnsweredCorrectly >= 2) {
-			this.questionEl.text("I'm so pleased you are correct" + " location of box");
+			this.questionEl.text("I'm so pleased you are correct! " + " Please see your HUD for the location of the box.");
 		} else if (this._isRiddleCorrect()) {
-			this.questionEl.text("I'm so pleased you are correct" + " location of next pillar");
+			this.questionEl.text("I'm so pleased you are correct" + " Please see your HUD for the location of the next pillar.");
 			this.riddlesAnsweredCorrectly++;
+			// display next pillar
 			this.world.hud.addTargetArea(this.world.getPositionOfNextPillar());
 		} else {
 			this.questionEl.text("Sorry to say, but you will get no help from me");
+			// display treasure
+			this.world.hud.addTargetArea(this.world.getPositionOfTreasure());
 		}
 		// remove riddle that is already shown
 		riddles.splice(this.riddleIndex, 1);

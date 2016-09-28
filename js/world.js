@@ -20,6 +20,10 @@ function World(player, hud) {
 	//ADD GROUND PLANE
 	this.scene.add(this._setupGround());
 
+	//ADD TREASURE BOX
+	this.treasure = this._setupTreasure()
+	this.scene.add(this.treasure);
+
 	// add a cone geometry
 	var treeColors = ["#09BA56", "#0AC75C", "#08A04A", "#0DF873", "#067A38"];
 	this.forestGeometry = new THREE.Geometry();
@@ -101,10 +105,22 @@ World.prototype = {
 		ground.rotateX(90 * (Math.PI / 180));
 		return ground;
 	},
+	_setupTreasure: function() {
+		var treasureGeometry = new THREE.BoxGeometry( 2, 2, 2 );
+		var treasureMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+		var treasureCube = new THREE.Mesh(treasureGeometry, treasureMaterial);
+		treasureCube.position.x = Math.random() * 1000 - 500;
+		treasureCube.position.y = 0;
+		treasureCube.position.z = Math.random() * 1000 - 500;
+		return treasureCube;
+	},
+	// TODO combine get position of pillar function with get position of treasure function.
 	getPositionOfNextPillar: function() {
 		return this.pillarPositions[Math.floor(Math.random() * this.pillarPositions.length)];
+	},
+	getPositionOfTreasure: function(){
+		return this.treasure.position;
 	}
-
 };
 
 

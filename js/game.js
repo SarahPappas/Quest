@@ -57,14 +57,14 @@ Game.prototype = {
 			this.world.hud.removeObjectFormScene();
 		}
 		//this.correctAnswersNeeded
-		if (this._isRiddleCorrect() && this.riddlesAnsweredCorrectly >= 1) {
+		if (this._isRiddleCorrect() && this.riddlesAnsweredCorrectly >= this.correctAnswersNeeded) {
 			this.questionEl.text("I'm so pleased you are correct! " + " Please see your HUD for the location of the box.");
-			this.world.hud.addTargetArea(this.world.getPositionOfNextPillar());
+			this.world.hud.addTargetArea(this.world.getPositionOfTreasure());
 		} else if (this._isRiddleCorrect()) {
 			this.questionEl.text("I'm so pleased you are correct" + " Please see your HUD for the location of the next pillar.");
 			this.riddlesAnsweredCorrectly++;
+			this.world.hud.addTargetArea(this.world.getPositionOfNextPillar());
 			// display next pillar
-			this.world.hud.addTargetArea(this.world.getPositionOfTreasure());
 		} else {
 			this.questionEl.text("Sorry to say, but you will get no help from me");
 			// display treasure

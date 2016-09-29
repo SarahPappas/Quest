@@ -66,6 +66,10 @@ canvas {
 	height: 100%; 
 }
 
+.start-button {
+	display: block;
+}
+
 .instructionContainer {
 	padding: 3%;
 	width: 50%;

@@ -28,9 +28,13 @@ function World(player, hud) {
 	// add a cone geometry
 	var treeColors = ["#09BA56", "#0AC75C", "#08A04A", "#0DF873", "#067A38"];
 	this.forestGeometry = new THREE.Geometry();
+	this.branchesMesh = null;
+	this.newTreeMaterial = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('images/FirBranches_Df.png') } );
+	this.newTreeMaterial.transparent = true;
 
 	// create the forest
 	for(var i = 0; i < 5000; i++) {
+
 		var treeGeometry = new THREE.ConeGeometry(Math.random() * 10 + 5, Math.random() * 60 + 10, 8, 1, true);
 		var treeMesh = new THREE.Mesh(treeGeometry);
 		treeMesh.castShadow = true;
@@ -42,7 +46,8 @@ function World(player, hud) {
 	}
 	//new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]})
 	// THREE.MeshPhongMaterial({color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading})
-	var forestMesh = new THREE.Mesh(this.forestGeometry, new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]}) );
+	// new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]})
+	var forestMesh = new THREE.Mesh(this.forestGeometry, this.newTreeMaterial);
 	this.scene.add(forestMesh);
 
 

@@ -37,7 +37,7 @@ Player.prototype = {
 	/**
 	 * @param {string} arrowKey - up, down, left, or right.
 	 */
-	render: function(arrayOfPillarPositions) {
+	render: function(arrayOfPillarPositions, treasurePosition) {
 		// Arrow controls
 		if (this.isUpArrowActive && !this.isDownArrowActive) {
 			this._walk(this.speed);
@@ -59,6 +59,11 @@ Player.prototype = {
 				this.emit("pillarDetected", arrayOfPillarPositions[i]);
 				arrayOfPillarPositions.splice(i, 1);
 			} 	
+		}
+
+		// Hit detection for box
+		if(this._isPointInsideCircle(treasurePosition)) {
+			this.emit("treasureDetected", treasurePosition);
 		}
 	},
 	/**

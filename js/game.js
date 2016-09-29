@@ -17,6 +17,11 @@ function Game(world) {
 		this._displayRiddle();
 	}.bind(this))
 
+	this.world.player.addEventListener("treasureDetected", function() {
+		this.riddleContainerEl.css("display", "initial");
+		this._congratualateWinner();
+	}.bind(this))
+
 	submitButton.click(function(event) {
 		var userInputEl = $("input[name='answer']");
 		// save user input
@@ -51,18 +56,18 @@ Game.prototype = {
 		if(this.world.hud.hintSphere){
 			this.world.hud.removeObjectFormScene();
 		}
-		
-		if (this._isRiddleCorrect() && this.riddlesAnsweredCorrectly >= 2) {
+		//this.correctAnswersNeeded
+		if (this._isRiddleCorrect() && this.riddlesAnsweredCorrectly >= 1) {
 			this.questionEl.text("I'm so pleased you are correct! " + " Please see your HUD for the location of the box.");
+			this.world.hud.addTargetArea(this.world.getPositionOfNextPillar());
 		} else if (this._isRiddleCorrect()) {
 			this.questionEl.text("I'm so pleased you are correct" + " Please see your HUD for the location of the next pillar.");
 			this.riddlesAnsweredCorrectly++;
 			// display next pillar
-			this.world.hud.addTargetArea(this.world.getPositionOfNextPillar());
+			this.world.hud.addTargetArea(this.world.getPositionOfTreasure());
 		} else {
 			this.questionEl.text("Sorry to say, but you will get no help from me");
 			// display treasure
-			this.world.hud.addTargetArea(this.world.getPositionOfTreasure());
 		}
 		// remove riddle that is already shown
 		riddles.splice(this.riddleIndex, 1);
@@ -75,4 +80,7 @@ Game.prototype = {
 			document.removeEventListener("keydown", this._exitDisplayRiddle);
 		}
 	},
+	_congratualateWinner: function() {
+		this.questionEl.text("Congratulations!! You're a winner");
+	}
 };

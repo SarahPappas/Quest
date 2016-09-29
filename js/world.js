@@ -21,7 +21,7 @@ function World(player, hud) {
 	this.scene.add(this._setupGround());
 
 	//ADD TREASURE BOX
-	this.treasure = this._setupTreasure()
+	this.treasure = this._setupTreasure();
 	this.scene.add(this.treasure);
 
 
@@ -48,7 +48,27 @@ function World(player, hud) {
 	var forestMesh = new THREE.Mesh(this.forestGeometry, new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]}));
 	// this.scene.add(forestMesh);
 
+	// test new box
+	var manager = new THREE.LoadingManager();
+    manager.onProgress = function ( item, loaded, total ) {
+        console.log( item, loaded, total );
+    };
+    var loader = new THREE.OBJLoader(manager);
+    this.box2 = null;
+    loader.load( 'images/treasure_chest.obj', function ( object ) {
+        this.box2 = object;
+        var texture = THREE.ImageUtils.loadTexture("images/treasure_chest.jpg");
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        var material = new THREE.MeshLambertMaterial({color:0xFFFFFF, map:texture});
+        object.children[0].material = material;
+        object.children[0].transparent = true;
+        object.position.x = 0; //Math.random() * 1000 - 500;
+        object.position.y = 0;
+        object.position.z = 0; //Math.random() * 1000 - 500;
 
+        this.scene.add(object);
+    }.bind(this));
 
 	//array of all pillar positions
 	var pillarTexture = THREE.ImageUtils.loadTexture("images/mayan.jpg");

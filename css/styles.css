@@ -66,14 +66,16 @@ canvas {
 	height: 100%; 
 }
 
-.start-button {
+#start-button {
 	display: block;
+	margin: 0 auto;
 }
 
-.instructionContainer {
+.instruction-container {
+	position: absolute;
 	padding: 3%;
 	width: 50%;
-	height: 250px;
+	height: 150px;
 	left: 25%;
 	top: 100px;
 	background-color: rgba(30, 100, 250, .5)

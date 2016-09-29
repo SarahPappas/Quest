@@ -4,13 +4,19 @@ function Game(world) {
 	this.riddleContainerEl = $(".riddleContainer");
 	var submitButton = $("#answer-button");
 	this.questionEl = $(".riddleContainer .question");
+	var startButtonEl = $("#start-button");
 	this.correctAnswersNeeded = 3;
 	this.riddlesAnsweredCorrectly = 0;
 
 	this.riddleIndex = null;
 	this.userInput = "";
 
+
 	this._exitDisplayRiddle = this._exitDisplayRiddle.bind(this);
+
+	startButtonEl.click(function() {
+		$(".instruction-container").css("display", "none");
+	})
 	
 	this.world.player.addEventListener("pillarDetected", function() {
 		this.riddleContainerEl.css("display", "initial");

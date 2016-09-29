@@ -44,10 +44,8 @@ function World(player, hud) {
 		treeMesh.updateMatrix();
 		this.forestGeometry.merge(treeMesh.geometry, treeMesh.matrix);
 	}
-	//new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]})
 	// THREE.MeshPhongMaterial({color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading})
-	// new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]})
-	var forestMesh = new THREE.Mesh(this.forestGeometry, this.newTreeMaterial);
+	var forestMesh = new THREE.Mesh(this.forestGeometry, new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]}));
 	this.scene.add(forestMesh);
 
 
@@ -66,7 +64,6 @@ function World(player, hud) {
 		this.scene.add(pillarMesh);
 	}
 
-	// create fog DECIDE WHETHER TO KEEP THIS, USE FOR TREE testing.
 	// this.scene.fog = new THREE.Fog(GREY, .0001, 150);
 
     // add subtle ambient lighting
@@ -74,7 +71,7 @@ function World(player, hud) {
     this.scene.add(ambientLight);
 
     var pointLight = new THREE.PointLight(0xffffff);
-    pointLight.position.set(0, 200, 0);
+    pointLight.position.set(0, 50, 0);
     pointLight.castShadow = true;
     this.scene.add(pointLight);
 

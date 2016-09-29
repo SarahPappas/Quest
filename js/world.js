@@ -113,7 +113,8 @@ World.prototype = {
 	},
 	_setupTreasure: function() {
 		var treasureGeometry = new THREE.BoxGeometry( 2, 2, 2 );
-		var treasureMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+		// var treasureMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+		var treasureMaterial = new THREE.MeshPhongMaterial({ map: THREE.ImageUtils.loadTexture('images/crate.jpg') });
 		var treasureCube = new THREE.Mesh(treasureGeometry, treasureMaterial);
 		treasureCube.position.x = Math.random() * 1000 - 500;
 		treasureCube.position.y = 1;

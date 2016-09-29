@@ -46,7 +46,7 @@ function World(player, hud) {
 	}
 	// THREE.MeshPhongMaterial({color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading})
 	var forestMesh = new THREE.Mesh(this.forestGeometry, new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]}));
-	this.scene.add(forestMesh);
+	// this.scene.add(forestMesh);
 
 
 
@@ -116,7 +116,7 @@ World.prototype = {
 		var treasureMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 		var treasureCube = new THREE.Mesh(treasureGeometry, treasureMaterial);
 		treasureCube.position.x = Math.random() * 1000 - 500;
-		treasureCube.position.y = 0;
+		treasureCube.position.y = 1;
 		treasureCube.position.z = Math.random() * 1000 - 500;
 		return treasureCube;
 	},

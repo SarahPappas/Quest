@@ -60,7 +60,7 @@ Game.prototype = {
 	_interactWithUser: function() {
 		// TODO: pass sphere instead of hardcode
 		if(this.world.hud.hintSphere){
-			this.world.hud.removeObjectFormScene();
+			this.world.hud.removeObjectFromScene();
 		}
 		//this.correctAnswersNeeded
 		if (this._isRiddleCorrect() && this.riddlesAnsweredCorrectly >= this.correctAnswersNeeded) {

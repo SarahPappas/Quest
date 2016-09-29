@@ -46,7 +46,7 @@ Hud.prototype = {
 		this.hintSphere.name = "TargetArea";
 		this.miniMapScene.add(this.hintSphere);
 	},
-	removeObjectFormScene: function() {
+	removeObjectFromScene: function() {
 		var selectedObject = this.miniMapScene.getObjectByName(this.hintSphere.name);
 		console.log(this.hintSphere);
 		this.miniMapScene.remove(selectedObject);

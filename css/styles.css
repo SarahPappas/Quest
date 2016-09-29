@@ -66,6 +66,15 @@ canvas {
 	height: 100%; 
 }
 
+.instructionContainer {
+	padding: 3%;
+	width: 50%;
+	height: 250px;
+	left: 25%;
+	top: 100px;
+	background-color: rgba(30, 100, 250, .5)
+}
+
 .riddleContainer {
 	display: none;
 	padding: 3%;

@@ -40,8 +40,10 @@ function World(player, hud) {
 		treeMesh.updateMatrix();
 		this.forestGeometry.merge(treeMesh.geometry, treeMesh.matrix);
 	}
-	var forestMesh = new THREE.Mesh(this.forestGeometry, new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]}));
-	// this.scene.add(forestMesh);
+	//new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]})
+	// THREE.MeshPhongMaterial({color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading})
+	var forestMesh = new THREE.Mesh(this.forestGeometry, new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]}) );
+	this.scene.add(forestMesh);
 
 
 
@@ -63,14 +65,13 @@ function World(player, hud) {
 	// this.scene.fog = new THREE.Fog(GREY, .0001, 150);
 
     // add subtle ambient lighting
-    var ambientLight = new THREE.AmbientLight(0x0c0c0c);
+    var ambientLight = new THREE.AmbientLight(0x0c0c0c, 1, 1);
     this.scene.add(ambientLight);
-    // add spotlight for the shadows
-    var spotLight = new THREE.SpotLight(0xffffff);
-    spotLight.position.set(this.player.camera.position);
-    spotLight.castShadow = true;
-    this.scene.add(spotLight);
-	 //^^^^ Keep?
+
+    var pointLight = new THREE.PointLight(0xffffff);
+    pointLight.position.set(0, 200, 0);
+    pointLight.castShadow = true;
+    this.scene.add(pointLight);
 
 	//Resize Window event listener
 	window.addEventListener('resize', this._onWindowResize.bind(this), false);

@@ -51,11 +51,17 @@ function World(player, hud) {
 
 
 	//array of all pillar positions
+	var pillarTexture = THREE.ImageUtils.loadTexture("images/mayan.jpg");
+	pillarTexture.wrapS = pillarTexture.wrapT = THREE.RepeatWrapping;
+	pillarTexture.repeat.set(5, 5);
+	pillarTexture.offset.x =  0.2;
+	pillarTexture.offset.z =  0.2;
+	var pillarMaterial = new THREE.MeshPhongMaterial({ map: pillarTexture });
 	this.pillarPositions = [];
 	// pillar
 	for(var i = 0; i < 5; i++) {
 		var pillarGeometry = new THREE.CylinderGeometry(5, 5, 20, 32);
-		var pillarMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+		// var pillarMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
 		var pillarMesh = new THREE.Mesh( pillarGeometry, pillarMaterial);
 		pillarMesh.position.x = Math.random() * 1000 - 500;
 		pillarMesh.position.y = 0;
@@ -67,7 +73,7 @@ function World(player, hud) {
 	// this.scene.fog = new THREE.Fog(GREY, .0001, 150);
 
     // add subtle ambient lighting
-    var ambientLight = new THREE.AmbientLight(0x0c0c0c, 1, 1);
+    var ambientLight = new THREE.AmbientLight(0x404040);
     this.scene.add(ambientLight);
 
     var pointLight = new THREE.PointLight(0xffffff);

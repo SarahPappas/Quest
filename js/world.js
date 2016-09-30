@@ -26,16 +26,17 @@ function World(player, hud) {
 	this.scene.add(this.treasure);
 
 	//ADD PILLARS
+	this.numberOfPillars = 5;
 	this.pillarPositions = [];
 	this._setupPillars();
-
 
 	// add a cone geometry
 	var treeColors = ["#09BA56", "#0AC75C", "#08A04A", "#0DF873", "#067A38"];
 	this.forestGeometry = new THREE.Geometry();
 	this.branchesMesh = null;
-	this.newTreeMaterial = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('images/FirBranches_Df.png') } );
-	this.newTreeMaterial.transparent = true;
+	// this.newTreeMaterial = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('images/austrian-pine.png') } );
+	// this.newTreeMaterial.transparent = true;
+	// this.newTreeMaterial.alphaTest = 0.05
 
 	// create the forest
 	for(var i = 0; i < 5000; i++) {
@@ -50,8 +51,31 @@ function World(player, hud) {
 		this.forestGeometry.merge(treeMesh.geometry, treeMesh.matrix);
 	}
 	// THREE.MeshPhongMaterial({color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading})
+	// new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]})
 	var forestMesh = new THREE.Mesh(this.forestGeometry, new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]}));
 	// this.scene.add(forestMesh);
+
+
+	// forest test
+	// var manager = new THREE.LoadingManager();
+	// manager.onProgress = function ( item, loaded, total ) {
+ //        console.log( item, loaded, total );
+ //    };
+ //    var loader = new THREE.OBJLoader(manager);
+ //    loader.load( 'aspen.obj', function ( object ) {
+ //        var texture = THREE.ImageUtils.loadTexture("");
+ //        // texture.wrapS = THREE.RepeatWrapping;
+ //        // texture.wrapT = THREE.RepeatWrapping;
+ //        // var material = new THREE.MeshLambertMaterial({color:0xFFFFFF, map:texture});
+ //        // object.children[0].material = material;
+ //        // object.children[0].transparent = true;
+ //        // object.position.set(Math.random() * 1000 - 500, 0, Math.random() * 1000 - 500);
+ //        // this.scene.remove(this.treasure);
+ //        // this.treasure = object;
+ //        // object.position.y = 0;
+ //        // object.position.z = 0; //Math.random() * 1000 - 500;
+ //        this.scene.add(object)
+ //    }.bind(this));
 
 	// this.scene.fog = new THREE.Fog(GREY, .0001, 150);
 
@@ -126,36 +150,38 @@ World.prototype = {
 	        object.position.set(Math.random() * 1000 - 500, 0, Math.random() * 1000 - 500);
 	        this.scene.remove(this.treasure);
 	        this.treasure = object;
-	        // object.position.y = 0;
-	        // object.position.z = 0; //Math.random() * 1000 - 500;
 	        this.scene.add(object)
 	    }.bind(this));
 	},
 	_setupPillars: function() {
-		//array of all pillar positions
-		var pillarTexture = THREE.ImageUtils.loadTexture("images/mayan.jpg");
-		pillarTexture.wrapS = pillarTexture.wrapT = THREE.RepeatWrapping;
-		pillarTexture.repeat.set(5, 5);
-		pillarTexture.offset.x =  0.2;
-		pillarTexture.offset.z =  0.2;
-		var pillarMaterial = new THREE.MeshPhongMaterial({ map: pillarTexture });
-		// pillar
-		for(var i = 0; i < 5; i++) {
-			var pillarGeometry = new THREE.CylinderGeometry(5, 5, 20, 32);
-			// var pillarMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
-			var pillarMesh = new THREE.Mesh( pillarGeometry, pillarMaterial);
-			if (i == 0) {
-				pillarMesh.position.x = 0;
-				pillarMesh.position.y = 0;
-				pillarMesh.position.z = -450;
-			} else {
-				pillarMesh.position.x = Math.random() * 1000 - 500;
-				pillarMesh.position.y = 0;
-				pillarMesh.position.z = Math.random() * 1000 - 500;
-			}
-			this.pillarPositions.push(pillarMesh.position);
-			this.scene.add(pillarMesh);
-		}
+		var manager = new THREE.LoadingManager();
+	    manager.onProgress = function ( item, loaded, total ) {
+	        console.log( item, loaded, total );
+	    };
+	    var loader = new THREE.OBJLoader(manager);
+        for (var i = 0; i < this.numberOfPillars; i++) {
+		    loader.load( 'images/pedestal-cheetah.obj', function ( object ) {
+		        var texture = THREE.ImageUtils.loadTexture("images/pedestal3.jpg");
+		        var material = new THREE.MeshLambertMaterial({color:0xFFFFFF, map:texture});
+		        object.children[0].material = material;
+		        object.children[0].transparent = true;
+		        object.scale.set(3, 3, 3);
+		        // this.pillarPositions.pop();
+				if (i == 0) {
+					object.position.x = 0
+					object.position.y = 0;
+					object.position.z = -450;
+				} else {
+					object.position.x = Math.random() * 1000 - 500;
+					object.position.y = 0;
+					object.position.z = Math.random() * 1000 - 500;
+				}
+				this.pillarPositions.push(object.position);
+		        console.log(object);
+		        // this.scene.remove(this.pillarObjects[i]);
+		        this.scene.add(object)
+		    }.bind(this));
+	    }
 	},
 	// TODO combine get position of pillar function with get position of treasure function.
 	getPositionOfNextPillar: function() {

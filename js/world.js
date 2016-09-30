@@ -21,7 +21,8 @@ function World(player, hud) {
 	this.scene.add(this._setupGround());
 
 	//ADD TREASURE BOX
-	this.treasure = this._setupTreasure();
+	this.treasure = this._defaultLoadingTreasure();
+	this._setupTreasure();
 	this.scene.add(this.treasure);
 
 
@@ -47,28 +48,6 @@ function World(player, hud) {
 	// THREE.MeshPhongMaterial({color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading})
 	var forestMesh = new THREE.Mesh(this.forestGeometry, new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]}));
 	// this.scene.add(forestMesh);
-
-	// test new box
-	var manager = new THREE.LoadingManager();
-    manager.onProgress = function ( item, loaded, total ) {
-        console.log( item, loaded, total );
-    };
-    var loader = new THREE.OBJLoader(manager);
-    this.box2 = null;
-    loader.load( 'images/treasure_chest.obj', function ( object ) {
-        this.box2 = object;
-        var texture = THREE.ImageUtils.loadTexture("images/treasure_chest.jpg");
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-        var material = new THREE.MeshLambertMaterial({color:0xFFFFFF, map:texture});
-        object.children[0].material = material;
-        object.children[0].transparent = true;
-        object.position.x = 0; //Math.random() * 1000 - 500;
-        object.position.y = 0;
-        object.position.z = 0; //Math.random() * 1000 - 500;
-
-        this.scene.add(object);
-    }.bind(this));
 
 	//array of all pillar positions
 	var pillarTexture = THREE.ImageUtils.loadTexture("images/mayan.jpg");
@@ -137,7 +116,7 @@ World.prototype = {
 		ground.rotateX(90 * (Math.PI / 180));
 		return ground;
 	},
-	_setupTreasure: function() {
+	_defaultLoadingTreasure: function() {
 		var treasureGeometry = new THREE.BoxGeometry( 2, 2, 2 );
 		// var treasureMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 		var treasureMaterial = new THREE.MeshPhongMaterial({ map: THREE.ImageUtils.loadTexture('images/crate.jpg') });
@@ -146,6 +125,27 @@ World.prototype = {
 		treasureCube.position.y = 1;
 		treasureCube.position.z = Math.random() * 1000 - 500;
 		return treasureCube;
+	},
+	_setupTreasure: function() {
+		var manager = new THREE.LoadingManager();
+	    manager.onProgress = function ( item, loaded, total ) {
+	        console.log( item, loaded, total );
+	    };
+	    var loader = new THREE.OBJLoader(manager);
+	    loader.load( 'images/treasure_chest.obj', function ( object ) {
+	        var texture = THREE.ImageUtils.loadTexture("images/treasure_chest.jpg");
+	        texture.wrapS = THREE.RepeatWrapping;
+	        texture.wrapT = THREE.RepeatWrapping;
+	        var material = new THREE.MeshLambertMaterial({color:0xFFFFFF, map:texture});
+	        object.children[0].material = material;
+	        object.children[0].transparent = true;
+	        object.position.set(Math.random() * 1000 - 500, 0, Math.random() * 1000 - 500);
+	        this.scene.remove(this.treasure);
+	        this.treasure = object;
+	        // object.position.y = 0;
+	        // object.position.z = 0; //Math.random() * 1000 - 500;
+	        this.scene.add(object)
+	    }.bind(this));
 	},
 	// TODO combine get position of pillar function with get position of treasure function.
 	getPositionOfNextPillar: function() {

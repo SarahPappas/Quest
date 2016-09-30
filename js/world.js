@@ -25,6 +25,10 @@ function World(player, hud) {
 	this._setupTreasure();
 	this.scene.add(this.treasure);
 
+	//ADD PILLARS
+	this.pillarPositions = [];
+	this._setupPillars();
+
 
 	// add a cone geometry
 	var treeColors = ["#09BA56", "#0AC75C", "#08A04A", "#0DF873", "#067A38"];
@@ -48,26 +52,6 @@ function World(player, hud) {
 	// THREE.MeshPhongMaterial({color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading})
 	var forestMesh = new THREE.Mesh(this.forestGeometry, new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]}));
 	// this.scene.add(forestMesh);
-
-	//array of all pillar positions
-	var pillarTexture = THREE.ImageUtils.loadTexture("images/mayan.jpg");
-	pillarTexture.wrapS = pillarTexture.wrapT = THREE.RepeatWrapping;
-	pillarTexture.repeat.set(5, 5);
-	pillarTexture.offset.x =  0.2;
-	pillarTexture.offset.z =  0.2;
-	var pillarMaterial = new THREE.MeshPhongMaterial({ map: pillarTexture });
-	this.pillarPositions = [];
-	// pillar
-	for(var i = 0; i < 5; i++) {
-		var pillarGeometry = new THREE.CylinderGeometry(5, 5, 20, 32);
-		// var pillarMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
-		var pillarMesh = new THREE.Mesh( pillarGeometry, pillarMaterial);
-		pillarMesh.position.x = Math.random() * 1000 - 500;
-		pillarMesh.position.y = 0;
-		pillarMesh.position.z = Math.random() * 1000 - 500;
-		this.pillarPositions.push(pillarMesh.position);
-		this.scene.add(pillarMesh);
-	}
 
 	// this.scene.fog = new THREE.Fog(GREY, .0001, 150);
 
@@ -146,6 +130,32 @@ World.prototype = {
 	        // object.position.z = 0; //Math.random() * 1000 - 500;
 	        this.scene.add(object)
 	    }.bind(this));
+	},
+	_setupPillars: function() {
+		//array of all pillar positions
+		var pillarTexture = THREE.ImageUtils.loadTexture("images/mayan.jpg");
+		pillarTexture.wrapS = pillarTexture.wrapT = THREE.RepeatWrapping;
+		pillarTexture.repeat.set(5, 5);
+		pillarTexture.offset.x =  0.2;
+		pillarTexture.offset.z =  0.2;
+		var pillarMaterial = new THREE.MeshPhongMaterial({ map: pillarTexture });
+		// pillar
+		for(var i = 0; i < 5; i++) {
+			var pillarGeometry = new THREE.CylinderGeometry(5, 5, 20, 32);
+			// var pillarMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+			var pillarMesh = new THREE.Mesh( pillarGeometry, pillarMaterial);
+			if (i == 0) {
+				pillarMesh.position.x = 0;
+				pillarMesh.position.y = 0;
+				pillarMesh.position.z = -450;
+			} else {
+				pillarMesh.position.x = Math.random() * 1000 - 500;
+				pillarMesh.position.y = 0;
+				pillarMesh.position.z = Math.random() * 1000 - 500;
+			}
+			this.pillarPositions.push(pillarMesh.position);
+			this.scene.add(pillarMesh);
+		}
 	},
 	// TODO combine get position of pillar function with get position of treasure function.
 	getPositionOfNextPillar: function() {

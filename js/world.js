@@ -30,52 +30,39 @@ function World(player, hud) {
 	this.pillarPositions = [];
 	this._setupPillars();
 
-	// add a cone geometry
-	var treeColors = ["#09BA56", "#0AC75C", "#08A04A", "#0DF873", "#067A38"];
-	this.forestGeometry = new THREE.Geometry();
-	this.branchesMesh = null;
-	// this.newTreeMaterial = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('images/austrian-pine.png') } );
-	// this.newTreeMaterial.transparent = true;
-	// this.newTreeMaterial.alphaTest = 0.05
-
-	// create the forest
-	for(var i = 0; i < 5000; i++) {
-
-		var treeGeometry = new THREE.ConeGeometry(Math.random() * 10 + 5, Math.random() * 60 + 10, 8, 1, true);
-		var treeMesh = new THREE.Mesh(treeGeometry);
-		treeMesh.castShadow = true;
-		treeMesh.position.x = Math.random() * 1000 - 500;
-		treeMesh.position.y = 0;
-		treeMesh.position.z = Math.random() * 1000 - 500;
-		treeMesh.updateMatrix();
-		this.forestGeometry.merge(treeMesh.geometry, treeMesh.matrix);
-	}
-	// THREE.MeshPhongMaterial({color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading})
-	// new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]})
-	var forestMesh = new THREE.Mesh(this.forestGeometry, new THREE.MeshBasicMaterial({color: treeColors[Math.floor(Math.random() * 5)]}));
-	// this.scene.add(forestMesh);
-
-
 	// forest test
-	// var manager = new THREE.LoadingManager();
-	// manager.onProgress = function ( item, loaded, total ) {
- //        console.log( item, loaded, total );
- //    };
- //    var loader = new THREE.OBJLoader(manager);
- //    loader.load( 'aspen.obj', function ( object ) {
- //        var texture = THREE.ImageUtils.loadTexture("");
- //        // texture.wrapS = THREE.RepeatWrapping;
- //        // texture.wrapT = THREE.RepeatWrapping;
- //        // var material = new THREE.MeshLambertMaterial({color:0xFFFFFF, map:texture});
- //        // object.children[0].material = material;
- //        // object.children[0].transparent = true;
- //        // object.position.set(Math.random() * 1000 - 500, 0, Math.random() * 1000 - 500);
- //        // this.scene.remove(this.treasure);
- //        // this.treasure = object;
- //        // object.position.y = 0;
- //        // object.position.z = 0; //Math.random() * 1000 - 500;
- //        this.scene.add(object)
- //    }.bind(this));
+    var forestGeometry = new THREE.Geometry();
+
+    var texture = THREE.ImageUtils.loadTexture("images/aspen.png");
+    var treeMaterial = new THREE.MeshBasicMaterial({color:0xFFFFFF, map: texture, side: THREE.DoubleSide});
+    treeMaterial.alphaTest = 0.95;
+
+	var manager = new THREE.LoadingManager();
+	manager.onProgress = function (item, loaded, total) {
+        console.log( item, loaded, total );
+    };
+
+    var loader = new THREE.OBJLoader(manager);
+    loader.load("images/aspen-combined-2.obj", function (treeObject) {
+	    for (var i = 0; i < 20000; i++) {
+	    	var newTreeObject = treeObject.clone();
+
+	        var newTreeMesh = newTreeObject.children[0];
+	        var scale = Math.random() * 10 + 5;
+        	newTreeMesh.scale.set(scale, scale, scale);
+	        newTreeMesh.position.x = Math.random() * 1000 - 500;
+	        newTreeMesh.position.y = -0.5;
+	        newTreeMesh.position.z = Math.random() * 1000 - 500;
+	        newTreeMesh.rotation.y = Math.random() * 2 * Math.PI;
+	        newTreeMesh.updateMatrix();
+
+	        var geometry = new THREE.Geometry().fromBufferGeometry(newTreeMesh.geometry);
+			forestGeometry.merge(geometry, newTreeMesh.matrix);
+		}
+
+	   	var forestMesh = new THREE.Mesh(forestGeometry, treeMaterial);
+	    this.scene.add(forestMesh);
+    }.bind(this));
 
 	// this.scene.fog = new THREE.Fog(GREY, .0001, 150);
 

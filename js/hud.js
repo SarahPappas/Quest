@@ -6,7 +6,7 @@ function Hud(player) {
 	this.player = player;
 	// create a new scene and camera
 	this.miniMapScene = new THREE.Scene();
-	this.miniMapCamera = new THREE.PerspectiveCamera(75, MINIMAP_WIDTH / MINIMAP_HEIGHT, .1, PLANE_SIZE);
+	this.miniMapCamera = new THREE.PerspectiveCamera(75, MINIMAP_WIDTH / MINIMAP_HEIGHT, .1, 50);
 	this.miniMapCamera.position.z = 10
 	// create new renderer
 	this.miniMapRenderer = new THREE.WebGLRenderer();
@@ -36,7 +36,6 @@ Hud.prototype = {
 		var radius = 30;
 		var diameter = radius * 2;
 		var pillarPosition = location;
-		//MINIMAP_HEIGHT / PLANE_WIDTH * 10;
 		var ratio = .015;
 		var sphereGeometry = new THREE.SphereGeometry(1.5, 32, 32);
 		var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xf2f28a});

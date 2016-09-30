@@ -6,7 +6,7 @@ function Hud(player) {
 	this.player = player;
 	// create a new scene and camera
 	this.miniMapScene = new THREE.Scene();
-	this.miniMapCamera = new THREE.PerspectiveCamera(75, MINIMAP_WIDTH / MINIMAP_HEIGHT, .1, 1000);
+	this.miniMapCamera = new THREE.PerspectiveCamera(75, MINIMAP_WIDTH / MINIMAP_HEIGHT, .1, PLANE_SIZE);
 	this.miniMapCamera.position.z = 10
 	// create new renderer
 	this.miniMapRenderer = new THREE.WebGLRenderer();

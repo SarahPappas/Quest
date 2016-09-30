@@ -1,6 +1,5 @@
 var GREY = 0xaaaaaa;
-var PLANE_WIDTH = 1000;
-var PLANE_HEIGHT = 1000;
+var PLANE_SIZE = 750;
 
 function World(player, hud) {
 	// SETUP
@@ -43,16 +42,16 @@ function World(player, hud) {
     };
 
     var loader = new THREE.OBJLoader(manager);
-    loader.load("images/aspen-combined-2.obj", function (treeObject) {
-	    for (var i = 0; i < 20000; i++) {
+    loader.load("images/aspen-combined-3.obj", function (treeObject) {
+	    for (var i = 0; i < 13000; i++) {
 	    	var newTreeObject = treeObject.clone();
 
 	        var newTreeMesh = newTreeObject.children[0];
 	        var scale = Math.random() * 10 + 5;
         	newTreeMesh.scale.set(scale, scale, scale);
-	        newTreeMesh.position.x = Math.random() * 1000 - 500;
+	        newTreeMesh.position.x = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
 	        newTreeMesh.position.y = -0.5;
-	        newTreeMesh.position.z = Math.random() * 1000 - 500;
+	        newTreeMesh.position.z = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
 	        newTreeMesh.rotation.y = Math.random() * 2 * Math.PI;
 	        newTreeMesh.updateMatrix();
 
@@ -64,7 +63,7 @@ function World(player, hud) {
 	    this.scene.add(forestMesh);
     }.bind(this));
 
-	// this.scene.fog = new THREE.Fog(GREY, .0001, 150);
+	this.scene.fog = new THREE.Fog(GREY, .0001, 150);
 
     // add subtle ambient lighting
     var ambientLight = new THREE.AmbientLight(0x404040);
@@ -96,12 +95,12 @@ World.prototype = {
 	    this.renderer.setSize(window.innerWidth, window.innerHeight);
 	},
 	_setupGround: function() {
-		var groundTexture = THREE.ImageUtils.loadTexture("images/MossyBank.jpg");
+		var groundTexture = THREE.ImageUtils.loadTexture("images/Grass.jpg");
 		groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
-		groundTexture.repeat.set(200, 200);
+		groundTexture.repeat.set(100, 100);
 		groundTexture.anisotropy= 4;
 		// var groundBump = THREE.ImageUtils.loadTexture("");
-		var geometryGroundPlane = new THREE.PlaneGeometry(PLANE_WIDTH, PLANE_HEIGHT, 1, 1);
+		var geometryGroundPlane = new THREE.PlaneGeometry(PLANE_SIZE, PLANE_SIZE, 1, 1);
 		var materialGroundPlane = new THREE.MeshBasicMaterial({ 
 			map: groundTexture, 
 			side: THREE.DoubleSide 
@@ -116,9 +115,9 @@ World.prototype = {
 		// var treasureMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 		var treasureMaterial = new THREE.MeshPhongMaterial({ map: THREE.ImageUtils.loadTexture('images/crate.jpg') });
 		var treasureCube = new THREE.Mesh(treasureGeometry, treasureMaterial);
-		treasureCube.position.x = Math.random() * 1000 - 500;
+		treasureCube.position.x = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
 		treasureCube.position.y = 1;
-		treasureCube.position.z = Math.random() * 1000 - 500;
+		treasureCube.position.z = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
 		return treasureCube;
 	},
 	_setupTreasure: function() {
@@ -134,7 +133,7 @@ World.prototype = {
 	        var material = new THREE.MeshLambertMaterial({color:0xFFFFFF, map:texture});
 	        object.children[0].material = material;
 	        object.children[0].transparent = true;
-	        object.position.set(Math.random() * 1000 - 500, 0, Math.random() * 1000 - 500);
+	        object.position.set(Math.random() * PLANE_SIZE - PLANE_SIZE / 2, 0, Math.random() * PLANE_SIZE - PLANE_SIZE / 2);
 	        this.scene.remove(this.treasure);
 	        this.treasure = object;
 	        this.scene.add(object)
@@ -146,29 +145,30 @@ World.prototype = {
 	        console.log( item, loaded, total );
 	    };
 	    var loader = new THREE.OBJLoader(manager);
-        for (var i = 0; i < this.numberOfPillars; i++) {
-		    loader.load( 'images/pedestal-cheetah.obj', function ( object ) {
+		loader.load( 'images/pedestal-cheetah.obj', function ( object ) {
+        	for (var i = 0; i < this.numberOfPillars; i++) {
+        		var newObject = object.clone();
 		        var texture = THREE.ImageUtils.loadTexture("images/pedestal3.jpg");
 		        var material = new THREE.MeshLambertMaterial({color:0xFFFFFF, map:texture});
-		        object.children[0].material = material;
-		        object.children[0].transparent = true;
-		        object.scale.set(3, 3, 3);
+		        newObject.children[0].material = material;
+		        newObject.children[0].transparent = true;
+		        newObject.scale.set(20, 20, 20);
 		        // this.pillarPositions.pop();
 				if (i == 0) {
-					object.position.x = 0
-					object.position.y = 0;
-					object.position.z = -450;
+					newObject.position.x = 0;
+					newObject.position.y = 0;
+					newObject.position.z = 50 - PLANE_SIZE / 2;
 				} else {
-					object.position.x = Math.random() * 1000 - 500;
-					object.position.y = 0;
-					object.position.z = Math.random() * 1000 - 500;
+					newObject.position.x = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
+					newObject.position.y = 0;
+					newObject.position.z = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
 				}
-				this.pillarPositions.push(object.position);
-		        console.log(object);
+				this.pillarPositions.push(newObject.position);
+		        console.log(newObject);
 		        // this.scene.remove(this.pillarObjects[i]);
-		        this.scene.add(object)
-		    }.bind(this));
-	    }
+		        this.scene.add(newObject)
+	    	}
+		}.bind(this));
 	},
 	// TODO combine get position of pillar function with get position of treasure function.
 	getPositionOfNextPillar: function() {

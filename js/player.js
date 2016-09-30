@@ -109,7 +109,7 @@ Player.prototype = {
 		}
 	},
 	/**
-	 * @param {Array} - arrah of (x, y, z) for a cone.
+	 * @param {Array} - array of (x, y, z) for a cone.
 	 */
 	_isPointInsideCircle: function(circle) {
 		// we are using multiplications because is faster than calling Math.pow

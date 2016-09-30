@@ -27,5 +27,4 @@ var riddles = [
     {"Question":"Unscramble the letter sequence: eweofrlw", "Answer":"werewolf"},
     {"Question":"PARIS is to FRANCE as ROME is to...", "Answer":"italy"},
     {"Question":"The month preceding me has the same number of days that I do. There are four vowels in my name. What month am I? ", "Answer":"january"},
-    {"Question":"A petshop owner had a parrot with a sign on its cage that said 'Parrot repeats everything it hears.' A young man bought the parrot and for two weeks he spoke to it and it didn't say a word. He returned the parrot but the shopkeeper said he never lied about the parrot. How can this be?", "Answer":"deaf"}
 ];

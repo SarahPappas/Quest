@@ -30,9 +30,10 @@ function World(player, hud) {
 	this._setupPillars();
 
 	// Forest
+	this.numberOfTrees = 20000;
 	this._setupForest();
     
-
+	// Add fog
 	this.scene.fog = new THREE.Fog(GREY, .0001, 150);
 
     // add subtle ambient lighting
@@ -69,20 +70,17 @@ World.prototype = {
 		groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
 		groundTexture.repeat.set(100, 100);
 		groundTexture.anisotropy= 4;
-		// var groundBump = THREE.ImageUtils.loadTexture("");
 		var geometryGroundPlane = new THREE.PlaneGeometry(PLANE_SIZE, PLANE_SIZE, 1, 1);
 		var materialGroundPlane = new THREE.MeshBasicMaterial({ 
 			map: groundTexture, 
 			side: THREE.DoubleSide 
 		});
 		var ground = new THREE.Mesh(geometryGroundPlane, materialGroundPlane);
-		// ground.rotation.set(90 * (3.14/180), 0, 'XY');
 		ground.rotateX(90 * (Math.PI / 180));
 		return ground;
 	},
 	_defaultLoadingTreasure: function() {
 		var treasureGeometry = new THREE.BoxGeometry( 2, 2, 2 );
-		// var treasureMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 		var treasureMaterial = new THREE.MeshPhongMaterial({ map: THREE.ImageUtils.loadTexture('images/crate.jpg') });
 		var treasureCube = new THREE.Mesh(treasureGeometry, treasureMaterial);
 		treasureCube.position.x = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
@@ -123,7 +121,6 @@ World.prototype = {
 		        newObject.children[0].material = material;
 		        newObject.children[0].transparent = true;
 		        newObject.scale.set(20, 20, 20);
-		        // this.pillarPositions.pop();
 				if (i == 0) {
 					newObject.position.x = 0;
 					newObject.position.y = 0;
@@ -135,7 +132,6 @@ World.prototype = {
 				}
 				this.pillarPositions.push(newObject.position);
 		        console.log(newObject);
-		        // this.scene.remove(this.pillarObjects[i]);
 		        this.scene.add(newObject)
 	    	}
 		}.bind(this));
@@ -143,7 +139,7 @@ World.prototype = {
 	_setupForest: function() {
 		var forestGeometry = new THREE.Geometry();
 
-		    var texture = THREE.ImageUtils.loadTexture("images/aspen.png");
+		    var texture = THREE.ImageUtils.loadTexture("images/aspen-2.png");
 		    var treeMaterial = new THREE.MeshBasicMaterial({color:0xFFFFFF, map: texture, side: THREE.DoubleSide});
 		    treeMaterial.alphaTest = 0.95;
 
@@ -154,7 +150,7 @@ World.prototype = {
 
 		    var loader = new THREE.OBJLoader(manager);
 		    loader.load("images/aspen-combined-3.obj", function (treeObject) {
-			    for (var i = 0; i < 15000; i++) {
+			    for (var i = 0; i < this.numberOfTrees; i++) {
 			    	var newTreeObject = treeObject.clone();
 
 			        var newTreeMesh = newTreeObject.children[0];

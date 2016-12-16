@@ -1,19 +1,23 @@
 function Game(world) {
-	// QUESTION would you make these constants??
+
+	// passing the world into the game function
 	this.world = world;
+	// grabbing elements from the DOM
 	this.riddleContainerEl = $(".riddleContainer");
 	var submitButton = $("#answer-button");
 	this.questionEl = $(".riddleContainer .question");
 	var startButtonEl = $("#start-button");
+	// setting game answer count
 	this.correctAnswersNeeded = 3;
 	this.riddlesAnsweredCorrectly = 0;
-
+	// the riddle index starts at null
 	this.riddleIndex = null;
+	// the user input starts empty
 	this.userInput = "";
-
 
 	this._exitDisplayRiddle = this._exitDisplayRiddle.bind(this);
 
+	// after you click start, no longer display start dialog
 	startButtonEl.click(function() {
 		$(".instruction-container").css("display", "none");
 	})

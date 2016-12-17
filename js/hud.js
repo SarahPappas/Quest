@@ -24,7 +24,7 @@ function Hud(player) {
 }
 
 Hud.prototype = {
-	render: function() {
+	render: function () {
 		// get new sphere position
 		this.sphere.position.x = (this.player.camera.position.x * .015);
 		this.sphere.position.y = -1*(this.player.camera.position.z * .015);
@@ -32,7 +32,7 @@ Hud.prototype = {
 		// render minimap
 		this.miniMapRenderer.render(this.miniMapScene, this.miniMapCamera);
 	},
-	addTargetArea: function(location) {
+	addTargetArea: function (location) {
 		var radius = 30;
 		var diameter = radius * 2;
 		var pillarPosition = location;
@@ -45,9 +45,8 @@ Hud.prototype = {
 		this.hintSphere.name = "TargetArea";
 		this.miniMapScene.add(this.hintSphere);
 	},
-	removeObjectFromScene: function() {
+	removeObjectFromScene: function () {
 		var selectedObject = this.miniMapScene.getObjectByName(this.hintSphere.name);
-		console.log(this.hintSphere);
 		this.miniMapScene.remove(selectedObject);
 		selectedObject.material.dispose();
         selectedObject.geometry.dispose();

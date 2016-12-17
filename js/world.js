@@ -31,10 +31,10 @@ function World(player, hud) {
 
 	// Forest
 	this.numberOfTrees = 20000;
-	this._setupForest();
+	// this._setupForest();
     
 	// Add fog
-	this.scene.fog = new THREE.Fog(GREY, .0001, 150);
+	// this.scene.fog = new THREE.Fog(GREY, .0001, 150);
 
     // add subtle ambient lighting
     var ambientLight = new THREE.AmbientLight(0x404040);
@@ -53,19 +53,19 @@ function World(player, hud) {
 World.prototype = {
 	// to render the page, you need a render loop
 	// anything you move or change has to run through the render function loop
-	render: function() {
+	render: function () {
 		this.hud.render();
 		this.player.render(this.pillarPositions, this.treasure.position);
 		this.renderer.render(this.scene, this.player.camera);
 		// use requestAnimationFrame for loop instead of setInterval because it pauses when user navigates away
 		requestAnimationFrame(this.render.bind(this));
 	},
-	_onWindowResize: function() {
+	_onWindowResize: function () {
 	    this.player.camera.aspect = window.innerWidth / window.innerHeight;
 	    this.player.camera.updateProjectionMatrix();
 	    this.renderer.setSize(window.innerWidth, window.innerHeight);
 	},
-	_setupGround: function() {
+	_setupGround: function () {
 		var groundTexture = THREE.ImageUtils.loadTexture("images/Grass.jpg");
 		groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
 		groundTexture.repeat.set(100, 100);
@@ -79,7 +79,7 @@ World.prototype = {
 		ground.rotateX(90 * (Math.PI / 180));
 		return ground;
 	},
-	_defaultLoadingTreasure: function() {
+	_defaultLoadingTreasure: function () {
 		var treasureGeometry = new THREE.BoxGeometry( 2, 2, 2 );
 		var treasureMaterial = new THREE.MeshPhongMaterial({ map: THREE.ImageUtils.loadTexture('images/crate.jpg') });
 		var treasureCube = new THREE.Mesh(treasureGeometry, treasureMaterial);
@@ -88,7 +88,7 @@ World.prototype = {
 		treasureCube.position.z = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
 		return treasureCube;
 	},
-	_setupTreasure: function() {
+	_setupTreasure: function () {
 		var manager = new THREE.LoadingManager();
 	    manager.onProgress = function ( item, loaded, total ) {
 	        console.log( item, loaded, total );
@@ -107,7 +107,7 @@ World.prototype = {
 	        this.scene.add(object)
 	    }.bind(this));
 	},
-	_setupPillars: function() {
+	_setupPillars: function () {
 		var manager = new THREE.LoadingManager();
 	    manager.onProgress = function ( item, loaded, total ) {
 	        console.log( item, loaded, total );
@@ -136,7 +136,7 @@ World.prototype = {
 	    	}
 		}.bind(this));
 	},
-	_setupForest: function() {
+	_setupForest: function () {
 		var forestGeometry = new THREE.Geometry();
 
 		    var texture = THREE.ImageUtils.loadTexture("images/aspen-2.png");
@@ -171,10 +171,10 @@ World.prototype = {
 		    }.bind(this));
 	},
 	// TODO combine get position of pillar function with get position of treasure function.
-	getPositionOfNextPillar: function() {
+	getPositionOfNextPillar: function () {
 		return this.pillarPositions[Math.floor(Math.random() * this.pillarPositions.length)];
 	},
-	getPositionOfTreasure: function(){
+	getPositionOfTreasure: function (){
 		return this.treasure.position;
 	}
 };

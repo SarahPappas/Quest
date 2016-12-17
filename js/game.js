@@ -45,53 +45,55 @@ function Game(world) {
 }
 
 Game.prototype = {
-	_displayRiddle: function () {
-		this.riddleIndex = Math.floor(Math.random() * riddles.length);
-		this.questionEl.text(riddles[this.riddleIndex].Question);
-		//display answer form
-		$(".answer").css("display", "initial");
+	_displayText: function (text) {
+		this.questionEl.text(text);
 	},
-	_isRiddleCorrect: function () {
-		var riddleAnswer = riddles[this.riddleIndex].Answer;
-		if (this.userInput.toLowerCase().indexOf(riddleAnswer) == -1) {
-			return false;
-		} else {
-			return true;
-		}
+	_getRiddleIndex: function () {
+		return this.riddleIndex = Math.floor(Math.random() * riddles.length);
+	},
+	_isRiddleCorrect: function (riddle, userAnswer) {
+		return userAnswer.toLowerCase().indexOf(riddle.Answer.toLowerCase()) != -1;
+	},
+	_showTreasure: function () {
+		this._displayText("I'm so pleased you are correct! Please see your HUD for the location of the box.");
+		this.world.hud.addTargetArea(this.world.getPositionOfTreasure());
+	},
+	_showNoPillarsLeft: function () {
+		this._displayText("I'm so pleased you are correct! Unfortunately, there are no more pillars to guide you.");
+	},
+	_showNextPillar: function () {
+		this._displayText("I'm so pleased you are correct! Please see your HUD for the location of the next pillar.");
+		this.world.hud.addTargetArea(this.world.getPositionOfNextPillar());
+	},
+	_showNoHelp: function () {
+		this._displayText("Sorry to say, but you will get no help from me");
+		this.world.hud.hintSphere = null;
 	},
 	_interactWithUser: function () {
 		// TODO: pass sphere instead of hardcode
 		if(this.world.hud.hintSphere){
 			this.world.hud.removeObjectFromScene();
 		}
-		//this.correctAnswersNeeded
-		if (this._isRiddleCorrect() && this.riddlesAnsweredCorrectly >= this.correctAnswersNeeded) {
-			this.questionEl.text("I'm so pleased you are correct! Please see your HUD for the location of the box.");
-			this.world.hud.addTargetArea(this.world.getPositionOfTreasure());
-		} else if (this._isRiddleCorrect() && riddles.length == 1) { 
+		
+		// remove riddle that is already shown
+		var riddle = riddles.splice(this.riddleIndex, 1)[0];
+		if (this._isRiddleCorrect(riddle, this.userInput)) {
 			this.riddlesAnsweredCorrectly++;
+
 			if (this.riddlesAnsweredCorrectly >= this.correctAnswersNeeded) {
-				this.questionEl.text("I'm so pleased you are correct! Please see your HUD for the location of the box.");
-				this.world.hud.addTargetArea(this.world.getPositionOfTreasure());
-			} else {
-				this.questionEl.text("I'm so pleased you are correct! Unfortunately there are no more pillars to guide you.");
-			}
-		} else if (this._isRiddleCorrect()) {
-			this.riddlesAnsweredCorrectly++;
-			if (this.riddlesAnsweredCorrectly >= this.correctAnswersNeeded) {
-				this.questionEl.text("I'm so pleased you are correct! Please see your HUD for the location of the box.");
-				this.world.hud.addTargetArea(this.world.getPositionOfTreasure());
+				this._showTreasure();
+			} else if (riddles.length == 0) { 
+				this._showNoPillarsLeft();
 			} else {			
-				this.questionEl.text("I'm so pleased you are correct! Please see your HUD for the location of the next pillar.");
-				this.world.hud.addTargetArea(this.world.getPositionOfNextPillar());
+				this._showNextPillar();
 			}
 		} else {
-			this.questionEl.text("Sorry to say, but you will get no help from me");
-			this.world.hud.hintSphere = null;
+			this._showNoHelp();
 		}
-		// remove riddle that is already shown
-		riddles.splice(this.riddleIndex, 1);
-		// on any arrow key down hide the riddles modal
+		
+		// After you've answered the riddle and we have shown a message, we 
+		// dismiss the message when the user hits any arrow key to start moving
+		// again.
 		document.addEventListener("keydown", this._exitDisplayRiddle);
 	},
 	_exitDisplayRiddle: function (e) {
@@ -107,11 +109,13 @@ Game.prototype = {
 		this.riddleContainerEl.css("display", "initial");
 
 		if (item == "pillar") {
-			this._displayRiddle();
+			this._displayText(riddles[this._getRiddleIndex()].Question);
+			$(".answer").css("display", "initial");
 		}
 
 		if (item == "treasure") {
 			this._congratulateWinner();
 		}
-	}
+	},
+
 };

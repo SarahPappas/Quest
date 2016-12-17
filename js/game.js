@@ -17,7 +17,7 @@ function Game(world) {
 
 	this._exitDisplayRiddle = this._exitDisplayRiddle.bind(this);
 
-	// after you click start, no longer display start dialog
+	// After you click start, no longer display start dialog.
 	startButtonEl.click(function () {
 		$(".instruction-container").css("display", "none");
 	})
@@ -70,13 +70,14 @@ Game.prototype = {
 		this.world.hud.hintSphere = null;
 	},
 	_interactWithUser: function () {
-		// TODO: pass sphere instead of hardcode
 		if(this.world.hud.hintSphere){
 			this.world.hud.removeObjectFromScene();
 		}
 		
-		// remove riddle that is already shown
+		// Remove riddle that is already shown.
 		var riddle = riddles.splice(this.riddleIndex, 1)[0];
+
+		// Decide what help to show player depending on their riddle answer.
 		if (this._isRiddleCorrect(riddle, this.userInput)) {
 			this.riddlesAnsweredCorrectly++;
 
@@ -90,7 +91,7 @@ Game.prototype = {
 		} else {
 			this._showNoHelp();
 		}
-		
+
 		// After you've answered the riddle and we have shown a message, we 
 		// dismiss the message when the user hits any arrow key to start moving
 		// again.

@@ -89,6 +89,9 @@ World.prototype = {
 		treasureCube.position.z = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
 		return treasureCube;
 	},
+	_randomCoordinant: function () {
+		return Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
+	},
 	_setupTreasure: function () {
 		var manager = new THREE.LoadingManager();
 	    manager.onProgress = function ( item, loaded, total ) {
@@ -140,36 +143,36 @@ World.prototype = {
 	_setupForest: function () {
 		var forestGeometry = new THREE.Geometry();
 
-		    var texture = THREE.ImageUtils.loadTexture("images/aspen-2.png");
-		    var treeMaterial = new THREE.MeshBasicMaterial({color:0xFFFFFF, map: texture, side: THREE.DoubleSide});
-		    treeMaterial.alphaTest = 0.95;
+	    var texture = THREE.ImageUtils.loadTexture("images/aspen-2.png");
+	    var treeMaterial = new THREE.MeshBasicMaterial({color:0xFFFFFF, map: texture, side: THREE.DoubleSide});
+	    treeMaterial.alphaTest = 0.95;
 
-			var manager = new THREE.LoadingManager();
-			manager.onProgress = function (item, loaded, total) {
-		        console.log( item, loaded, total );
-		    };
+		var manager = new THREE.LoadingManager();
+		manager.onProgress = function (item, loaded, total) {
+	        console.log( item, loaded, total );
+	    };
 
-		    var loader = new THREE.OBJLoader(manager);
-		    loader.load("images/aspen-combined-3.obj", function (treeObject) {
-			    for (var i = 0; i < this.numberOfTrees; i++) {
-			    	var newTreeObject = treeObject.clone();
+	    var loader = new THREE.OBJLoader(manager);
+	    loader.load("images/aspen-combined-3.obj", function (treeObject) {
+		    for (var i = 0; i < this.numberOfTrees; i++) {
+		    	var newTreeObject = treeObject.clone();
 
-			        var newTreeMesh = newTreeObject.children[0];
-			        var scale = Math.random() * 10 + 5;
-		        	newTreeMesh.scale.set(scale, scale, scale);
-			        newTreeMesh.position.x = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
-			        newTreeMesh.position.y = -0.5;
-			        newTreeMesh.position.z = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
-			        newTreeMesh.rotation.y = Math.random() * 2 * Math.PI;
-			        newTreeMesh.updateMatrix();
+		        var newTreeMesh = newTreeObject.children[0];
+		        var scale = Math.random() * 10 + 5;
+	        	newTreeMesh.scale.set(scale, scale, scale);
+		        newTreeMesh.position.x = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
+		        newTreeMesh.position.y = -0.5;
+		        newTreeMesh.position.z = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
+		        newTreeMesh.rotation.y = Math.random() * 2 * Math.PI;
+		        newTreeMesh.updateMatrix();
 
-			        var geometry = new THREE.Geometry().fromBufferGeometry(newTreeMesh.geometry);
-					forestGeometry.merge(geometry, newTreeMesh.matrix);
-				}
+		        var geometry = new THREE.Geometry().fromBufferGeometry(newTreeMesh.geometry);
+				forestGeometry.merge(geometry, newTreeMesh.matrix);
+			}
 
-			   	var forestMesh = new THREE.Mesh(forestGeometry, treeMaterial);
-			    this.scene.add(forestMesh);
-		    }.bind(this));
+		   	var forestMesh = new THREE.Mesh(forestGeometry, treeMaterial);
+		    this.scene.add(forestMesh);
+	    }.bind(this));
 	},
 	getPositionOfNextPillar: function () {
 		return this.pillarPositions[Math.floor(Math.random() * this.pillarPositions.length)];

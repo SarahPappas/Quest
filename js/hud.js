@@ -33,6 +33,10 @@ Hud.prototype = {
 		// Render the minimap.
 		this.miniMapRenderer.render(this.miniMapScene, this.miniMapCamera);
 	},
+	/**
+	 * @param {number} draws a circular target area at the next objective's 
+	 * location.
+	 */
 	addTargetArea: function (location) {
 		var radius = 30;
 		var diameter = radius * 2;

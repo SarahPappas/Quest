@@ -72,14 +72,17 @@ Player.prototype = {
 		}
 	},
 	/**
-	 * @param {number} distance - The distance for each move. Should be positive this.speed or negative this.speed.
+	 * @param {number} distance - The distance for each move. Should be positive
+	 * this.speed or negative this.speed.
 	 */
 	_walk: function (distance) {
 		this.camera.position.x = this.camera.position.x + this.directionVector.x * distance;
 		this.camera.position.z = this.camera.position.z + this.directionVector.z * distance;
 	},
 	/**
-	 * @param {number} rotation in degrees - The rotation for each move. Should be positive this.rotation for spinnig right or negative this.rotation for spinning left.
+	 * @param {number} rotation in degrees - The rotation for each move. Should 
+	 * be positive this.rotation for spinnig right or negative this.rotation for 
+	 * spinning left.
 	 */
 	_rotate: function (degrees) {
 		this.camera.rotation.y += (degrees * (Math.PI / 180));
@@ -117,7 +120,7 @@ Player.prototype = {
 	 * @param {Array} - array of (x, y, z) for a cone.
 	 */
 	_isPointInsideCircle: function (circle) {
-		// we are using multiplications because is faster than calling Math.pow
+		// We are using multiplications because is faster than calling Math.pow.
   		var distance = Math.sqrt((this.camera.position.x - circle.x) * (this.camera.position.x - circle.x) +
                        			(this.camera.position.z - circle.z) * (this.camera.position.z - circle.z));
   		return distance <  20;

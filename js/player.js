@@ -6,25 +6,29 @@ var LEFT_ARROW_KEY_CODE = 37;
 
 function Player() {
 	EventEmitter.call(this);
-	// SETUP cameras
-	// diffrent types of cameras, parameters field of view, aspect ration, near and far clipping plane
+	// SETUP CAMERAS
+	// Diffrent types of cameras, parameters field of view, aspect ration, near 
+	// and far clipping plane.
 	// this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 80);
 	this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 500);
-	// set camera position
-	// moves out camera postion becaus otherwise it would be placed at 0, 0, 0 with the cube
+	// Set camera position.
+	// Moves out camera postion because otherwise it would be placed at 0, 0, 0 
+	// - in them middle of the plane.
 	this.camera.position.z = 0;
 	this.camera.position.y = 2;
 
-	// SETUP movements
-	// set the distance you will move in a frame
-	// This will move the camera 1 out of the 1,000 ground plane we created
+	// SETUP MOVEMENTS
+	// Set the distance you will move in a frame.
+	// This will move the camera 1 out of the 1,000 ground plane we created.
 	this.speed = .5; 
-	// The noramalizes, then copies the vector of the direction the camera is looking
+	// This noramalizes, then copies the vector of the direction the camera is 
+	// looking.
 	this.directionVector = this.camera.getWorldDirection().clone().normalize();
-	// The degree of rotation for each arrow press
+	// This is the degree of rotation for each arrow press.
 	this.rotation = 1;
 
-	// SETUP key controls, default false
+	// SETUP KEY CONTROLS
+	// The default is false.
 	this.isUpArrowActive = false;
 	this.isDownArrowActive = false;
 	this.isLeftArrowActive = false;
@@ -53,7 +57,7 @@ Player.prototype = {
 			this._rotate(this.rotation);
 		}
 
-		//	Hit detection
+		// Hit detection for pillars.
 		// TODO: Make hit detection generic, player shouldn't know about pillars
 		for (var i = 0; i < arrayOfPillarPositions.length; i++) {
 			if (this._isPointInsideCircle(arrayOfPillarPositions[i]) == true) {
@@ -62,7 +66,7 @@ Player.prototype = {
 			} 	
 		}
 
-		// Hit detection for box
+		// Hit detection for treasure.
 		if(this._isPointInsideCircle(treasurePosition)) {
 			this.emit("treasureDetected", treasurePosition);
 		}
@@ -120,5 +124,5 @@ Player.prototype = {
 	},
 };
 
-//add EventEmitter properties to Player
+// Add EventEmitter properties to Player.
 _.assign(Player.prototype, EventEmitter.prototype);

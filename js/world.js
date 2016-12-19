@@ -3,14 +3,14 @@ var PLANE_SIZE = 1000;
 
 function World(player, hud) {
 	// SETUP
-	// need 3 things to dispaly anything. A scene a camera and a render
+	// We need 3 things to dispaly anything: A scene, a camera, and a renderer.
 	this.scene = new THREE.Scene();
-	// camera in screen is on the player
+	// The camera in this scene is on the player.
 	this.player = new Player();
-	// call the Hud constructor
+	// We call the HUD constructor to render the HUD.
 	this.hud = new Hud(this.player);
 
-	//setup renderer
+	// SETUP RENDERER
 	this.renderer = new THREE.WebGLRenderer();
 	this.renderer.setSize(window.innerWidth, window.innerHeight);
 	this.renderer.setClearColor(GREY);
@@ -29,14 +29,14 @@ function World(player, hud) {
 	this.pillarPositions = [];
 	this._setupPillars();
 
-	// Forest
+	// ADD FOREST
 	this.numberOfTrees = 20000;
 	// this._setupForest();
     
-	// Add fog
+	// ADD FOG
 	// this.scene.fog = new THREE.Fog(GREY, .0001, 150);
 
-    // add subtle ambient lighting
+    // ADD SUBTLE AMBIENT LIGHTING
     var ambientLight = new THREE.AmbientLight(0x404040);
     this.scene.add(ambientLight);
 
@@ -45,19 +45,20 @@ function World(player, hud) {
     pointLight.castShadow = true;
     this.scene.add(pointLight);
 
-	//Resize Window event listener
+	// Resize camera aspect ratio when the user resizes the window.
 	window.addEventListener('resize', this._onWindowResize.bind(this), false);
 }
 
 
 World.prototype = {
-	// to render the page, you need a render loop
-	// anything you move or change has to run through the render function loop
+	// To render the page, you need a render loop.
+	// Anything you move or change has to run through the render function loop.
 	render: function () {
 		this.hud.render();
 		this.player.render(this.pillarPositions, this.treasure.position);
 		this.renderer.render(this.scene, this.player.camera);
-		// use requestAnimationFrame for loop instead of setInterval because it pauses when user navigates away
+		// Use requestAnimationFrame for loop instead of setInterval because it 
+		// pauses when the user navigates away from the page.
 		requestAnimationFrame(this.render.bind(this));
 	},
 	_onWindowResize: function () {
@@ -170,7 +171,6 @@ World.prototype = {
 			    this.scene.add(forestMesh);
 		    }.bind(this));
 	},
-	// TODO combine get position of pillar function with get position of treasure function.
 	getPositionOfNextPillar: function () {
 		return this.pillarPositions[Math.floor(Math.random() * this.pillarPositions.length)];
 	},

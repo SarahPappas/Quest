@@ -4,11 +4,10 @@ function Game(world) {
 	this.world = world;
 	// Grabbing elements from the DOM.
 	this.riddleContainerEl = $(".riddleContainer");
-	var submitButton = $("#answer-button");
 	this.questionEl = $(".riddleContainer .question");
-	var startButtonEl = $("#start-button");
-	// Setting game answer count.
+	// Setting game correct answers need to be pointed to the treasure.
 	this.correctAnswersNeeded = 3;
+	// Setting game correct answer count.
 	this.riddlesAnsweredCorrectly = 0;
 	// The riddle index starts at null.
 	this.riddleIndex = null;
@@ -17,7 +16,9 @@ function Game(world) {
 
 	this._exitDisplayRiddle = this._exitDisplayRiddle.bind(this);
 
-	// After you click start, no longer display start dialog.
+	var startButtonEl = $("#start-button");
+
+	// After the user clicks start, we no longer display start dialog.
 	startButtonEl.click(function () {
 		$(".instruction-container").css("display", "none");
 	})
@@ -30,6 +31,8 @@ function Game(world) {
 		this._displayDialog("treasure");
 	}.bind(this))
 
+	var submitButton = $("#answer-button");
+	
 	submitButton.click(function (event) {
 		var userInputEl = $("input[name='answer']");
 		// Save user input.

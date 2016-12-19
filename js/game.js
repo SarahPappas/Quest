@@ -1,18 +1,18 @@
 function Game(world) {
 
-	// passing the world into the game function
+	// Passing the world into the game function.
 	this.world = world;
-	// grabbing elements from the DOM
+	// Grabbing elements from the DOM.
 	this.riddleContainerEl = $(".riddleContainer");
 	var submitButton = $("#answer-button");
 	this.questionEl = $(".riddleContainer .question");
 	var startButtonEl = $("#start-button");
-	// setting game answer count
+	// Setting game answer count.
 	this.correctAnswersNeeded = 3;
 	this.riddlesAnsweredCorrectly = 0;
-	// the riddle index starts at null
+	// The riddle index starts at null.
 	this.riddleIndex = null;
-	// the user input starts empty
+	// The user input starts empty.
 	this.userInput = "";
 
 	this._exitDisplayRiddle = this._exitDisplayRiddle.bind(this);
@@ -32,13 +32,14 @@ function Game(world) {
 
 	submitButton.click(function (event) {
 		var userInputEl = $("input[name='answer']");
-		// save user input
+		// Save user input.
 		this.userInput = userInputEl.val();
-		//clearInput
+		// clear user input.
 		userInputEl.val("");
-		//Say if you were correct and which direction to head - use question div
+		// Dicide if user was correct and display the next direction to head 
+		// using the #question div.
 		this._interactWithUser();
-		//hide the form 
+		// Hide the question / answer dialog.
 		$(".answer").css("display", "none");
 	}.bind(this))
 

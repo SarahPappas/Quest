@@ -109,8 +109,11 @@ World.prototype = {
 	        var texture = THREE.ImageUtils.loadTexture("images/treasure_chest.jpg");
 	        texture.wrapS = THREE.RepeatWrapping;
 	        texture.wrapT = THREE.RepeatWrapping;
+	        
 	        this._setMaterial(object, texture);
-	        object.position.set(this._randomCoordinant(), 0, this._randomCoordinant());
+	        this._setPostition(object, this._randomCoordinant(), 0, this._randomCoordinant());
+	        
+	        // We need to remove the default treasure from the scene.
 	        this.scene.remove(this.treasure);
 	        this.treasure = object;
 	        this.scene.add(object)
@@ -119,12 +122,15 @@ World.prototype = {
 	_setupPillars: function () {
 		var manager = new THREE.LoadingManager();
 	    var loader = new THREE.OBJLoader(manager);
+
 		loader.load( 'images/pedestal-cheetah.obj', function ( object ) {
         	for (var i = 0; i < this.numberOfPillars; i++) {
         		var newObject = object.clone();
 		        var texture = THREE.ImageUtils.loadTexture("images/pedestal3.jpg");
 		        this._setMaterial(newObject, texture);
+
 		        newObject.scale.set(20, 20, 20);
+
 				if (i == 0) {
 					// We set the first pillar straight North at the edge of
 					// the map.
@@ -133,6 +139,7 @@ World.prototype = {
 					// Position the rest of the pillars randomly.
 					this._setPostition(newObject, this._randomCoordinant(), 0, this._randomCoordinant());
 				}
+
 				this.pillarPositions.push(newObject.position);
 		        this.scene.add(newObject)
 	    	}

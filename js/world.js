@@ -92,6 +92,11 @@ World.prototype = {
 	_randomCoordinant: function () {
 		return Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
 	},
+	_setMaterial: function (newObject, texture) {
+		var material = new THREE.MeshLambertMaterial({color:0xFFFFFF, map:texture});
+		newObject.children[0].material = material;
+		newObject.children[0].transparent = true;
+	},
 	_setupTreasure: function () {
 		var manager = new THREE.LoadingManager();
 	    manager.onProgress = function ( item, loaded, total ) {
@@ -102,10 +107,8 @@ World.prototype = {
 	        var texture = THREE.ImageUtils.loadTexture("images/treasure_chest.jpg");
 	        texture.wrapS = THREE.RepeatWrapping;
 	        texture.wrapT = THREE.RepeatWrapping;
-	        var material = new THREE.MeshLambertMaterial({color:0xFFFFFF, map:texture});
-	        object.children[0].material = material;
-	        object.children[0].transparent = true;
-	        object.position.set(Math.random() * PLANE_SIZE - PLANE_SIZE / 2, 0, Math.random() * PLANE_SIZE - PLANE_SIZE / 2);
+	        this._setMaterial(object, texture);
+	        object.position.set(this._randomCoordinant(), 0, this._randomCoordinant());
 	        this.scene.remove(this.treasure);
 	        this.treasure = object;
 	        this.scene.add(object)
@@ -121,21 +124,18 @@ World.prototype = {
         	for (var i = 0; i < this.numberOfPillars; i++) {
         		var newObject = object.clone();
 		        var texture = THREE.ImageUtils.loadTexture("images/pedestal3.jpg");
-		        var material = new THREE.MeshLambertMaterial({color:0xFFFFFF, map:texture});
-		        newObject.children[0].material = material;
-		        newObject.children[0].transparent = true;
+		        this._setMaterial(newObject, texture);
 		        newObject.scale.set(20, 20, 20);
 				if (i == 0) {
 					newObject.position.x = 0;
 					newObject.position.y = 0;
 					newObject.position.z = 50 - PLANE_SIZE / 2;
 				} else {
-					newObject.position.x = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
+					newObject.position.x = this._randomCoordinant();
 					newObject.position.y = 0;
-					newObject.position.z = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
+					newObject.position.z = this._randomCoordinant();
 				}
 				this.pillarPositions.push(newObject.position);
-		        console.log(newObject);
 		        this.scene.add(newObject)
 	    	}
 		}.bind(this));

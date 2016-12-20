@@ -80,15 +80,6 @@ World.prototype = {
 		ground.rotateX(90 * (Math.PI / 180));
 		return ground;
 	},
-	_defaultLoadingTreasure: function () {
-		var treasureGeometry = new THREE.BoxGeometry( 2, 2, 2 );
-		var treasureMaterial = new THREE.MeshPhongMaterial({ map: THREE.ImageUtils.loadTexture('images/crate.jpg') });
-		var treasureCube = new THREE.Mesh(treasureGeometry, treasureMaterial);
-		treasureCube.position.x = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
-		treasureCube.position.y = 1;
-		treasureCube.position.z = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
-		return treasureCube;
-	},
 	_randomCoordinant: function () {
 		return Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
 	},
@@ -97,11 +88,22 @@ World.prototype = {
 		newObject.children[0].material = material;
 		newObject.children[0].transparent = true;
 	},
+	_setPostition: function(object, x, y, z) {
+		object.position.x = x;
+		object.position.y = y;
+		object.position.z = z;
+	},
+	_defaultLoadingTreasure: function () {
+		var treasureGeometry = new THREE.BoxGeometry( 2, 2, 2 );
+		var treasureMaterial = new THREE.MeshPhongMaterial({ map: THREE.ImageUtils.loadTexture('images/crate.jpg') });
+		var treasureCube = new THREE.Mesh(treasureGeometry, treasureMaterial);
+		
+		this._setPostition(treasureCube, this._randomCoordinant(), 1, this._randomCoordinant());
+		
+		return treasureCube;
+	},
 	_setupTreasure: function () {
 		var manager = new THREE.LoadingManager();
-	    manager.onProgress = function ( item, loaded, total ) {
-	        console.log( item, loaded, total );
-	    };
 	    var loader = new THREE.OBJLoader(manager);
 	    loader.load( 'images/treasure_chest.obj', function ( object ) {
 	        var texture = THREE.ImageUtils.loadTexture("images/treasure_chest.jpg");
@@ -116,9 +118,6 @@ World.prototype = {
 	},
 	_setupPillars: function () {
 		var manager = new THREE.LoadingManager();
-	    manager.onProgress = function ( item, loaded, total ) {
-	        console.log( item, loaded, total );
-	    };
 	    var loader = new THREE.OBJLoader(manager);
 		loader.load( 'images/pedestal-cheetah.obj', function ( object ) {
         	for (var i = 0; i < this.numberOfPillars; i++) {
@@ -127,13 +126,12 @@ World.prototype = {
 		        this._setMaterial(newObject, texture);
 		        newObject.scale.set(20, 20, 20);
 				if (i == 0) {
-					newObject.position.x = 0;
-					newObject.position.y = 0;
-					newObject.position.z = 50 - PLANE_SIZE / 2;
+					// We set the first pillar straight North at the edge of
+					// the map.
+					this._setPostition(newObject, 0, 0, 50 - PLANE_SIZE / 2);
 				} else {
-					newObject.position.x = this._randomCoordinant();
-					newObject.position.y = 0;
-					newObject.position.z = this._randomCoordinant();
+					// Position the rest of the pillars randomly.
+					this._setPostition(newObject, this._randomCoordinant(), 0, this._randomCoordinant());
 				}
 				this.pillarPositions.push(newObject.position);
 		        this.scene.add(newObject)
@@ -148,11 +146,8 @@ World.prototype = {
 	    treeMaterial.alphaTest = 0.95;
 
 		var manager = new THREE.LoadingManager();
-		manager.onProgress = function (item, loaded, total) {
-	        console.log( item, loaded, total );
-	    };
-
 	    var loader = new THREE.OBJLoader(manager);
+
 	    loader.load("images/aspen-combined-3.obj", function (treeObject) {
 		    for (var i = 0; i < this.numberOfTrees; i++) {
 		    	var newTreeObject = treeObject.clone();
@@ -160,9 +155,7 @@ World.prototype = {
 		        var newTreeMesh = newTreeObject.children[0];
 		        var scale = Math.random() * 10 + 5;
 	        	newTreeMesh.scale.set(scale, scale, scale);
-		        newTreeMesh.position.x = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
-		        newTreeMesh.position.y = -0.5;
-		        newTreeMesh.position.z = Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
+	        	this._setPostition(newTreeMesh, this._randomCoordinant(), -0.5, this._randomCoordinant());
 		        newTreeMesh.rotation.y = Math.random() * 2 * Math.PI;
 		        newTreeMesh.updateMatrix();
 

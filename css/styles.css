@@ -8,7 +8,7 @@ body {
     font-weight: 900;
 }
 
-#inset {
+.hud {
     /* box */
     height: 150px;
     width: 150px;
@@ -20,7 +20,7 @@ body {
     position: absolute;
     bottom: 0px;
     left: 0px;
-    z-index: 100;
+    z-index: 1;
 
     /* text */
     color: #fff;
@@ -28,7 +28,7 @@ body {
     font-weight: 600;
 }
 
-.north {
+.north-hud-label {
     /* box */
     display: block;
 
@@ -36,10 +36,10 @@ body {
     position: absolute;
     left: 75px;
     top: 5px;
-    z-index: 200;
+    z-index: 2;
 }
 
-.south {
+.south-hud-label {
     /* box */
     display: block;
 
@@ -47,10 +47,10 @@ body {
     position: absolute;
     bottom: 5px;
     left: 75px;
-    z-index: 200;
+    z-index: 2;
 }
 
-.east {
+.east-hud-label {
     /* box */
     display: block;
 
@@ -58,10 +58,10 @@ body {
     position: absolute;
     bottom: 75px;
     right: 5px;
-    z-index: 200;
+    z-index: 2;
 }
 
-.west {
+.west-hud-label {
     /* box */
     display: block;
 
@@ -69,10 +69,10 @@ body {
     position: absolute;
     bottom: 75px;
     left: 5px;
-    z-index: 200;
+    z-index: 2;
 }
 
-#container {
+.container-3d-canvas {
     /* box */
     height: 100%;
     width: 100%;
@@ -81,7 +81,7 @@ body {
     position: relative;
 }
 
-#container canvas, .riddleContainer {
+.threed-canvas, .riddleContainer {
     /* background */
     position: absolute;
 }
@@ -92,7 +92,7 @@ canvas {
     width: 100%; 
 }
 
-#start-button {
+.start-button {
     /* box */
     display: block;
     padding: 5px;
@@ -164,7 +164,7 @@ input {
     font-size: 24px;
 }
 
-#answer-button {
+.answer-button {
     /* box */
     display: block;
     padding: 5px;

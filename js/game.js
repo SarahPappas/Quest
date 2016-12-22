@@ -16,7 +16,7 @@ function Game(world) {
 
 	this._exitDisplayRiddle = this._exitDisplayRiddle.bind(this);
 
-	var startButtonEl = $("#start-button");
+	var startButtonEl = $("#js-start-button");
 
 	// After the user clicks start, we no longer display start dialog.
 	startButtonEl.click(function () {
@@ -31,7 +31,7 @@ function Game(world) {
 		this._displayDialog("treasure");
 	}.bind(this))
 
-	var submitButton = $("#answer-button");
+	var submitButton = $("#js-answer-button");
 	
 	submitButton.click(function (event) {
 		var userInputEl = $("input[name='answer']");

@@ -1,4 +1,4 @@
-	var MINIMAPEL = $("#inset");
+	var MINIMAPEL = $("#js-HUD");
 	var MINIMAP_HEIGHT = 150;
 	var MINIMAP_WIDTH = 150;
 

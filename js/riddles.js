@@ -17,7 +17,7 @@ var riddles = [
     {"Question":"Reaching stiffly for the sky, I bare my fingers when it's cold. In warmth I wear an emerald glove. And in between I dress in gold", "Answer":"tree"},
     {"Question":"My first is twice in apple but not once in tart. My second is in liver but not in heart. My third is in giant and also in ghost. Whole I'm best when I am roast. What am I?", "Answer":"pig"},
     {"Question":"What gets wetter as it dries?", "Answer":"towel"},
-    {"Question":"Mr. Smith has 4 daughters. Each of his daughters has a brother. How many children does Mr. Smith have?", "Answer":"five"},
+    {"Question":"Mr. Smith has 4 daughters. Each of his daughters has a brother. How many children does Mr. Smith have?", "Answer":"five 5"},
     {"Question":"I don't have eyes, but once I did see. Once I had thoughts, but now I'm white and empty.", "Answer":"skull"},
     {"Question":"What is harder to catch the faster you run?", "Answer":"breath"},
     {"Question":"What mythological beast has the head of a man, the body of a lion, and the tail and feet of a dragon?", "Answer":"manticore"},

@@ -26,17 +26,17 @@ function Game(world) {
 	this.world = world;
 
 	// Grab elements from the DOM.
-	this.riddleContainerEl = $(".riddle-container");
-	this.questionEl = $(".riddle-container .question");
+	this._riddleContainerEl = $(".riddle-container");
+	this._questionEl = $(".riddle-container .question");
 	
 	// Set the number of correct answers required before we tell the user where 
 	// to look for the treasure.
-	this.correctAnswersNeeded = 3;
+	this._correctAnswersNeeded = 3;
 	
 	// Set current number of riddles answered correctly.
-	this.riddlesAnsweredCorrectly = 0;
+	this._riddlesAnsweredCorrectly = 0;
 
-	this.riddleIndex = null;
+	this._riddleIndex = null;
 
 	this._exitDisplayRiddle = this._exitDisplayRiddle.bind(this);
 
@@ -74,10 +74,10 @@ function Game(world) {
 
 Game.prototype = {
 	_displayText: function (text) {
-		this.questionEl.text(text);
+		this._questionEl.text(text);
 	},
 	_getRiddleIndex: function () {
-		return this.riddleIndex = Math.floor(Math.random() * riddles.length);
+		return this._riddleIndex = Math.floor(Math.random() * riddles.length);
 	},
 	_isRiddleCorrect: function (riddle, userAnswer) {
 		return userAnswer.toLowerCase().indexOf(riddle.Answer.toLowerCase()) != -1;
@@ -103,13 +103,13 @@ Game.prototype = {
 		}
 
 		// Remove riddle that is already shown.
-		var riddle = riddles.splice(this.riddleIndex, 1)[0];
+		var riddle = riddles.splice(this._riddleIndex, 1)[0];
 
 		// Decide what help to show player depending on their riddle answer.
 		if (this._isRiddleCorrect(riddle, userAnswer)) {
-			this.riddlesAnsweredCorrectly++;
+			this._riddlesAnsweredCorrectly++;
 
-			if (this.riddlesAnsweredCorrectly >= this.correctAnswersNeeded) {
+			if (this._riddlesAnsweredCorrectly >= this._correctAnswersNeeded) {
 				this._showTreasure();
 			} else if (riddles.length == 0) { 
 				this._showNoPillarsLeft();
@@ -127,15 +127,15 @@ Game.prototype = {
 	},
 	_exitDisplayRiddle: function (e) {
 		if (e.keyCode == UP_ARROW_KEY_CODE || e.keyCode == DOWN_ARROW_KEY_CODE || e.keyCode == RIGHT_ARROW_KEY_CODE || e.keyCode == LEFT_ARROW_KEY_CODE) {
-			this.riddleContainerEl.css("display", "none");
+			this._riddleContainerEl.css("display", "none");
 			document.removeEventListener("keydown", this._exitDisplayRiddle);
 		}
 	},
 	_congratulateWinner: function () {
-		this.questionEl.text("Congratulations!! You're a winner");
+		this._questionEl.text("Congratulations!! You're a winner");
 	},
 	_displayDialog: function (item) {
-		this.riddleContainerEl.css("display", "initial");
+		this._riddleContainerEl.css("display", "initial");
 
 		if (item == "pillar") {
 			this._displayText(riddles[this._getRiddleIndex()].Question);

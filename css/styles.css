@@ -147,7 +147,6 @@ canvas {
     /* box */
     width: 50%;
     height: 250px;
-    display: none;
     padding: 3%;
 
     /* background */
@@ -198,4 +197,8 @@ input {
     /* text */
     font-family: 'Economica', sans-serif;
     font-size: 24px;
+}
+
+.hidden {
+    display: none;
 }

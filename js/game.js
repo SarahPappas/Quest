@@ -41,11 +41,10 @@ function Game(world) {
 	this._exitDisplayRiddle = this._exitDisplayRiddle.bind(this);
 
 	var startButtonEl = $("#js-start-button");
-
 	// After the user clicks start, we no longer display start dialog.
 	startButtonEl.click(function () {
-		$(".instruction-container").css("display", "none");
-	})
+		$(".instruction-container").addClass("hidden");
+	});
 	
 	this.world.player.addEventListener("pillarDetected", function () {
 		this._displayDialog("pillar");
@@ -53,10 +52,9 @@ function Game(world) {
 
 	this.world.player.addEventListener("treasureDetected", function () {
 		this._displayDialog("treasure");
-	}.bind(this))
+	}.bind(this));
 
 	var submitButton = $("#js-answer-button");
-	
 	submitButton.click(function (event) {
 		var userInputEl = $("input[name='answer']");
 		// Save user input.
@@ -67,8 +65,8 @@ function Game(world) {
 		// using the #question div.
 		this._interactWithUser(userAnswer);
 		// Hide the question / answer dialog.
-		$(".answer").css("display", "none");
-	}.bind(this))
+		$(".answer").addClass("hidden");
+	}.bind(this));
 
 }
 
@@ -127,7 +125,7 @@ Game.prototype = {
 	},
 	_exitDisplayRiddle: function (e) {
 		if (e.keyCode == UP_ARROW_KEY_CODE || e.keyCode == DOWN_ARROW_KEY_CODE || e.keyCode == RIGHT_ARROW_KEY_CODE || e.keyCode == LEFT_ARROW_KEY_CODE) {
-			this._riddleContainerEl.css("display", "none");
+			this._riddleContainerEl.addClass("hidden");
 			document.removeEventListener("keydown", this._exitDisplayRiddle);
 		}
 	},
@@ -135,11 +133,11 @@ Game.prototype = {
 		this._questionEl.text("Congratulations!! You're a winner");
 	},
 	_displayDialog: function (item) {
-		this._riddleContainerEl.css("display", "initial");
+		this._riddleContainerEl.removeClass("hidden");
 
 		if (item == "pillar") {
 			this._displayText(riddles[this._getRiddleIndex()].Question);
-			$(".answer").css("display", "initial");
+			$(".answer").removeClass("hidden");
 		}
 
 		if (item == "treasure") {

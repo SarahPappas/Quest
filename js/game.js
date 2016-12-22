@@ -23,20 +23,20 @@
  */
  
 function Game(world) {
-
-	// Passing the world into the game function.
 	this.world = world;
-	// Grabbing elements from the DOM.
+
+	// Grab elements from the DOM.
 	this.riddleContainerEl = $(".riddle-container");
 	this.questionEl = $(".riddle-container .question");
-	// Setting game correct answers need to be pointed to the treasure.
+	
+	// Set the number of correct answers required before we tell the user where 
+	// to look for the treasure.
 	this.correctAnswersNeeded = 3;
-	// Setting game correct answer count.
+	
+	// Set current number of riddles answered correctly.
 	this.riddlesAnsweredCorrectly = 0;
-	// The riddle index starts at null.
+
 	this.riddleIndex = null;
-	// The user input starts empty.
-	this.userInput = "";
 
 	this._exitDisplayRiddle = this._exitDisplayRiddle.bind(this);
 
@@ -60,12 +60,12 @@ function Game(world) {
 	submitButton.click(function (event) {
 		var userInputEl = $("input[name='answer']");
 		// Save user input.
-		this.userInput = userInputEl.val();
+		var userAnswer = userInputEl.val();
 		// clear user input.
 		userInputEl.val("");
 		// Dicide if user was correct and display the next direction to head 
 		// using the #question div.
-		this._interactWithUser();
+		this._interactWithUser(userAnswer);
 		// Hide the question / answer dialog.
 		$(".answer").css("display", "none");
 	}.bind(this))
@@ -97,16 +97,16 @@ Game.prototype = {
 		this._displayText("Sorry to say, but you will get no help from me");
 		this.world.hud.hintSphere = null;
 	},
-	_interactWithUser: function () {
+	_interactWithUser: function (userAnswer) {
 		if(this.world.hud.hintSphere){
 			this.world.hud.removeObjectFromScene();
 		}
-		
+
 		// Remove riddle that is already shown.
 		var riddle = riddles.splice(this.riddleIndex, 1)[0];
 
 		// Decide what help to show player depending on their riddle answer.
-		if (this._isRiddleCorrect(riddle, this.userInput)) {
+		if (this._isRiddleCorrect(riddle, userAnswer)) {
 			this.riddlesAnsweredCorrectly++;
 
 			if (this.riddlesAnsweredCorrectly >= this.correctAnswersNeeded) {

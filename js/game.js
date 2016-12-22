@@ -38,7 +38,7 @@ function Game(world) {
 
 	this._currentRiddleIndex = null;
 
-	this._exitDisplayRiddle = this._exitDisplayRiddle.bind(this);
+	this._hideRiddle = this._hideRiddle.bind(this);
 
 	var startButtonEl = $("#js-start-button");
 	// After the user clicks start, we no longer display start dialog.
@@ -47,11 +47,11 @@ function Game(world) {
 	});
 	
 	this.world.player.addEventListener("pillarDetected", function () {
-		this._displayDialog("pillar");
+		this._showRiddleDialog();
 	}.bind(this));
 
 	this.world.player.addEventListener("treasureDetected", function () {
-		this._displayDialog("treasure");
+		this._showWinnerDialog();
 	}.bind(this));
 
 	var submitButton = $("#js-answer-button");
@@ -129,31 +129,24 @@ Game.prototype = {
 		// After you've answered the riddle and we have shown a message, we 
 		// dismiss the message when the user hits any arrow key to start moving
 		// again.
-		document.addEventListener("keydown", this._exitDisplayRiddle);
+		document.addEventListener("keydown", this._hideRiddle);
 	},
-	_exitDisplayRiddle: function (e) {
+	_hideRiddle: function (e) {
 		if (e.keyCode == UP_ARROW_KEY_CODE || 
 			e.keyCode == DOWN_ARROW_KEY_CODE || 
 			e.keyCode == RIGHT_ARROW_KEY_CODE || 
 			e.keyCode == LEFT_ARROW_KEY_CODE) {
 			this._hideDialog();
-			document.removeEventListener("keydown", this._exitDisplayRiddle);
+			document.removeEventListener("keydown", this._hideRiddle);
 		}
 	},
-	_congratulateWinner: function () {
-		this._questionEl.text("Congratulations!! You're a winner");
-	},
-	_displayDialog: function (item) {
+	_showRiddleDialog: function () {
 		this._riddleContainerEl.removeClass("hidden");
-
-		if (item == "pillar") {
-			this._displayText(this._getRandomRiddle());
-			$(".answer").removeClass("hidden");
-		}
-
-		if (item == "treasure") {
-			this._congratulateWinner();
-		}
+		this._displayText(this._getRandomRiddle());
+		$(".answer").removeClass("hidden");
 	},
-
+	_showWinnerDialog: function () {
+		this._riddleContainerEl.removeClass("hidden");
+		this._questionEl.text("Congratulations! You're a winner");
+	}
 };

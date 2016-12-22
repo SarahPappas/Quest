@@ -36,7 +36,7 @@ function Game(world) {
 	// Set current number of riddles answered correctly.
 	this._riddlesAnsweredCorrectly = 0;
 
-	this._riddleIndex = null;
+	this._currentRiddleIndex = null;
 
 	this._exitDisplayRiddle = this._exitDisplayRiddle.bind(this);
 
@@ -74,8 +74,12 @@ Game.prototype = {
 	_displayText: function (text) {
 		this._questionEl.text(text);
 	},
-	_getRiddleIndex: function () {
-		return this._riddleIndex = Math.floor(Math.random() * riddles.length);
+	_getRandomRiddle: function () {
+		var riddleIndex = Math.floor(Math.random() * riddles.length);
+		this._currentRiddleIndex = riddleIndex;
+		
+		var riddle = riddles[riddleIndex].Question;
+		return riddle;
 	},
 	_isRiddleCorrect: function (riddle, userAnswer) {
 		return userAnswer.toLowerCase().indexOf(riddle.Answer.toLowerCase()) != -1;
@@ -95,13 +99,17 @@ Game.prototype = {
 		this._displayText("Sorry to say, but you will get no help from me");
 		this.world.hud.hintSphere = null;
 	},
+	_hideDialog: function () {
+		this._riddleContainerEl.addClass("hidden");
+	},
 	_interactWithUser: function (userAnswer) {
 		if(this.world.hud.hintSphere){
 			this.world.hud.removeObjectFromScene();
 		}
 
 		// Remove riddle that is already shown.
-		var riddle = riddles.splice(this._riddleIndex, 1)[0];
+
+		var riddle = riddles.splice(this._currentRiddleIndex, 1)[0];
 
 		// Decide what help to show player depending on their riddle answer.
 		if (this._isRiddleCorrect(riddle, userAnswer)) {
@@ -124,8 +132,11 @@ Game.prototype = {
 		document.addEventListener("keydown", this._exitDisplayRiddle);
 	},
 	_exitDisplayRiddle: function (e) {
-		if (e.keyCode == UP_ARROW_KEY_CODE || e.keyCode == DOWN_ARROW_KEY_CODE || e.keyCode == RIGHT_ARROW_KEY_CODE || e.keyCode == LEFT_ARROW_KEY_CODE) {
-			this._riddleContainerEl.addClass("hidden");
+		if (e.keyCode == UP_ARROW_KEY_CODE || 
+			e.keyCode == DOWN_ARROW_KEY_CODE || 
+			e.keyCode == RIGHT_ARROW_KEY_CODE || 
+			e.keyCode == LEFT_ARROW_KEY_CODE) {
+			this._hideDialog();
 			document.removeEventListener("keydown", this._exitDisplayRiddle);
 		}
 	},
@@ -136,7 +147,7 @@ Game.prototype = {
 		this._riddleContainerEl.removeClass("hidden");
 
 		if (item == "pillar") {
-			this._displayText(riddles[this._getRiddleIndex()].Question);
+			this._displayText(this._getRandomRiddle());
 			$(".answer").removeClass("hidden");
 		}
 

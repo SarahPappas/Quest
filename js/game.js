@@ -86,29 +86,26 @@ Game.prototype = {
 	},
 	_showTreasure: function () {
 		this._displayText("I'm so pleased you are correct! Please see your HUD for the location of the box.");
-		this.world.hud.addTargetArea(this.world.getPositionOfTreasure());
+		this.world.hud.addHintSphere(this.world.getPositionOfTreasure());
 	},
 	_showNoPillarsLeft: function () {
 		this._displayText("I'm so pleased you are correct! Unfortunately, there are no more pillars to guide you.");
 	},
 	_showNextPillar: function () {
 		this._displayText("I'm so pleased you are correct! Please see your HUD for the location of the next pillar.");
-		this.world.hud.addTargetArea(this.world.getPositionOfNextPillar());
+		this.world.hud.addHintSphere(this.world.getPositionOfNextPillar());
 	},
 	_showNoHelp: function () {
 		this._displayText("Sorry to say, but you will get no help from me");
-		this.world.hud.hintSphere = null;
+		this.world.hud.removeHintSphere();
 	},
 	_hideDialog: function () {
 		this._riddleContainerEl.addClass("hidden");
 	},
 	_interactWithUser: function (userAnswer) {
-		if(this.world.hud.hintSphere){
-			this.world.hud.removeObjectFromScene();
-		}
+		this.world.hud.removeHintSphere();
 
 		// Remove riddle that is already shown.
-
 		var riddle = riddles.splice(this._currentRiddleIndex, 1)[0];
 
 		// Decide what help to show player depending on their riddle answer.

@@ -27,10 +27,13 @@ function Hud(player) {
 	var MiniMapEl = $("#js-HUD");
 	var MiniMap_Height = 150;
 	var MiniMap_Width = 150;
+	this._miniMapSize = (MiniMap_Width + MiniMap_Height) /2;
 
 	// Create a new scene and camera for the HUD.
 	this._miniMapScene = new THREE.Scene();
-	this._miniMapCamera = new THREE.PerspectiveCamera(75, MiniMap_Width / MiniMap_Height, 0.1, 50);
+	var hudNearPlaneFrustum = 0.1;
+	var hudFarPlaneFrustum = this._miniMapSize / 2;
+	this._miniMapCamera = new THREE.PerspectiveCamera(75, MiniMap_Width / MiniMap_Height, hudNearPlaneFrustum, hudFarPlaneFrustum);
 	this._miniMapCamera.position.z = 10
 
 	// Create new renderer for the HUD.
@@ -46,17 +49,20 @@ function Hud(player) {
 	this._userSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 	this._miniMapScene.add(this._userSphere);
 
-	// We need to save sphere so we can access the name later to remove it 
-	// from the minimap.
+	// Sometimes we show a hint to the player as a search area on the HUD.
 	this._hintSphere = null;
 
 }
 
 Hud.prototype = {
 	render: function (player) {
+		// This is the porportion of HUD size to plane size * the HUD  near 
+		// plane frustum.
+		var downScalePlayerPosition = (this._miniMapSize / PLANE_SIZE) * .1;
+
 		// Get new sphere position.
-		this._userSphere.position.x = (player.camera.position.x * .015);
-		this._userSphere.position.y = -1*(player.camera.position.z * .015);
+		this._userSphere.position.x = (player.camera.position.x * downScalePlayerPosition);
+		this._userSphere.position.y = -1*(player.camera.position.z * downScalePlayerPosition);
 		this._userSphere.position.z = 0;
 
 		// Render the minimap.
@@ -66,7 +72,7 @@ Hud.prototype = {
 	 * @param {number} draws a circular target area at the next objective's 
 	 * location.
 	 */
-	addTargetArea: function (location) {
+	addHintSphere: function (location) {
 		var radius = 30;
 		var diameter = radius * 2;
 		var pillarPosition = location;
@@ -79,7 +85,10 @@ Hud.prototype = {
 		this._hintSphere.name = "TargetArea";
 		this._miniMapScene.add(this._hintSphere);
 	},
-	removeObjectFromScene: function () {
+	removeHintSphere: function () {
+		if (!this._hintSphere) {
+			return;
+		}
 		var selectedObject = this._miniMapScene.getObjectByName(this._hintSphere.name);
 		this._miniMapScene.remove(selectedObject);
 		selectedObject.material.dispose();

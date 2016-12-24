@@ -25,7 +25,7 @@
 var GREY = 0xaaaaaa;
 var PLANE_SIZE = 1000;
 
-function World(player, hud) {
+function World() {
 
 	// SETUP
 	// We need 3 things to dispaly anything: A scene, a camera, and a renderer.
@@ -79,7 +79,7 @@ World.prototype = {
 	// To render the page, you need a render loop.
 	// Anything you move or change has to run through the render function loop.
 	render: function () {
-		this.hud.render();
+		this.hud.render(this.player);
 		this.player.render(this.pillarPositions, this.treasure.position);
 		this.renderer.render(this.scene, this.player.camera);
 

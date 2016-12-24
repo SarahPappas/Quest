@@ -22,6 +22,6 @@
  * SOFTWARE.
  */
  
-var world = new World(Player, Hud);
+var world = new World();
 var game = new Game(world);
 world.render();

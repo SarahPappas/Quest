@@ -28,7 +28,7 @@ function Hud(player) {
 	var MiniMap_Height = 150;
 	var MiniMap_Width = 150;
 
-	this.player = player;
+	// this.player = player;
 
 	// Create a new scene and camera for the HUD.
 	this.miniMapScene = new THREE.Scene();
@@ -55,10 +55,10 @@ function Hud(player) {
 }
 
 Hud.prototype = {
-	render: function () {
+	render: function (player) {
 		// Get new sphere position.
-		this._userSphere.position.x = (this.player.camera.position.x * .015);
-		this._userSphere.position.y = -1*(this.player.camera.position.z * .015);
+		this._userSphere.position.x = (player.camera.position.x * .015);
+		this._userSphere.position.y = -1*(player.camera.position.z * .015);
 		this._userSphere.position.z = 0;
 
 		// Render the minimap.

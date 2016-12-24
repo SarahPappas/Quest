@@ -26,6 +26,7 @@ var GREY = 0xaaaaaa;
 var PLANE_SIZE = 1000;
 
 function World(player, hud) {
+
 	// SETUP
 	// We need 3 things to dispaly anything: A scene, a camera, and a renderer.
 	this.scene = new THREE.Scene();
@@ -81,6 +82,7 @@ World.prototype = {
 		this.hud.render();
 		this.player.render(this.pillarPositions, this.treasure.position);
 		this.renderer.render(this.scene, this.player.camera);
+
 		// Use requestAnimationFrame for loop instead of setInterval because it 
 		// pauses when the user navigates away from the page.
 		requestAnimationFrame(this.render.bind(this));

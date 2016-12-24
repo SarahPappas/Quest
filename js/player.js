@@ -30,11 +30,13 @@ var LEFT_ARROW_KEY_CODE = 37;
 
 function Player() {
 	EventEmitter.call(this);
+
 	// SETUP CAMERAS
 	// Diffrent types of cameras, parameters field of view, aspect ration, near 
 	// and far clipping plane.
 	// this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 80);
 	this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 500);
+
 	// Set camera position.
 	// Moves out camera postion because otherwise it would be placed at 0, 0, 0 
 	// - in them middle of the plane.
@@ -45,9 +47,11 @@ function Player() {
 	// Set the distance you will move in a frame.
 	// This will move the camera 1 out of the 1,000 ground plane we created.
 	this.speed = .5; 
+
 	// This noramalizes, then copies the vector of the direction the camera is 
 	// looking.
 	this.directionVector = this.camera.getWorldDirection().clone().normalize();
+	
 	// This is the degree of rotation for each arrow press.
 	this.rotation = 1;
 

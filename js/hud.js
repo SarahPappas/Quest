@@ -28,29 +28,27 @@ function Hud(player) {
 	var MiniMap_Height = 150;
 	var MiniMap_Width = 150;
 
-	// this.player = player;
-
 	// Create a new scene and camera for the HUD.
-	this.miniMapScene = new THREE.Scene();
-	this.miniMapCamera = new THREE.PerspectiveCamera(75, MiniMap_Width / MiniMap_Height, 0.1, 50);
-	this.miniMapCamera.position.z = 10
+	this._miniMapScene = new THREE.Scene();
+	this._miniMapCamera = new THREE.PerspectiveCamera(75, MiniMap_Width / MiniMap_Height, 0.1, 50);
+	this._miniMapCamera.position.z = 10
 
 	// Create new renderer for the HUD.
-	this.miniMapRenderer = new THREE.WebGLRenderer();
-	this.miniMapRenderer.setSize(MiniMap_Width, MiniMap_Height);
+	this._miniMapRenderer = new THREE.WebGLRenderer();
+	this._miniMapRenderer.setSize(MiniMap_Width, MiniMap_Height);
 
 	// Add  the minimap to DOM.
-	MiniMapEl.append(this.miniMapRenderer.domElement);
+	MiniMapEl.append(this._miniMapRenderer.domElement);
 
 	// Add a sphere, which will represent the players location.
 	var sphereGeometry = new THREE.SphereGeometry(.5, 32, 32);
 	var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
 	this._userSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-	this.miniMapScene.add(this._userSphere);
+	this._miniMapScene.add(this._userSphere);
 
 	// We need to save sphere so we can access the name later to remove it 
 	// from the minimap.
-	this.hintSphere = null;
+	this._hintSphere = null;
 
 }
 
@@ -62,7 +60,7 @@ Hud.prototype = {
 		this._userSphere.position.z = 0;
 
 		// Render the minimap.
-		this.miniMapRenderer.render(this.miniMapScene, this.miniMapCamera);
+		this._miniMapRenderer.render(this._miniMapScene, this._miniMapCamera);
 	},
 	/**
 	 * @param {number} draws a circular target area at the next objective's 
@@ -75,15 +73,15 @@ Hud.prototype = {
 		var ratio = .015;
 		var sphereGeometry = new THREE.SphereGeometry(1.5, 32, 32);
 		var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xf2f28a});
-		this.hintSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-		this.hintSphere.position.x = ((pillarPosition.x - radius) + (Math.random() * diameter)) * ratio;
-		this.hintSphere.position.y = (-1 * ((pillarPosition.z - radius) + (Math.random() * diameter))) * ratio;
-		this.hintSphere.name = "TargetArea";
-		this.miniMapScene.add(this.hintSphere);
+		this._hintSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+		this._hintSphere.position.x = ((pillarPosition.x - radius) + (Math.random() * diameter)) * ratio;
+		this._hintSphere.position.y = (-1 * ((pillarPosition.z - radius) + (Math.random() * diameter))) * ratio;
+		this._hintSphere.name = "TargetArea";
+		this._miniMapScene.add(this._hintSphere);
 	},
 	removeObjectFromScene: function () {
-		var selectedObject = this.miniMapScene.getObjectByName(this.hintSphere.name);
-		this.miniMapScene.remove(selectedObject);
+		var selectedObject = this._miniMapScene.getObjectByName(this._hintSphere.name);
+		this._miniMapScene.remove(selectedObject);
 		selectedObject.material.dispose();
         selectedObject.geometry.dispose();
 	},

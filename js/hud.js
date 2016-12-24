@@ -28,6 +28,11 @@ function Hud(player) {
 	var MiniMap_Height = 150;
 	var MiniMap_Width = 150;
 	this._miniMapSize = (MiniMap_Width + MiniMap_Height) /2;
+	this._searchAreaRadius = 30;
+
+	// This is the porportion of HUD size to plane size * the HUD  near 
+	// plane frustum.
+	this._downScalePlayerPosition = (this._miniMapSize / PLANE_SIZE) * .1;
 
 	// Create a new scene and camera for the HUD.
 	this._miniMapScene = new THREE.Scene();
@@ -56,32 +61,26 @@ function Hud(player) {
 
 Hud.prototype = {
 	render: function (player) {
-		// This is the porportion of HUD size to plane size * the HUD  near 
-		// plane frustum.
-		var downScalePlayerPosition = (this._miniMapSize / PLANE_SIZE) * .1;
-
 		// Get new sphere position.
-		this._userSphere.position.x = (player.camera.position.x * downScalePlayerPosition);
-		this._userSphere.position.y = -1*(player.camera.position.z * downScalePlayerPosition);
+		this._userSphere.position.x = (player.camera.position.x * this._downScalePlayerPosition);
+		this._userSphere.position.y = -1*(player.camera.position.z * this._downScalePlayerPosition);
 		this._userSphere.position.z = 0;
 
 		// Render the minimap.
 		this._miniMapRenderer.render(this._miniMapScene, this._miniMapCamera);
 	},
 	/**
-	 * @param {number} draws a circular target area at the next objective's 
+	 * @param {number} location Draws a circular target area at the next objective's 
 	 * location.
 	 */
 	addHintSphere: function (location) {
-		var radius = 30;
-		var diameter = radius * 2;
+		var diameter = this._searchAreaRadius * 2;
 		var pillarPosition = location;
-		var ratio = .015;
 		var sphereGeometry = new THREE.SphereGeometry(1.5, 32, 32);
 		var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xf2f28a});
 		this._hintSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-		this._hintSphere.position.x = ((pillarPosition.x - radius) + (Math.random() * diameter)) * ratio;
-		this._hintSphere.position.y = (-1 * ((pillarPosition.z - radius) + (Math.random() * diameter))) * ratio;
+		this._hintSphere.position.x = ((pillarPosition.x - this._searchAreaRadius) + (Math.random() * diameter)) * this._downScalePlayerPosition;
+		this._hintSphere.position.y = (-1 * ((pillarPosition.z - this._searchAreaRadius) + (Math.random() * diameter))) * this._downScalePlayerPosition;
 		this._hintSphere.name = "TargetArea";
 		this._miniMapScene.add(this._hintSphere);
 	},

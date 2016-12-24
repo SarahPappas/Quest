@@ -22,21 +22,22 @@
  * SOFTWARE.
  */
 
-var MINIMAPEL = $("#js-HUD");
-var MINIMAP_HEIGHT = 150;
-var MINIMAP_WIDTH = 150;
 
 function Hud(player) {
+	var MiniMapEl = $("#js-HUD");
+	var MiniMap_Height = 150;
+	var MiniMap_Width = 150;
+
 	this.player = player;
 	// Create a new scene and camera for the HUD.
 	this.miniMapScene = new THREE.Scene();
-	this.miniMapCamera = new THREE.PerspectiveCamera(75, MINIMAP_WIDTH / MINIMAP_HEIGHT, .1, 50);
+	this.miniMapCamera = new THREE.PerspectiveCamera(75, MiniMap_Width / MiniMap_Height, .1, 50);
 	this.miniMapCamera.position.z = 10
 	// Create new renderer for the HUD.
 	this.miniMapRenderer = new THREE.WebGLRenderer();
-	this.miniMapRenderer.setSize(MINIMAP_WIDTH, MINIMAP_HEIGHT);
+	this.miniMapRenderer.setSize(MiniMap_Width, MiniMap_Height);
 	// Add  the minimap to DOM.
-	MINIMAPEL.append(this.miniMapRenderer.domElement);
+	MiniMapEl.append(this.miniMapRenderer.domElement);
 	// Add a sphere, which will represent the players location.
 	var sphereGeometry = new THREE.SphereGeometry(.5, 32, 32);
 	var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});

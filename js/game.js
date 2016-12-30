@@ -129,10 +129,10 @@ Game.prototype = {
 		document.addEventListener("keydown", this._hideRiddle);
 	},
 	_hideRiddle: function (e) {
-		if (e.keyCode == UP_ARROW_KEY_CODE || 
-			e.keyCode == DOWN_ARROW_KEY_CODE || 
-			e.keyCode == RIGHT_ARROW_KEY_CODE || 
-			e.keyCode == LEFT_ARROW_KEY_CODE) {
+		if (e.keyCode == KeyCodes.UP_ARROW_KEY_CODE || 
+			e.keyCode == KeyCodes.DOWN_ARROW_KEY_CODE || 
+			e.keyCode == KeyCodes.RIGHT_ARROW_KEY_CODE || 
+			e.keyCode == KeyCodes.LEFT_ARROW_KEY_CODE) {
 			this._hideDialog();
 			document.removeEventListener("keydown", this._hideRiddle);
 		}

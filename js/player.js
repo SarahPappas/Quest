@@ -22,12 +22,6 @@
  * SOFTWARE.
  */
 
-// SET keycode constants
-var UP_ARROW_KEY_CODE = 38;
-var DOWN_ARROW_KEY_CODE = 40;
-var RIGHT_ARROW_KEY_CODE = 39;
-var LEFT_ARROW_KEY_CODE = 37;
-
 function Player() {
 	EventEmitter.call(this);
 
@@ -117,30 +111,30 @@ Player.prototype = {
 		this.directionVector = this.camera.getWorldDirection().clone().normalize();
 	},
 	_keydown: function (e) {
-		if (e.keyCode == UP_ARROW_KEY_CODE) {
+		if (e.keyCode == KeyCodes.UP_ARROW_KEY_CODE) {
 			this.isUpArrowActive = true;
 		}
-		if (e.keyCode == DOWN_ARROW_KEY_CODE) {
+		if (e.keyCode == KeyCodes.DOWN_ARROW_KEY_CODE) {
 			this.isDownArrowActive = true;
 		}
-		if (e.keyCode == RIGHT_ARROW_KEY_CODE) {
+		if (e.keyCode == KeyCodes.RIGHT_ARROW_KEY_CODE) {
 			this.isRightArrowActive = true;
 		}
-		if (e.keyCode == LEFT_ARROW_KEY_CODE) {
+		if (e.keyCode == KeyCodes.LEFT_ARROW_KEY_CODE) {
 			this.isLeftArrowActive = true;
 		}
 	},
 	_keyup: function (e) {
-		if (e.keyCode == UP_ARROW_KEY_CODE) {
+		if (e.keyCode == KeyCodes.UP_ARROW_KEY_CODE) {
 			this.isUpArrowActive = false;
 		}
-		if (e.keyCode == DOWN_ARROW_KEY_CODE) {
+		if (e.keyCode == KeyCodes.DOWN_ARROW_KEY_CODE) {
 			this.isDownArrowActive = false;
 		}
-		if (e.keyCode == RIGHT_ARROW_KEY_CODE) {
+		if (e.keyCode == KeyCodes.RIGHT_ARROW_KEY_CODE) {
 			this.isRightArrowActive = false;
 		}
-		if (e.keyCode == LEFT_ARROW_KEY_CODE) {
+		if (e.keyCode == KeyCodes.LEFT_ARROW_KEY_CODE) {
 			this.isLeftArrowActive = false;
 		}
 	},

@@ -76,16 +76,19 @@ function World() {
 
 
 World.prototype = {
+	start: function () {
+		this._render();
+	},
 	// To render the page, you need a render loop.
 	// Anything you move or change has to run through the render function loop.
-	render: function () {
+	_render: function () {
 		this.hud.render(this.player);
 		this.player.render(this.pillarPositions, this.treasure.position);
 		this.renderer.render(this.scene, this.player.camera);
 
 		// Use requestAnimationFrame for loop instead of setInterval because it 
 		// pauses when the user navigates away from the page.
-		requestAnimationFrame(this.render.bind(this));
+		requestAnimationFrame(this._render.bind(this));
 	},
 	_onWindowResize: function () {
 	    this.player.camera.aspect = window.innerWidth / window.innerHeight;

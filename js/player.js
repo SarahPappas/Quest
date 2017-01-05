@@ -39,8 +39,6 @@ function Player() {
 	// SETUP MOVEMENTS
 	// Set the distance you will move in a frame.
 	this.speed = .5; 
-
-	this.directionVector = this.camera.getWorldDirection().clone().normalize();
 	
 	// This is the degree of rotation for each arrow press.
 	this.rotation = 1;
@@ -89,13 +87,17 @@ Player.prototype = {
 			this.emit("treasureDetected", treasurePosition);
 		}
 	},
+	_getDirectionVector: function () {
+		return this.camera.getWorldDirection().clone().normalize();
+	},
 	/**
 	 * @param {number} distance - The distance for each move. Should be positive
 	 * this.speed or negative this.speed.
 	 */
 	_walk: function (distance) {
-		this.camera.position.x = this.camera.position.x + this.directionVector.x * distance;
-		this.camera.position.z = this.camera.position.z + this.directionVector.z * distance;
+		var directionVector = this._getDirectionVector();
+		this.camera.position.x = this.camera.position.x + directionVector.x * distance;
+		this.camera.position.z = this.camera.position.z + directionVector.z * distance;
 	},
 	/**
 	 * @param {number} rotation in degrees - The rotation for each move. Should 
@@ -104,7 +106,6 @@ Player.prototype = {
 	 */
 	_rotate: function (degrees) {
 		this.camera.rotation.y += (degrees * (Math.PI / 180));
-		this.directionVector = this.camera.getWorldDirection().clone().normalize();
 	},
 	_keydown: function (e) {
 		if (e.keyCode == KeyCodes.UP_ARROW_KEY_CODE) {

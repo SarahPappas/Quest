@@ -40,8 +40,8 @@ function Player() {
 	// Set the distance you will move in a frame.
 	this.speed = .5; 
 	
-	// This is the degree of rotation for each arrow press.
-	this.rotation = 1;
+	// This is the degree of rotation per frame.
+	this.rotationSpeed = 1;
 
 	// SETUP KEY CONTROLS
 	// The default is false.
@@ -58,7 +58,7 @@ Player.prototype = {
 	/**
 	 * @param {string} arrowKey - up, down, left, or right.
 	 */
-	render: function (arrayOfPillarPositions, treasurePosition) {
+	update: function (arrayOfPillarPositions, treasurePosition) {
 		// Arrow controls
 		if (this.isUpArrowActive && !this.isDownArrowActive) {
 			this._walk(this.speed);
@@ -67,14 +67,13 @@ Player.prototype = {
 			this._walk(-this.speed);
 		}
 		if (this.isRightArrowActive && !this.isLeftArrowActive) {
-			this._rotate(-this.rotation);
+			this._rotate(-this.rotationSpeed);
 		}
 		if (this.isLeftArrowActive && !this.isRightArrowActive) {
-			this._rotate(this.rotation);
+			this._rotate(this.rotationSpeed);
 		}
 
 		// Hit detection for pillars.
-		// TODO: Make hit detection generic, player shouldn't know about pillars
 		for (var i = 0; i < arrayOfPillarPositions.length; i++) {
 			if (this._isPointInsideCircle(arrayOfPillarPositions[i]) == true) {
 				this.emit("pillarDetected", arrayOfPillarPositions[i]);
@@ -101,7 +100,7 @@ Player.prototype = {
 	},
 	/**
 	 * @param {number} rotation in degrees - The rotation for each move. Should 
-	 * be positive this.rotation for spinnig right or negative this.rotation for 
+	 * be positive this.rotationSpeed for spinnig right or negative this.rotationSpeed for 
 	 * spinning left.
 	 */
 	_rotate: function (degrees) {

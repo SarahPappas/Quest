@@ -83,7 +83,7 @@ World.prototype = {
 	// Anything you move or change has to run through the render function loop.
 	_render: function () {
 		this.hud.render(this.player);
-		this.player.render(this.pillarPositions, this.treasure.position);
+		this.player.update(this.pillarPositions, this.treasure.position);
 		this.renderer.render(this.scene, this.player.camera);
 
 		// Use requestAnimationFrame for loop instead of setInterval because it 

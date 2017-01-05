@@ -78,11 +78,11 @@ Game.prototype = {
 		var riddleIndex = Math.floor(Math.random() * riddles.length);
 		this._currentRiddleIndex = riddleIndex;
 		
-		var riddle = riddles[riddleIndex].Question;
+		var riddle = riddles[riddleIndex].question;
 		return riddle;
 	},
 	_isRiddleCorrect: function (riddle, userAnswer) {
-		return userAnswer.toLowerCase().indexOf(riddle.Answer.toLowerCase()) != -1;
+		return userAnswer.toLowerCase().indexOf(riddle.answer.toLowerCase()) != -1;
 	},
 	_showTreasure: function () {
 		this._displayText("I'm so pleased you are correct! Please see your HUD for the location of the box.");

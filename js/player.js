@@ -133,9 +133,9 @@ Player.prototype = {
 	/**
 	 * @param {Array} - array of (x, y, z) for a cone.
 	 */
-	_isPointInsideCircle: function (circle, point) {
-		var dx = point.x - circle.x;
-		var dz = point.z - circle.z;
+	_isPointInsideCircle: function (circleCenter, point) {
+		var dx = point.x - circleCenter.x;
+		var dz = point.z - circleCenter.z;
   		var distance = Math.sqrt((dx) * (dx) + (dz) * (dz));
   		return distance <  this.hitDetectionRadius;
 	},

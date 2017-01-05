@@ -90,8 +90,8 @@ Hud.prototype = {
             return;
         }
         var selectedObject = this._miniMapScene.getObjectByName(this._hintSphere.name);
-        this._miniMapScene.remove(selectedObject);
         selectedObject.material.dispose();
         selectedObject.geometry.dispose();
+        this._miniMapScene.remove(selectedObject);
     },
 };

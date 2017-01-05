@@ -97,7 +97,6 @@ Game.prototype = {
 	},
 	_showNoHelp: function () {
 		this._displayText("Sorry to say, but you will get no help from me");
-		this.world.hud.removeHintSphere();
 	},
 	_hideDialog: function () {
 		this._riddleContainerEl.addClass("hidden");

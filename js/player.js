@@ -36,19 +36,22 @@ function Player() {
 	// - in them middle of the plane.
 	this.camera.position.y = 2;
 
-	// SETUP MOVEMENTS
+	// Setup movement.
 	// Set the distance you will move in a frame.
 	this.speed = .5; 
 	
 	// This is the degree of rotation per frame.
 	this.rotationSpeed = 1;
 
-	// SETUP KEY CONTROLS
+	// Setup key controls.
 	// The default is false.
 	this.isUpArrowActive = false;
 	this.isDownArrowActive = false;
 	this.isLeftArrowActive = false;
 	this.isRightArrowActive = false;
+
+	// Setup hit detection radius.
+	this.hitDetectionRadius = 20;
 
 	document.addEventListener("keydown", this._keydown.bind(this));
 	document.addEventListener("keyup", this._keyup.bind(this));
@@ -75,14 +78,14 @@ Player.prototype = {
 
 		// Hit detection for pillars.
 		for (var i = 0; i < pillarPositions.length; i++) {
-			if (this._isPointInsideCircle(pillarPositions[i])) {
+			if (this._isPointInsideCircle(pillarPositions[i], this.camera.position)) {
 				this.emit("pillarEncountered", pillarPositions[i]);
 				pillarPositions.splice(i, 1);
 			} 	
 		}
 
 		// Hit detection for treasure.
-		if(this._isPointInsideCircle(treasurePosition)) {
+		if(this._isPointInsideCircle(treasurePosition, this.camera.position)) {
 			this.emit("treasureEncountered", treasurePosition);
 		}
 	},
@@ -130,10 +133,11 @@ Player.prototype = {
 	/**
 	 * @param {Array} - array of (x, y, z) for a cone.
 	 */
-	_isPointInsideCircle: function (circle) {
-  		var distance = Math.sqrt((this.camera.position.x - circle.x) * (this.camera.position.x - circle.x) +
-                       			(this.camera.position.z - circle.z) * (this.camera.position.z - circle.z));
-  		return distance <  20;
+	_isPointInsideCircle: function (circle, point) {
+		var dx = point.x - circle.x;
+		var dz = point.z - circle.z;
+  		var distance = Math.sqrt((dx) * (dx) + (dz) * (dz));
+  		return distance <  this.hitDetectionRadius;
 	},
 };
 

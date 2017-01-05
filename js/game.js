@@ -46,11 +46,11 @@ function Game(world) {
 		$(".instruction-container").addClass("hidden");
 	});
 	
-	this.world.player.addEventListener("pillarDetected", function () {
+	this.world.player.addEventListener("pillarEncountered", function () {
 		this._showRiddleDialog();
 	}.bind(this));
 
-	this.world.player.addEventListener("treasureDetected", function () {
+	this.world.player.addEventListener("treasureEncountered", function () {
 		this._showWinnerDialog();
 	}.bind(this));
 

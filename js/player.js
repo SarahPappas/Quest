@@ -58,7 +58,7 @@ Player.prototype = {
 	/**
 	 * @param {string} arrowKey - up, down, left, or right.
 	 */
-	update: function (arrayOfPillarPositions, treasurePosition) {
+	update: function (pillarPositions, treasurePosition) {
 		// Arrow controls
 		if (this.isUpArrowActive && !this.isDownArrowActive) {
 			this._walk(this.speed);
@@ -74,24 +74,24 @@ Player.prototype = {
 		}
 
 		// Hit detection for pillars.
-		for (var i = 0; i < arrayOfPillarPositions.length; i++) {
-			if (this._isPointInsideCircle(arrayOfPillarPositions[i]) == true) {
-				this.emit("pillarDetected", arrayOfPillarPositions[i]);
-				arrayOfPillarPositions.splice(i, 1);
+		for (var i = 0; i < pillarPositions.length; i++) {
+			if (this._isPointInsideCircle(pillarPositions[i])) {
+				this.emit("pillarEncountered", pillarPositions[i]);
+				pillarPositions.splice(i, 1);
 			} 	
 		}
 
 		// Hit detection for treasure.
 		if(this._isPointInsideCircle(treasurePosition)) {
-			this.emit("treasureDetected", treasurePosition);
+			this.emit("treasureEncountered", treasurePosition);
 		}
 	},
 	_getDirectionVector: function () {
 		return this.camera.getWorldDirection().clone().normalize();
 	},
 	/**
-	 * @param {number} distance - The distance for each move. Should be positive
-	 * this.speed or negative this.speed.
+	 * @param {number} distance - The distance to move. Should be positive
+	 * Can be positive to move forward or negative to move backward.
 	 */
 	_walk: function (distance) {
 		var directionVector = this._getDirectionVector();
@@ -99,9 +99,8 @@ Player.prototype = {
 		this.camera.position.z = this.camera.position.z + directionVector.z * distance;
 	},
 	/**
-	 * @param {number} rotation in degrees - The rotation for each move. Should 
-	 * be positive this.rotationSpeed for spinnig right or negative this.rotationSpeed for 
-	 * spinning left.
+	 * @param {number} rotation in degrees - The number of degrees to rotate. 
+	 * Can be positive to rotate right or negative to rotate left.
 	 */
 	_rotate: function (degrees) {
 		this.camera.rotation.y += (degrees * (Math.PI / 180));
@@ -109,28 +108,22 @@ Player.prototype = {
 	_keydown: function (e) {
 		if (e.keyCode == KeyCodes.UP_ARROW_KEY_CODE) {
 			this.isUpArrowActive = true;
-		}
-		if (e.keyCode == KeyCodes.DOWN_ARROW_KEY_CODE) {
+		} else if (e.keyCode == KeyCodes.DOWN_ARROW_KEY_CODE) {
 			this.isDownArrowActive = true;
-		}
-		if (e.keyCode == KeyCodes.RIGHT_ARROW_KEY_CODE) {
+		} else if (e.keyCode == KeyCodes.RIGHT_ARROW_KEY_CODE) {
 			this.isRightArrowActive = true;
-		}
-		if (e.keyCode == KeyCodes.LEFT_ARROW_KEY_CODE) {
+		} else if (e.keyCode == KeyCodes.LEFT_ARROW_KEY_CODE) {
 			this.isLeftArrowActive = true;
 		}
 	},
 	_keyup: function (e) {
 		if (e.keyCode == KeyCodes.UP_ARROW_KEY_CODE) {
 			this.isUpArrowActive = false;
-		}
-		if (e.keyCode == KeyCodes.DOWN_ARROW_KEY_CODE) {
+		} else if (e.keyCode == KeyCodes.DOWN_ARROW_KEY_CODE) {
 			this.isDownArrowActive = false;
-		}
-		if (e.keyCode == KeyCodes.RIGHT_ARROW_KEY_CODE) {
+		} else if (e.keyCode == KeyCodes.RIGHT_ARROW_KEY_CODE) {
 			this.isRightArrowActive = false;
-		}
-		if (e.keyCode == KeyCodes.LEFT_ARROW_KEY_CODE) {
+		} else if (e.keyCode == KeyCodes.LEFT_ARROW_KEY_CODE) {
 			this.isLeftArrowActive = false;
 		}
 	},
@@ -138,7 +131,6 @@ Player.prototype = {
 	 * @param {Array} - array of (x, y, z) for a cone.
 	 */
 	_isPointInsideCircle: function (circle) {
-		// We are using multiplications because is faster than calling Math.pow.
   		var distance = Math.sqrt((this.camera.position.x - circle.x) * (this.camera.position.x - circle.x) +
                        			(this.camera.position.z - circle.z) * (this.camera.position.z - circle.z));
   		return distance <  20;

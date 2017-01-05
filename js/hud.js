@@ -61,7 +61,7 @@ function Hud(player) {
 }
 
 Hud.prototype = {
-    render: function (player) {
+    update: function (player) {
         // Get new sphere position.
         this._userSphere.position.x = (player.camera.position.x * this._downScalePlayerPosition);
         this._userSphere.position.y = -1*(player.camera.position.z * this._downScalePlayerPosition);
@@ -71,7 +71,7 @@ Hud.prototype = {
         this._miniMapRenderer.render(this._miniMapScene, this._miniMapCamera);
     },
     /**
-     * @param {number} location Draws a circular target area at the next objective's 
+     * @param {number} location - Draws a circular target area at the next objective's 
      * location.
      */
     addHintSphere: function (location) {

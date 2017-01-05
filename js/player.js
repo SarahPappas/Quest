@@ -38,11 +38,8 @@ function Player() {
 
 	// SETUP MOVEMENTS
 	// Set the distance you will move in a frame.
-	// This will move the camera 1 out of the 1,000 ground plane we created.
 	this.speed = .5; 
 
-	// This noramalizes, then copies the vector of the direction the camera is 
-	// looking.
 	this.directionVector = this.camera.getWorldDirection().clone().normalize();
 	
 	// This is the degree of rotation for each arrow press.

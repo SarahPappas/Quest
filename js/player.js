@@ -25,16 +25,15 @@
 function Player() {
 	EventEmitter.call(this);
 
-	// SETUP CAMERAS
+	// Setup camera.
 	// Diffrent types of cameras, parameters field of view, aspect ration, near 
 	// and far clipping plane.
 	// this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 80);
 	this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 500);
 
 	// Set camera position.
-	// Moves out camera postion because otherwise it would be placed at 0, 0, 0 
+	// Moves up camera postion because otherwise it would be placed at 0, 0, 0 
 	// - in them middle of the plane.
-	this.camera.position.z = 0;
 	this.camera.position.y = 2;
 
 	// SETUP MOVEMENTS

@@ -58,7 +58,7 @@ body {
 
     /* background */
     position: absolute;
-    left: 75px;
+    left: 72px;
     top: 5px;
     z-index: 2;
 }
@@ -70,7 +70,7 @@ body {
     /* background */
     position: absolute;
     bottom: 5px;
-    left: 75px;
+    left: 72px;
     z-index: 2;
 }
 
@@ -80,7 +80,7 @@ body {
 
     /* background */
     position: absolute;
-    bottom: 75px;
+    bottom: 70px;
     right: 5px;
     z-index: 2;
 }
@@ -91,7 +91,7 @@ body {
 
     /* background */
     position: absolute;
-    bottom: 75px;
+    bottom: 70px;
     left: 5px;
     z-index: 2;
 }

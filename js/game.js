@@ -46,7 +46,8 @@ function Game(world) {
 		$(".instruction-container").addClass("hidden");
 	});
 	
-	this.world.player.addEventListener("pillarEncountered", function () {
+	this.world.player.addEventListener("pillarEncountered", function (pillarIndex) {
+		this.world.discoverPillar(pillarIndex);
 		this._showRiddleDialog();
 	}.bind(this));
 
@@ -93,7 +94,7 @@ Game.prototype = {
 	},
 	_showNextPillar: function () {
 		this._displayText("I'm so pleased you are correct! Please see your HUD for the location of the next pillar.");
-		this.world.hud.addHintSphere(this.world.getPositionOfNextPillar());
+		this.world.hud.addHintSphere(this.world.getPositionOfRandomUndiscoveredPillar());
 	},
 	_showNoHelp: function () {
 		this._displayText("Sorry to say, but you will get no help from me");

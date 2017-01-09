@@ -29,7 +29,7 @@ function World() {
 
 	// SETUP
 	// We need 3 things to dispaly anything: A scene, a camera, and a renderer.
-	this.scene = new THREE.Scene();
+	this._scene = new THREE.Scene();
 	// The camera in this scene is on the player.
 	this.player = new Player();
 	// We call the HUD constructor to render the HUD.
@@ -42,33 +42,33 @@ function World() {
 	document.body.appendChild(this.renderer.domElement);
 
 	//ADD GROUND PLANE
-	this.scene.add(this._setupGround());
+	this._scene.add(this._setupGround());
 
 	//ADD TREASURE BOX
 	this.treasure = this._defaultLoadingTreasure();
 	this._setupTreasure();
-	this.scene.add(this.treasure);
+	this._scene.add(this.treasure);
 
 	//ADD PILLARS
-	this.numberOfPillars = 5;
-	this.pillarPositions = [];
-	this._setupPillars();
+	var totalPillars = 5;
+	this._undiscoveredPillarPositions = [];
+	this._setupPillars(totalPillars);
 
 	// ADD FOREST
-	this.numberOfTrees = 20000;
-	// this._setupForest();
+	var totalTrees = 15000;
+	this._setupForest(totalTrees);
     
 	// ADD FOG
-	// this.scene.fog = new THREE.Fog(GREY, .0001, 150);
+	this._scene.fog = new THREE.Fog(GREY, .0001, 150);
 
     // ADD SUBTLE AMBIENT LIGHTING
     var ambientLight = new THREE.AmbientLight(0x404040);
-    this.scene.add(ambientLight);
+    this._scene.add(ambientLight);
 
     var pointLight = new THREE.PointLight(0xffffff);
     pointLight.position.set(0, 50, 0);
     pointLight.castShadow = true;
-    this.scene.add(pointLight);
+    this._scene.add(pointLight);
 
 	// Resize camera aspect ratio when the user resizes the window.
 	window.addEventListener('resize', this._onWindowResize.bind(this), false);
@@ -79,12 +79,21 @@ World.prototype = {
 	start: function () {
 		this._render();
 	},
+	getPositionOfRandomUndiscoveredPillar: function () {
+		return this._undiscoveredPillarPositions[Math.floor(Math.random() * this._undiscoveredPillarPositions.length)];
+	},
+	getPositionOfTreasure: function () {
+		return this.treasure.position;
+	},
+	discoverPillar: function (index) {
+		this._undiscoveredPillarPositions.splice(index, 1);
+	},
 	// To render the page, you need a render loop.
 	// Anything you move or change has to run through the render function loop.
 	_render: function () {
 		this.hud.update(this.player);
-		this.player.update(this.pillarPositions, this.treasure.position);
-		this.renderer.render(this.scene, this.player.camera);
+		this.player.update(this._undiscoveredPillarPositions, this.treasure.position);
+		this.renderer.render(this._scene, this.player.camera);
 
 		// Use requestAnimationFrame for loop instead of setInterval because it 
 		// pauses when the user navigates away from the page.
@@ -143,17 +152,17 @@ World.prototype = {
 	        this._setPostition(object, this._randomCoordinant(), 0, this._randomCoordinant());
 	        
 	        // We need to remove the default treasure from the scene.
-	        this.scene.remove(this.treasure);
+	        this._scene.remove(this.treasure);
 	        this.treasure = object;
-	        this.scene.add(object)
+	        this._scene.add(object)
 	    }.bind(this));
 	},
-	_setupPillars: function () {
+	_setupPillars: function (totalPillars) {
 		var manager = new THREE.LoadingManager();
 	    var loader = new THREE.OBJLoader(manager);
 
 		loader.load( 'images/pedestal-cheetah.obj', function ( object ) {
-        	for (var i = 0; i < this.numberOfPillars; i++) {
+        	for (var i = 0; i < totalPillars; i++) {
         		var newObject = object.clone();
 		        var texture = THREE.ImageUtils.loadTexture("images/pedestal3.jpg");
 		        this._setMaterial(newObject, texture);
@@ -169,12 +178,12 @@ World.prototype = {
 					this._setPostition(newObject, this._randomCoordinant(), 0, this._randomCoordinant());
 				}
 
-				this.pillarPositions.push(newObject.position);
-		        this.scene.add(newObject)
+				this._undiscoveredPillarPositions.push(newObject.position);
+		        this._scene.add(newObject)
 	    	}
 		}.bind(this));
 	},
-	_setupForest: function () {
+	_setupForest: function (totalTrees) {
 		var forestGeometry = new THREE.Geometry();
 
 	    var texture = THREE.ImageUtils.loadTexture("images/aspen-2.png");
@@ -185,7 +194,7 @@ World.prototype = {
 	    var loader = new THREE.OBJLoader(manager);
 
 	    loader.load("images/aspen-combined-3.obj", function (treeObject) {
-		    for (var i = 0; i < this.numberOfTrees; i++) {
+		    for (var i = 0; i < totalTrees; i++) {
 		    	var newTreeObject = treeObject.clone();
 
 		        var newTreeMesh = newTreeObject.children[0];
@@ -200,15 +209,7 @@ World.prototype = {
 			}
 
 		   	var forestMesh = new THREE.Mesh(forestGeometry, treeMaterial);
-		    this.scene.add(forestMesh);
+		    this._scene.add(forestMesh);
 	    }.bind(this));
-	},
-	getPositionOfNextPillar: function () {
-		return this.pillarPositions[Math.floor(Math.random() * this.pillarPositions.length)];
-	},
-	getPositionOfTreasure: function (){
-		return this.treasure.position;
 	}
 };
-
-

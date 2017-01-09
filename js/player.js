@@ -28,8 +28,8 @@ function Player() {
 	// Setup camera.
 	// Diffrent types of cameras, parameters field of view, aspect ration, near 
 	// and far clipping plane.
-	// this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 80);
-	this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 500);
+	this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 80);
+	// this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 500);
 
 	// Set camera position.
 	// Moves up camera postion because otherwise it would be placed at 0, 0, 0 
@@ -79,8 +79,7 @@ Player.prototype = {
 		// Hit detection for pillars.
 		for (var i = 0; i < pillarPositions.length; i++) {
 			if (this._isPointInsideCircle(pillarPositions[i], this.camera.position)) {
-				this.emit("pillarEncountered", pillarPositions[i]);
-				pillarPositions.splice(i, 1);
+				this.emit("pillarEncountered", i);
 			} 	
 		}
 

@@ -22,6 +22,7 @@
  * SOFTWARE.
  */
  
+ // TODO: game should start world and make the world.
 var world = new World();
 var game = new Game(world);
 world.start();

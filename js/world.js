@@ -133,7 +133,7 @@ World.prototype = {
 		object.position.z = z;
 	},
 	_defaultLoadingTreasure: function () {
-		var treasureGeometry = new THREE.BoxGeometry( 2, 2, 2 );
+		var treasureGeometry = new THREE.BoxGeometry(2, 2, 2);
 		var treasureMaterial = new THREE.MeshPhongMaterial({ map: THREE.ImageUtils.loadTexture('images/crate.jpg') });
 		var treasureCube = new THREE.Mesh(treasureGeometry, treasureMaterial);
 		
@@ -144,8 +144,8 @@ World.prototype = {
 	_setupTreasure: function () {
 		var manager = new THREE.LoadingManager();
 	    var loader = new THREE.OBJLoader(manager);
-	    loader.load( 'images/treasure_chest.obj', function ( object ) {
-	        var texture = THREE.ImageUtils.loadTexture("images/treasure_chest.jpg");
+	    loader.load('images/treasure_chest.obj', function (object) {
+	        var texture = THREE.ImageUtils.loadTexture("images/treasure-chest.jpg");
 	        texture.wrapS = THREE.RepeatWrapping;
 	        texture.wrapT = THREE.RepeatWrapping;
 	        
@@ -162,25 +162,25 @@ World.prototype = {
 		var manager = new THREE.LoadingManager();
 	    var loader = new THREE.OBJLoader(manager);
 
-		loader.load( 'images/pedestal-cheetah.obj', function ( object ) {
+		loader.load('images/pedestal-cheetah.obj', function (model) {
         	for (var i = 0; i < totalPillars; i++) {
-        		var newObject = object.clone();
+        		var newModel = model.clone();
 		        var texture = THREE.ImageUtils.loadTexture("images/pedestal3.jpg");
-		        this._setMaterial(newObject, texture);
+		        this._setMaterial(newModel, texture);
 
-		        newObject.scale.set(20, 20, 20);
+		        newModel.scale.set(20, 20, 20);
 
 				if (i == 0) {
 					// We set the first pillar straight North at the edge of
 					// the map.
-					this._setPostition(newObject, 0, 0, 50 - this._planeSize / 2);
+					this._setPostition(newModel, 0, 0, 50 - this._planeSize / 2);
 				} else {
 					// Position the rest of the pillars randomly.
-					this._setPostition(newObject, this._randomCoordinate(), 0, this._randomCoordinate());
+					this._setPostition(newModel, this._randomCoordinate(), 0, this._randomCoordinate());
 				}
 
-				this._undiscoveredPillarPositions.push(newObject.position);
-		        this._scene.add(newObject)
+				this._undiscoveredPillarPositions.push(newModel.position);
+		        this._scene.add(newModel)
 	    	}
 		}.bind(this));
 	},

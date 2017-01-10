@@ -27,7 +27,7 @@ var PLANE_SIZE = 1000;
 
 function World() {
 
-	// SETUP
+	// Setup
 	// We need 3 things to dispaly anything: A scene, a camera, and a renderer.
 	this._scene = new THREE.Scene();
 	// The camera in this scene is on the player.

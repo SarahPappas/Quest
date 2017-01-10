@@ -27,6 +27,8 @@ function World() {
 	this._grayColor = 0xaaaaaa;
 	this._planeSize = 1000;
 	this._timesGroundTextureRepeats = 100;
+	this._treeMinimumScale = 5;
+	this._treeMaximumScale = 10;
 
 	// Setup
 	// We need 3 things to display anything: A scene, a camera, and a renderer.
@@ -56,7 +58,7 @@ function World() {
 
 	// Add forest
 	var totalTrees = 15000;
-	// this._setupForest(totalTrees);
+	this._setupForest(totalTrees);
     
 	// Add fog
 	// this._scene.fog = new THREE.Fog(this._grayColor, .0001, 150);
@@ -187,8 +189,9 @@ World.prototype = {
 	_setupForest: function (totalTrees) {
 		var forestGeometry = new THREE.Geometry();
 
-	    var texture = THREE.ImageUtils.loadTexture("images/aspen-2.png");
+	    var texture = THREE.ImageUtils.loadTexture("images/aspen.png");
 	    var treeMaterial = new THREE.MeshBasicMaterial({color:0xFFFFFF, map: texture, side: THREE.DoubleSide});
+	    // Empirically chosen threshold for discarding pixels based on alpha value for this texture. This number looks the best.
 	    treeMaterial.alphaTest = 0.95;
 
 		var manager = new THREE.LoadingManager();
@@ -199,7 +202,8 @@ World.prototype = {
 		    	var newTreeObject = treeObject.clone();
 
 		        var newTreeMesh = newTreeObject.children[0];
-		        var scale = Math.random() * 10 + 5;
+		        // Give the trees a random scale.
+		        var scale = Math.random() * this._treeMaximumScale + this._treeMinimumScale;
 	        	newTreeMesh.scale.set(scale, scale, scale);
 	        	this._setPostition(newTreeMesh, this._randomCoordinate(), -0.5, this._randomCoordinate());
 		        newTreeMesh.rotation.y = Math.random() * 2 * Math.PI;

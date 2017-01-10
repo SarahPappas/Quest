@@ -22,46 +22,45 @@
  * SOFTWARE.
  */
 
-var GREY = 0xaaaaaa;
-var PLANE_SIZE = 1000;
 
 function World() {
+	this._grayColor = 0xaaaaaa;
+	this._planeSize = 1000;
 
 	// Setup
-	// We need 3 things to dispaly anything: A scene, a camera, and a renderer.
-	this._scene = new THREE.Scene();
+	// We need 3 things to display anything: A scene, a camera, and a renderer.
 	// The camera in this scene is on the player.
+	this._scene = new THREE.Scene();
 	this.player = new Player();
-	// We call the HUD constructor to render the HUD.
-	this.hud = new Hud(this.player);
+	this.hud = new Hud(this.player, this._planeSize);
 
-	// SETUP RENDERER
+	// Setup renderer
 	this.renderer = new THREE.WebGLRenderer();
 	this.renderer.setSize(window.innerWidth, window.innerHeight);
-	this.renderer.setClearColor(GREY);
+	this.renderer.setClearColor(this._grayColor);
 	document.body.appendChild(this.renderer.domElement);
 
-	//ADD GROUND PLANE
+	//Add ground plane
 	this._scene.add(this._setupGround());
 
-	//ADD TREASURE BOX
+	//Add treasure box
 	this.treasure = this._defaultLoadingTreasure();
 	this._setupTreasure();
 	this._scene.add(this.treasure);
 
-	//ADD PILLARS
+	//Add pillars
 	var totalPillars = 5;
 	this._undiscoveredPillarPositions = [];
 	this._setupPillars(totalPillars);
 
-	// ADD FOREST
+	// Add forest
 	var totalTrees = 15000;
-	this._setupForest(totalTrees);
+	// this._setupForest(totalTrees);
     
-	// ADD FOG
-	this._scene.fog = new THREE.Fog(GREY, .0001, 150);
+	// Add fog
+	// this._scene.fog = new THREE.Fog(this._grayColor, .0001, 150);
 
-    // ADD SUBTLE AMBIENT LIGHTING
+    // Add subtle ambient lighting
     var ambientLight = new THREE.AmbientLight(0x404040);
     this._scene.add(ambientLight);
 
@@ -109,7 +108,7 @@ World.prototype = {
 		groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
 		groundTexture.repeat.set(100, 100);
 		groundTexture.anisotropy= 4;
-		var geometryGroundPlane = new THREE.PlaneGeometry(PLANE_SIZE, PLANE_SIZE, 1, 1);
+		var geometryGroundPlane = new THREE.PlaneGeometry(this._planeSize, this._planeSize, 1, 1);
 		var materialGroundPlane = new THREE.MeshBasicMaterial({ 
 			map: groundTexture, 
 			side: THREE.DoubleSide 
@@ -119,7 +118,7 @@ World.prototype = {
 		return ground;
 	},
 	_randomCoordinant: function () {
-		return Math.random() * PLANE_SIZE - PLANE_SIZE / 2;
+		return Math.random() * this._planeSize - this._planeSize / 2;
 	},
 	_setMaterial: function (newObject, texture) {
 		var material = new THREE.MeshLambertMaterial({color:0xFFFFFF, map:texture});
@@ -172,7 +171,7 @@ World.prototype = {
 				if (i == 0) {
 					// We set the first pillar straight North at the edge of
 					// the map.
-					this._setPostition(newObject, 0, 0, 50 - PLANE_SIZE / 2);
+					this._setPostition(newObject, 0, 0, 50 - this._planeSize / 2);
 				} else {
 					// Position the rest of the pillars randomly.
 					this._setPostition(newObject, this._randomCoordinant(), 0, this._randomCoordinant());

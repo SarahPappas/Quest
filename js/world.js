@@ -165,14 +165,14 @@ World.prototype = {
 		loader.load('images/pedestal-cheetah.obj', function (model) {
         	for (var i = 0; i < totalPillars; i++) {
         		var newModel = model.clone();
-		        var texture = THREE.ImageUtils.loadTexture("images/pedestal3.jpg");
+		        var texture = THREE.ImageUtils.loadTexture("images/pillar.jpg");
 		        this._setMaterial(newModel, texture);
 
 		        newModel.scale.set(20, 20, 20);
 
 				if (i == 0) {
 					// We set the first pillar straight North at the edge of
-					// the map.
+					// the map to make it easy to find.
 					this._setPostition(newModel, 0, 0, 50 - this._planeSize / 2);
 				} else {
 					// Position the rest of the pillars randomly.

@@ -26,6 +26,7 @@
 function World() {
 	this._grayColor = 0xaaaaaa;
 	this._planeSize = 1000;
+	this._timesGroundTextureRepeats = 100;
 
 	// Setup
 	// We need 3 things to display anything: A scene, a camera, and a renderer.
@@ -60,7 +61,7 @@ function World() {
 	// Add fog
 	// this._scene.fog = new THREE.Fog(this._grayColor, .0001, 150);
 
-    // Add subtle ambient lighting
+    // Add lighting
     var ambientLight = new THREE.AmbientLight(0x404040);
     this._scene.add(ambientLight);
 
@@ -88,7 +89,6 @@ World.prototype = {
 		this._undiscoveredPillarPositions.splice(index, 1);
 	},
 	// To render the page, you need a render loop.
-	// Anything you move or change has to run through the render function loop.
 	_render: function () {
 		this.hud.update(this.player);
 		this.player.update(this._undiscoveredPillarPositions, this.treasure.position);
@@ -106,18 +106,20 @@ World.prototype = {
 	_setupGround: function () {
 		var groundTexture = THREE.ImageUtils.loadTexture("images/Grass.jpg");
 		groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
-		groundTexture.repeat.set(100, 100);
-		groundTexture.anisotropy= 4;
-		var geometryGroundPlane = new THREE.PlaneGeometry(this._planeSize, this._planeSize, 1, 1);
+		groundTexture.repeat.set(this._timesGroundTextureRepeats, this._timesGroundTextureRepeats);
+		// Anisotropy effects the blur of ground tiles.
+		groundTexture.anisotropy = 10;
+		var geometryGroundPlane = new THREE.PlaneGeometry(this._planeSize, this._planeSize);
 		var materialGroundPlane = new THREE.MeshBasicMaterial({ 
 			map: groundTexture, 
 			side: THREE.DoubleSide 
 		});
 		var ground = new THREE.Mesh(geometryGroundPlane, materialGroundPlane);
+		// We rotate the ground plane so that it stretchs over the z, y axis.
 		ground.rotateX(90 * (Math.PI / 180));
 		return ground;
 	},
-	_randomCoordinant: function () {
+	_randomCoordinate: function () {
 		return Math.random() * this._planeSize - this._planeSize / 2;
 	},
 	_setMaterial: function (newObject, texture) {
@@ -135,7 +137,7 @@ World.prototype = {
 		var treasureMaterial = new THREE.MeshPhongMaterial({ map: THREE.ImageUtils.loadTexture('images/crate.jpg') });
 		var treasureCube = new THREE.Mesh(treasureGeometry, treasureMaterial);
 		
-		this._setPostition(treasureCube, this._randomCoordinant(), 1, this._randomCoordinant());
+		this._setPostition(treasureCube, this._randomCoordinate(), 1, this._randomCoordinate());
 		
 		return treasureCube;
 	},
@@ -148,7 +150,7 @@ World.prototype = {
 	        texture.wrapT = THREE.RepeatWrapping;
 	        
 	        this._setMaterial(object, texture);
-	        this._setPostition(object, this._randomCoordinant(), 0, this._randomCoordinant());
+	        this._setPostition(object, this._randomCoordinate(), 0, this._randomCoordinate());
 	        
 	        // We need to remove the default treasure from the scene.
 	        this._scene.remove(this.treasure);
@@ -174,7 +176,7 @@ World.prototype = {
 					this._setPostition(newObject, 0, 0, 50 - this._planeSize / 2);
 				} else {
 					// Position the rest of the pillars randomly.
-					this._setPostition(newObject, this._randomCoordinant(), 0, this._randomCoordinant());
+					this._setPostition(newObject, this._randomCoordinate(), 0, this._randomCoordinate());
 				}
 
 				this._undiscoveredPillarPositions.push(newObject.position);
@@ -199,7 +201,7 @@ World.prototype = {
 		        var newTreeMesh = newTreeObject.children[0];
 		        var scale = Math.random() * 10 + 5;
 	        	newTreeMesh.scale.set(scale, scale, scale);
-	        	this._setPostition(newTreeMesh, this._randomCoordinant(), -0.5, this._randomCoordinant());
+	        	this._setPostition(newTreeMesh, this._randomCoordinate(), -0.5, this._randomCoordinate());
 		        newTreeMesh.rotation.y = Math.random() * 2 * Math.PI;
 		        newTreeMesh.updateMatrix();
 

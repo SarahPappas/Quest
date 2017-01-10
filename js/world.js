@@ -27,8 +27,6 @@ function World() {
 	this._grayColor = 0xaaaaaa;
 	this._planeSize = 1000;
 	this._timesGroundTextureRepeats = 100;
-	this._treeMinimumScale = 5;
-	this._treeMaximumScale = 10;
 
 	// Setup
 	// We need 3 things to display anything: A scene, a camera, and a renderer.
@@ -57,6 +55,9 @@ function World() {
 	this._setupPillars(totalPillars);
 
 	// Add forest
+	this._treeMinimumScale = 5;
+	this._treeMaximumScale = 10;
+	this._treeVerticalOffset = -0.5;
 	var totalTrees = 15000;
 	this._setupForest(totalTrees);
     
@@ -81,10 +82,10 @@ World.prototype = {
 	start: function () {
 		this._render();
 	},
-	getPositionOfRandomUndiscoveredPillar: function () {
+	getRandomUndiscoveredPillarPosition: function () {
 		return this._undiscoveredPillarPositions[Math.floor(Math.random() * this._undiscoveredPillarPositions.length)];
 	},
-	getPositionOfTreasure: function () {
+	getTreasurePosition: function () {
 		return this.treasure.position;
 	},
 	discoverPillar: function (index) {
@@ -186,6 +187,10 @@ World.prototype = {
 	    	}
 		}.bind(this));
 	},
+	_randomRotationInRadians: function () {
+		// Rotation is in radians.
+		return Math.random() * 2 * Math.PI;
+	},
 	_setupForest: function (totalTrees) {
 		var forestGeometry = new THREE.Geometry();
 
@@ -205,8 +210,8 @@ World.prototype = {
 		        // Give the trees a random scale.
 		        var scale = Math.random() * this._treeMaximumScale + this._treeMinimumScale;
 	        	newTreeMesh.scale.set(scale, scale, scale);
-	        	this._setPostition(newTreeMesh, this._randomCoordinate(), -0.5, this._randomCoordinate());
-		        newTreeMesh.rotation.y = Math.random() * 2 * Math.PI;
+	        	this._setPostition(newTreeMesh, this._randomCoordinate(), this._treeVerticalOffset, this._randomCoordinate());
+		        newTreeMesh.rotation.y = this._randomRotationInRadians();
 		        newTreeMesh.updateMatrix();
 
 		        var geometry = new THREE.Geometry().fromBufferGeometry(newTreeMesh.geometry);

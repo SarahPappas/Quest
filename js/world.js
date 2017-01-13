@@ -36,10 +36,10 @@ function World() {
 	this.hud = new Hud(this.player);
 
 	// SETUP RENDERER
-	this.renderer = new THREE.WebGLRenderer();
-	this.renderer.setSize(window.innerWidth, window.innerHeight);
-	this.renderer.setClearColor(GREY);
-	document.body.appendChild(this.renderer.domElement);
+	this._renderer = new THREE.WebGLRenderer();
+	this._renderer.setSize(window.innerWidth, window.innerHeight);
+	this._renderer.setClearColor(GREY);
+	document.body.appendChild(this._renderer.domElement);
 
 	//ADD GROUND PLANE
 	this._scene.add(this._setupGround());
@@ -93,7 +93,7 @@ World.prototype = {
 	_render: function () {
 		this.hud.update(this.player);
 		this.player.update(this._undiscoveredPillarPositions, this.treasure.position);
-		this.renderer.render(this._scene, this.player.camera);
+		this._renderer.render(this._scene, this.player.camera);
 
 		// Use requestAnimationFrame for loop instead of setInterval because it 
 		// pauses when the user navigates away from the page.
@@ -102,7 +102,7 @@ World.prototype = {
 	_onWindowResize: function () {
 	    this.player.camera.aspect = window.innerWidth / window.innerHeight;
 	    this.player.camera.updateProjectionMatrix();
-	    this.renderer.setSize(window.innerWidth, window.innerHeight);
+	    this._renderer.setSize(window.innerWidth, window.innerHeight);
 	},
 	_setupGround: function () {
 		var groundTexture = THREE.ImageUtils.loadTexture("images/Grass.jpg");

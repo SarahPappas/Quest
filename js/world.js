@@ -38,7 +38,7 @@ function World() {
 	// Setup renderer
 	this._renderer = new THREE.WebGLRenderer();
 	this._renderer.setSize(window.innerWidth, window.innerHeight);
-	this._renderer.setClearColor(GREY);
+	this._renderer.setClearColor(this._grayColor);
 	document.body.appendChild(this._renderer.domElement);
 	
 	//Add ground plane

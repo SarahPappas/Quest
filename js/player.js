@@ -37,20 +37,20 @@ function Player() {
 
 	// Setup movement.
 	// Set the distance you will move in a frame.
-	this.speed = .5; 
+	this._speed = .5; 
 	
 	// This is the degree of rotation per frame.
-	this.rotationSpeed = 1;
+	this._rotationSpeed = 1;
 
 	// Setup key controls.
 	// The default is false.
-	this.isUpArrowActive = false;
-	this.isDownArrowActive = false;
-	this.isLeftArrowActive = false;
-	this.isRightArrowActive = false;
+	this._isUpArrowActive = false;
+	this._isDownArrowActive = false;
+	this._isLeftArrowActive = false;
+	this._isRightArrowActive = false;
 
 	// Setup hit detection radius.
-	this.hitDetectionRadius = 20;
+	this._hitDetectionRadius = 20;
 
 	document.addEventListener("keydown", this._keydown.bind(this));
 	document.addEventListener("keyup", this._keyup.bind(this));
@@ -62,17 +62,17 @@ Player.prototype = {
 	 */
 	update: function (pillarPositions, treasurePosition) {
 		// Arrow controls
-		if (this.isUpArrowActive && !this.isDownArrowActive) {
-			this._walk(this.speed);
+		if (this._isUpArrowActive && !this._isDownArrowActive) {
+			this._walk(this._speed);
 		}
-		if (this.isDownArrowActive && !this.isUpArrowActive) {
-			this._walk(-this.speed);
+		if (this._isDownArrowActive && !this._isUpArrowActive) {
+			this._walk(-this._speed);
 		}
-		if (this.isRightArrowActive && !this.isLeftArrowActive) {
-			this._rotate(-this.rotationSpeed);
+		if (this._isRightArrowActive && !this._isLeftArrowActive) {
+			this._rotate(-this._rotationSpeed);
 		}
-		if (this.isLeftArrowActive && !this.isRightArrowActive) {
-			this._rotate(this.rotationSpeed);
+		if (this._isLeftArrowActive && !this._isRightArrowActive) {
+			this._rotate(this._rotationSpeed);
 		}
 
 		// Hit detection for pillars.
@@ -108,24 +108,24 @@ Player.prototype = {
 	},
 	_keydown: function (e) {
 		if (e.keyCode == KeyCodes.UP_ARROW_KEY_CODE) {
-			this.isUpArrowActive = true;
+			this._isUpArrowActive = true;
 		} else if (e.keyCode == KeyCodes.DOWN_ARROW_KEY_CODE) {
-			this.isDownArrowActive = true;
+			this._isDownArrowActive = true;
 		} else if (e.keyCode == KeyCodes.RIGHT_ARROW_KEY_CODE) {
-			this.isRightArrowActive = true;
+			this._isRightArrowActive = true;
 		} else if (e.keyCode == KeyCodes.LEFT_ARROW_KEY_CODE) {
-			this.isLeftArrowActive = true;
+			this._isLeftArrowActive = true;
 		}
 	},
 	_keyup: function (e) {
 		if (e.keyCode == KeyCodes.UP_ARROW_KEY_CODE) {
-			this.isUpArrowActive = false;
+			this._isUpArrowActive = false;
 		} else if (e.keyCode == KeyCodes.DOWN_ARROW_KEY_CODE) {
-			this.isDownArrowActive = false;
+			this._isDownArrowActive = false;
 		} else if (e.keyCode == KeyCodes.RIGHT_ARROW_KEY_CODE) {
-			this.isRightArrowActive = false;
+			this._isRightArrowActive = false;
 		} else if (e.keyCode == KeyCodes.LEFT_ARROW_KEY_CODE) {
-			this.isLeftArrowActive = false;
+			this._isLeftArrowActive = false;
 		}
 	},
 	/**
@@ -135,7 +135,7 @@ Player.prototype = {
 		var dx = point.x - circleCenter.x;
 		var dz = point.z - circleCenter.z;
   		var distance = Math.sqrt((dx) * (dx) + (dz) * (dz));
-  		return distance <  this.hitDetectionRadius;
+  		return distance <  this._hitDetectionRadius;
 	},
 };
 

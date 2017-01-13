@@ -86,7 +86,7 @@ Game.prototype = {
 		return userAnswer.toLowerCase().indexOf(riddle.answer.toLowerCase()) != -1;
 	},
 	_showTreasure: function () {
-		this._displayText("I'm so pleased you are correct! Please see your HUD for the location of the box.");
+		this._displayText("I'm so pleased you are correct! Please see your HUD for the location of the treasure.");
 		this.world.hud.addHintSphere(this.world.getTreasurePosition());
 	},
 	_showNoPillarsLeft: function () {

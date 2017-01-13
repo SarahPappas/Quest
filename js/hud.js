@@ -23,7 +23,7 @@
  */
 
 
-function Hud(player) {
+function Hud(player, planeSize) {
     var MiniMapEl = $("#js-HUD");
     var MiniMap_Height = 150;
     var MiniMap_Width = 150;
@@ -33,7 +33,7 @@ function Hud(player) {
 
     // This is the porportion of HUD size to plane size * the HUD  near 
     // plane frustum.
-    this._downScalePlayerPosition = (this._miniMapSize / PLANE_SIZE) * .1;
+    this._downScalePlayerPosition = (this._miniMapSize / planeSize) * .1;
 
     // Create a new scene and camera for the HUD.
     this._miniMapScene = new THREE.Scene();

@@ -87,14 +87,14 @@ Game.prototype = {
 	},
 	_showTreasure: function () {
 		this._displayText("I'm so pleased you are correct! Please see your HUD for the location of the box.");
-		this.world.hud.addHintSphere(this.world.getPositionOfTreasure());
+		this.world.hud.addHintSphere(this.world.getTreasurePosition());
 	},
 	_showNoPillarsLeft: function () {
 		this._displayText("I'm so pleased you are correct! Unfortunately, there are no more pillars to guide you.");
 	},
 	_showNextPillar: function () {
 		this._displayText("I'm so pleased you are correct! Please see your HUD for the location of the next pillar.");
-		this.world.hud.addHintSphere(this.world.getPositionOfRandomUndiscoveredPillar());
+		this.world.hud.addHintSphere(this.world.getRandomUndiscoveredPillarPosition());
 	},
 	_showNoHelp: function () {
 		this._displayText("Sorry to say, but you will get no help from me");
